@@ -226,7 +226,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   <!-- VIEWPORT ESCENARIO BOTICA (NUNCA SE TAPA) -->
   <div class="pharmacy-viewport" id="viewportContainer">
     
-    <!-- IMAGEN DINÁMICA PDV1.JPG A PDV17.JPG DE TU REPOSITORIO GITHUB -->
+    <!-- IMAGEN DINÁMICA DE TU REPOSITORIO GITHUB -->
     <img id="pdvBgImage" class="pdv-drive-bg" src="" alt="PDV Escenario Real">
 
     <!-- BOTÓN ATENCIÓN EN EL CENTRO DE LA BOTICA -->
@@ -275,75 +275,22 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 let currentScenarioIdx = 0;
 let puntajeTotal = 0;
 
-// BASE DE DATOS DE LOS 17 ESCENARIOS VINCULADOS A TUS FOTOS DE GITHUB (pdv1.jpg ... pdv17.jpg)
-const escenariosData = [
-  {
-    id: 1,
-    tituloPDV: "Escenario 1: Botica Tradicional de Barrio",
-    categoria: "PDV Tradicional • Mostrador",
-    fotoNombre: "pdv1",
-    casuistica: "Farmacéutico: 'El mostrador es mi espacio más transitado. ¿Por qué debería permitir colocar la Casita de Salud VICK aquí en vez de otros productos?'",
-    opciones: [
-      { letra: "A", texto: "Incrementa la venta impulsiva de VICK VapoRub y Dolo-Neurobion en caja hasta un 35% por alta visibilidad.", correcta: true, puntos: 150, feedback: "¡Perfecto! Argumentaste con impacto directo en las ganancias y volumen de venta del mostrador." },
-      { letra: "B", texto: "Porque es un material muy vistoso y decora el espacio del mostrador.", correcta: false, puntos: 0, feedback: "Argumento débil. El dueño del PDV busca rentabilidad de espacio, no solo decoración." }
-    ]
-  },
-  {
-    id: 2,
-    tituloPDV: "Escenario 2: Botica de Cadena Moderna",
-    categoria: "Cadena Moderna • Anaquel Nivel Ojos",
-    fotoNombre: "pdv2",
-    casuistica: "Supervisor de Cadena: 'Tengo restricciones estrictas en los bordes de estante. ¿Qué beneficio aportan los Stoppers de Neurobion?'",
-    opciones: [
-      { letra: "A", texto: "Guían la mirada del comprador directamente a la categoría Nivel Ojos captando el 80% de decisiones de compra.", correcta: true, puntos: 150, feedback: "¡Excelente! Los Stoppers destacan el empaque de Dolo-Neurobion aumentando el ticket promedio." },
-      { letra: "B", texto: "Cumplen con el acuerdo de marca firmado por la central.", correcta: false, puntos: 0, feedback: "Insuficiente. El encargado del PDV necesita conocer el beneficio visual de categoría." }
-    ]
-  },
-  {
-    id: 3,
-    tituloPDV: "Escenario 3: Farmacia Gran Formato Pasillo",
-    categoria: "Gran Formato • Pasillo de Tráfico",
-    fotoNombre: "pdv3",
-    casuistica: "Gerente de Tienda: 'El pasillo debe estar libre. ¿Por qué instalar el Sticker Vinílico de Piso aquí?'",
-    opciones: [
-      { letra: "A", texto: "Señaliza la ruta directa del comprador hacia el anaquel de Alivio del Dolor sin interferir con la circulación.", correcta: true, puntos: 200, feedback: "¡Gran negociación! El sticker de piso convierte el flujo de pasillo en ventas efectivas." },
-      { letra: "B", texto: "Es un vinil antiderrapante resistente a las pisadas.", correcta: false, points: 0, feedback: "El material es resistente, pero el argumento principal debe ser la conversión de ventas." }
-    ]
-  },
-  {
-    id: 4,
-    tituloPDV: "Escenario 4: Botica de Red Comercial",
-    categoria: "Red Comercial • Zona POS",
-    fotoNombre: "pdv4",
-    casuistica: "Cajera PDV: 'Tengo poco espacio al lado de la caja registradora. ¿Dónde entra el Sencillero VICK Drops?'",
-    opciones: [
-      { letra: "A", texto: "Ocupa un espacio mínimo compacto y genera ventas inmediatas de vuelto en cada transacción de compra.", correcta: true, puntos: 150, feedback: "¡Muy bien! El sencillero aprovecha el vuelto del cliente para generar adición de venta." },
-      { letra: "B", texto: "Se coloca donde no estorbe los cables del sistema.", correcta: false, points: 0, feedback: "Debes priorizar la ubicación visible al momento de pagar." }
-    ]
-  },
-  {
-    id: 5,
-    tituloPDV: "Escenario 5: Botica Independiente Fachada",
-    categoria: "Fachada • Letrero BIENVENIDOS",
-    fotoNombre: "pdv5",
-    casuistica: "Dueño de Botica: 'Mi puerta ya tiene anuncios. ¿Por qué agregar el Letrero BIENVENIDOS VICK?'",
-    opciones: [
-      { letra: "A", texto: "Impacta al cliente antes de ingresar al local, asociando la botica con marcas líderes de confianza como VICK.", correcta: true, puntos: 150, feedback: "¡Excelente! La señalética en entrada genera confianza inmediata en el usuario." },
-      { letra: "B", texto: "Es una norma estándar para todas las boticas asociadas.", correcta: false, points: 0, feedback: "Siempre enfoca el beneficio de marca e imagen para el dueño del negocio." }
-    ]
-  }
-];
+const escenariosData = [];
 
-for(let i = 6; i <= 17; i++) {
+for(let i = 1; i <= 17; i++) {
   escenariosData.push({
     id: i,
-    tituloPDV: `Escenario ${i}: Botica Especializada PDV #${i}`,
-    categoria: `Categoría Comercial #${i} • Exhibición Estratégica`,
-    fotoNombre: `pdv${i}`,
-    casuistica: `Encargado PDV #${i}: "¿Cuál es el beneficio de visibilidad LOCUI para colocar las piezas POP en este punto estratégicamente?"`,
+    tituloPDV: i === 1 ? "Escenario 1: Botica Tradicional de Barrio" : (i === 2 ? "Escenario 2: Botica de Cadena Moderna" : (i === 3 ? "Escenario 3: Farmacia Gran Formato Pasillo" : `Escenario ${i}: Botica Especializada PDV #${i}`)),
+    categoria: i === 1 ? "PDV Tradicional • Mostrador" : (i === 2 ? "Cadena Moderna • Anaquel Nivel Ojos" : `Categoría Comercial #${i} • Exhibición Estratégica`),
+    idNum: i,
+    casuistica: i === 1 
+      ? "Farmacéutico: 'El mostrador es mi espacio más transitado. ¿Por qué debería permitir colocar la Casita de Salud VICK aquí en vez de otros productos?'"
+      : (i === 2 
+          ? "Supervisor de Cadena: 'Tengo restricciones estrictas en los bordes de estante. ¿Qué beneficio aportan los Stoppers de Neurobion?'"
+          : `Encargado PDV #${i}: "¿Cuál es el beneficio de visibilidad LOCUI para colocar las piezas POP en este punto estratégicamente?"`),
     opciones: [
-      { letra: "A", texto: `Maximiza la rotación del empaque y la intención de compra del cliente en el PDV #${i}.`, correcta: true, puntos: 150, feedback: "¡Respuesta estratégica correcta! Incrementas el valor del PDV y la rotación de marca." },
-      { letra: "B", texto: "Completa el plan de merchandising mensual sin medir rotación.", correcta: false, points: 0, feedback: "Recuerda argumentar siempre con base en la rotación y visibilidad LOCUI." }
+      { letra: "A", texto: i === 1 ? "Incrementa la venta impulsiva de VICK VapoRub y Dolo-Neurobion en caja hasta un 35% por alta visibilidad." : `Maximiza la rotación del empaque y la intención de compra del cliente en el PDV #${i}.`, correcta: true, puntos: 150, feedback: "¡Respuesta estratégica correcta! Incrementas el valor del PDV y la rotación de marca." },
+      { letra: "B", texto: "Porque es un material muy vistoso y decora el espacio del mostrador.", correcta: false, puntos: 0, feedback: "Argumento débil. El dueño del PDV busca rentabilidad de espacio, no solo decoración." }
     ]
   });
 }
@@ -353,6 +300,31 @@ document.addEventListener('DOMContentLoaded', () => {
   initCanvasParticles();
 });
 
+function loadScenarioImage(imgEl, idNum) {
+  // PROBADOR INTELIGENTE MULTI-FORMATO Y MULTI-NOMBRE
+  const posiblesRutas = [
+    `pdv${idNum}.jpg`, `pdv${idNum}.png`, `pdv${idNum}.jpeg`,
+    `PDV${idNum}.JPG`, `PDV${idNum}.PNG`, `PDV${idNum}.JPEG`,
+    `${idNum}.jpg`, `${idNum}.png`, `${idNum}.jpeg`,
+    `foto${idNum}.jpg`, `foto${idNum}.png`
+  ];
+
+  let intentoIdx = 0;
+
+  function probarSiguiente() {
+    if (intentoIdx < posiblesRutas.length) {
+      const rutaActual = posiblesRutas[intentoIdx];
+      intentoIdx++;
+      imgEl.src = rutaActual;
+    } else {
+      imgEl.src = `https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80`;
+    }
+  }
+
+  imgEl.onerror = probarSiguiente;
+  probarSiguiente();
+}
+
 function renderScenario(idx) {
   currentScenarioIdx = idx;
   const sc = escenariosData[idx];
@@ -361,21 +333,11 @@ function renderScenario(idx) {
   document.getElementById('panelPdvTitle').innerText = sc.tituloPDV;
   document.getElementById('panelCategoryTag').innerText = sc.categoria;
 
-  // Cargar imagen pdvX.jpg o pdvX.png guardada en tu repositorio de GitHub
   const bgImg = document.getElementById('pdvBgImage');
   bgImg.style.opacity = '0.3';
   
   setTimeout(() => {
-    bgImg.src = `${sc.fotoNombre}.jpg`;
-    bgImg.onerror = function() {
-      if (this.src.endsWith('.jpg')) {
-        this.src = `${sc.fotoNombre}.png`;
-      } else if (this.src.endsWith('.png')) {
-        this.src = `${sc.fotoNombre}.jpeg`;
-      } else {
-        this.src = "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80";
-      }
-    };
+    loadScenarioImage(bgImg, sc.idNum);
     bgImg.style.opacity = '1';
   }, 200);
 
