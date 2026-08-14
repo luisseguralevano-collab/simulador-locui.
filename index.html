@@ -62,7 +62,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 .btn-nav-scen:hover { background: var(--cyan-electric); color: #001233; }
 
 .scen-counter-label {
-  font-size: 12px; font-weight: 800; color: var(--gold-accent); min-width: 140px; text-align: center;
+  font-size: 12px; font-weight: 800; color: var(--gold-accent); min-width: 140px; text-anchor: middle; text-align: center;
 }
 
 .game-score-badge {
@@ -92,7 +92,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   display: flex; align-items: center; justify-content: center;
 }
 
-/* IMAGEN DRIVE / HD DEL PDV DE FONDO CON PROCESADOR DE ENLACES DIRECTOS */
+/* IMAGEN DRIVE / HD DEL PDV CARGADA DESDE TU REPOSITORIO GITHUB */
 .pdv-drive-bg {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center; pointer-events: none; z-index: 1;
@@ -226,7 +226,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   <!-- VIEWPORT ESCENARIO BOTICA (NUNCA SE TAPA) -->
   <div class="pharmacy-viewport" id="viewportContainer">
     
-    <!-- IMAGEN DINÁMICA DE LA COLUMNA P DE TU DRIVE / HOJA DE CÁLCULO -->
+    <!-- IMAGEN DINÁMICA PDV1.JPG A PDV17.JPG DE TU REPOSITORIO GITHUB -->
     <img id="pdvBgImage" class="pdv-drive-bg" src="" alt="PDV Escenario Real">
 
     <!-- BOTÓN ATENCIÓN EN EL CENTRO DE LA BOTICA -->
@@ -275,28 +275,13 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 let currentScenarioIdx = 0;
 let puntajeTotal = 0;
 
-/**
- * CONVERTIDOR AUTOMÁTICO DE ENLACES GOOGLE DRIVE DE LA COLUMNA P
- * Convierte cualquier link del tipo https://drive.google.com/file/d/FILE_ID/view
- * en una URL de imagen directa compatible con <img> (https://lh3.googleusercontent.com/d/FILE_ID)
- */
-function getDirectDriveImageUrl(url) {
-  if (!url) return 'https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80';
-  
-  // Buscar ID de archivo de Google Drive
-  const match = url.match(/\/file\/d\/([^\/\?]+)/) || url.match(/[?&]id=([^&]+)/);
-  if (match && match[1]) {
-    return `https://lh3.googleusercontent.com/d/${match[1]}`;
-  }
-  return url;
-}
-
+// BASE DE DATOS DE LOS 17 ESCENARIOS VINCULADOS A TUS FOTOS DE GITHUB (pdv1.jpg ... pdv17.jpg)
 const escenariosData = [
   {
     id: 1,
     tituloPDV: "Escenario 1: Botica Tradicional de Barrio",
     categoria: "PDV Tradicional • Mostrador",
-    imagenDrive: "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80",
+    fotoNombre: "pdv1",
     casuistica: "Farmacéutico: 'El mostrador es mi espacio más transitado. ¿Por qué debería permitir colocar la Casita de Salud VICK aquí en vez de otros productos?'",
     opciones: [
       { letra: "A", texto: "Incrementa la venta impulsiva de VICK VapoRub y Dolo-Neurobion en caja hasta un 35% por alta visibilidad.", correcta: true, puntos: 150, feedback: "¡Perfecto! Argumentaste con impacto directo en las ganancias y volumen de venta del mostrador." },
@@ -307,7 +292,7 @@ const escenariosData = [
     id: 2,
     tituloPDV: "Escenario 2: Botica de Cadena Moderna",
     categoria: "Cadena Moderna • Anaquel Nivel Ojos",
-    imagenDrive: "https://images.unsplash.com/photo-1586015555751-63bb77f4322a?auto=format&fit=crop&w=1200&q=80",
+    fotoNombre: "pdv2",
     casuistica: "Supervisor de Cadena: 'Tengo restricciones estrictas en los bordes de estante. ¿Qué beneficio aportan los Stoppers de Neurobion?'",
     opciones: [
       { letra: "A", texto: "Guían la mirada del comprador directamente a la categoría Nivel Ojos captando el 80% de decisiones de compra.", correcta: true, puntos: 150, feedback: "¡Excelente! Los Stoppers destacan el empaque de Dolo-Neurobion aumentando el ticket promedio." },
@@ -318,33 +303,33 @@ const escenariosData = [
     id: 3,
     tituloPDV: "Escenario 3: Farmacia Gran Formato Pasillo",
     categoria: "Gran Formato • Pasillo de Tráfico",
-    imagenDrive: "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&w=1200&q=80",
+    fotoNombre: "pdv3",
     casuistica: "Gerente de Tienda: 'El pasillo debe estar libre. ¿Por qué instalar el Sticker Vinílico de Piso aquí?'",
     opciones: [
       { letra: "A", texto: "Señaliza la ruta directa del comprador hacia el anaquel de Alivio del Dolor sin interferir con la circulación.", correcta: true, puntos: 200, feedback: "¡Gran negociación! El sticker de piso convierte el flujo de pasillo en ventas efectivas." },
-      { letra: "B", texto: "Es un vinil antiderrapante resistente a las pisadas.", correcta: false, puntos: 0, feedback: "El material es resistente, pero el argumento principal debe ser la conversión de ventas." }
+      { letra: "B", texto: "Es un vinil antiderrapante resistente a las pisadas.", correcta: false, points: 0, feedback: "El material es resistente, pero el argumento principal debe ser la conversión de ventas." }
     ]
   },
   {
     id: 4,
     tituloPDV: "Escenario 4: Botica de Red Comercial",
     categoria: "Red Comercial • Zona POS",
-    imagenDrive: "https://images.unsplash.com/photo-1631549916768-4119b2e5f926?auto=format&fit=crop&w=1200&q=80",
+    fotoNombre: "pdv4",
     casuistica: "Cajera PDV: 'Tengo poco espacio al lado de la caja registradora. ¿Dónde entra el Sencillero VICK Drops?'",
     opciones: [
       { letra: "A", texto: "Ocupa un espacio mínimo compacto y genera ventas inmediatas de vuelto en cada transacción de compra.", correcta: true, puntos: 150, feedback: "¡Muy bien! El sencillero aprovecha el vuelto del cliente para generar adición de venta." },
-      { letra: "B", texto: "Se coloca donde no estorbe los cables del sistema.", correcta: false, puntos: 0, feedback: "Debes priorizar la ubicación visible al momento de pagar." }
+      { letra: "B", texto: "Se coloca donde no estorbe los cables del sistema.", correcta: false, points: 0, feedback: "Debes priorizar la ubicación visible al momento de pagar." }
     ]
   },
   {
     id: 5,
     tituloPDV: "Escenario 5: Botica Independiente Fachada",
     categoria: "Fachada • Letrero BIENVENIDOS",
-    imagenDrive: "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80",
+    fotoNombre: "pdv5",
     casuistica: "Dueño de Botica: 'Mi puerta ya tiene anuncios. ¿Por qué agregar el Letrero BIENVENIDOS VICK?'",
     opciones: [
       { letra: "A", texto: "Impacta al cliente antes de ingresar al local, asociando la botica con marcas líderes de confianza como VICK.", correcta: true, puntos: 150, feedback: "¡Excelente! La señalética en entrada genera confianza inmediata en el usuario." },
-      { letra: "B", texto: "Es una norma estándar para todas las boticas asociadas.", correcta: false, puntos: 0, feedback: "Siempre enfoca el beneficio de marca e imagen para el dueño del negocio." }
+      { letra: "B", texto: "Es una norma estándar para todas las boticas asociadas.", correcta: false, points: 0, feedback: "Siempre enfoca el beneficio de marca e imagen para el dueño del negocio." }
     ]
   }
 ];
@@ -354,7 +339,7 @@ for(let i = 6; i <= 17; i++) {
     id: i,
     tituloPDV: `Escenario ${i}: Botica Especializada PDV #${i}`,
     categoria: `Categoría Comercial #${i} • Exhibición Estratégica`,
-    imagenDrive: "https://images.unsplash.com/photo-1586015555751-63bb77f4322a?auto=format&fit=crop&w=1200&q=80",
+    fotoNombre: `pdv${i}`,
     casuistica: `Encargado PDV #${i}: "¿Cuál es el beneficio de visibilidad LOCUI para colocar las piezas POP en este punto estratégicamente?"`,
     opciones: [
       { letra: "A", texto: `Maximiza la rotación del empaque y la intención de compra del cliente en el PDV #${i}.`, correcta: true, puntos: 150, feedback: "¡Respuesta estratégica correcta! Incrementas el valor del PDV y la rotación de marca." },
@@ -376,15 +361,20 @@ function renderScenario(idx) {
   document.getElementById('panelPdvTitle').innerText = sc.tituloPDV;
   document.getElementById('panelCategoryTag').innerText = sc.categoria;
 
+  // Cargar imagen pdvX.jpg o pdvX.png guardada en tu repositorio de GitHub
   const bgImg = document.getElementById('pdvBgImage');
   bgImg.style.opacity = '0.3';
   
-  const directDriveUrl = getDirectDriveImageUrl(sc.imagenDrive);
-  
   setTimeout(() => {
-    bgImg.src = directDriveUrl;
+    bgImg.src = `${sc.fotoNombre}.jpg`;
     bgImg.onerror = function() {
-      this.src = "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80";
+      if (this.src.endsWith('.jpg')) {
+        this.src = `${sc.fotoNombre}.png`;
+      } else if (this.src.endsWith('.png')) {
+        this.src = `${sc.fotoNombre}.jpeg`;
+      } else {
+        this.src = "https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80";
+      }
     };
     bgImg.style.opacity = '1';
   }, 200);
