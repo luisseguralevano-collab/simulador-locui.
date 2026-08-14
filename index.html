@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulador Táctico 2D - Visibilidad LOCUI & Negociación en PDV | Marco Marketing</title>
+<!-- Google Fonts & Font Awesome 6 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --navy-deep: #001d54;
+  --royal-navy: #002b7a;
+  --magenta-electric: #e1007a;
+  --cyan-electric: #00c2ff;
+  --gold-accent: #f59e0b;
+  --bg-dark: #0f172a;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --border-color: #cbd5e1;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
+body { background: #0f172a; color: #fff; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; padding: 16px; }
+
+/* HEADER DEL JUEGO */
+.game-header {
+  background: var(--navy-deep);
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid var(--magenta-electric);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+  margin-bottom: 16px;
+}
+
+.game-title-wrap { display: flex; align-items: center; gap: 14px; }
+.game-logo {
+  width: 42px; height: 42px; background: var(--magenta-electric); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff;
+  box-shadow: 0 4px 14px rgba(225, 0, 122, 0.4);
+}
+.game-titles h1 { font-size: 18px; font-weight: 800; color: #fff; }
+.game-titles p { font-size: 12px; color: var(--cyan-electric); font-weight: 700; letter-spacing: 1px; }
+
+.game-score-badge {
+  background: linear-gradient(135deg, #002b7a 0%, #001d54 100%);
+  border: 1.5px solid var(--cyan-electric);
+  padding: 8px 20px; border-radius: 20px;
+  display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: #fff;
+}
+.game-score-badge i { color: var(--gold-accent); font-size: 18px; }
+
+/* LAYOUT PRINCIPAL DEL JUEGO INTERACTIVO */
+.game-main-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 16px;
+  flex: 1;
+}
+
+/* ESCENARIO DE LA BOTICA EN 2D CON ZONAS DE ARRASTRE */
+.pharmacy-viewport {
+  background: #1e293b;
+  border-radius: 16px;
+  border: 3px solid var(--navy-deep);
+  position: relative;
+  min-height: 480px;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* PARED Y ESTANTES TRASEROS */
+.pharmacy-wall {
+  height: 280px;
+  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 100%);
+  position: relative;
+  padding: 20px;
+}
+
+.wall-brand-banner {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  background: var(--navy-deep); border: 2px solid var(--cyan-electric);
+  padding: 4px 20px; border-radius: 20px; color: var(--cyan-electric);
+  font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+}
+
+.shelves-container {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.shelf-row {
+  height: 12px;
+  background: #475569;
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 20px;
+}
+
+.shelf-products {
+  display: flex;
+  gap: 12px;
+  position: absolute;
+  bottom: 12px;
+  left: 20px;
+}
+
+.prod-box {
+  width: 22px; height: 32px; border-radius: 3px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+/* MOSTRADOR DE CRISTAL Y PISO */
+.pharmacy-floor {
+  height: 200px;
+  background: #334155;
+  position: relative;
+  border-top: 2px solid #475569;
+}
+
+.counter-table {
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 440px;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
+  border: 2px solid var(--cyan-electric);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(0, 194, 255, 0.2);
+}
+
+/* PERSONAJES EN ESCENA */
+.avatar-pharmacist {
+  position: absolute;
+  top: -110px;
+  right: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-advisor {
+  position: absolute;
+  top: -100px;
+  left: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-head {
+  width: 42px; height: 42px; border-radius: 50%;
+  border: 2px solid #fff; position: relative;
+}
+.avatar-body { width: 48px; height: 60px; border-radius: 10px 10px 0 0; }
+
+.speech-bubble {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+  background: #ffffff;
+  color: var(--navy-deep);
+  padding: 12px 18px;
+  border-radius: 14px;
+  border: 2px solid var(--royal-navy);
+  font-size: 13px;
+  font-weight: 700;
+  max-width: 320px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  z-index: 20;
+}
+.speech-bubble::before {
+  content: ''; position: absolute; bottom: -10px; right: 40px;
+  border-width: 10px 10px 0; border-style: solid;
+  border-color: #ffffff transparent; display: block; width: 0;
+}
+
+/* ZONAS DE SOLTADO (DROP ZONES INTERACTIVAS) */
+.drop-zone {
+  position: absolute;
+  border: 2.5px dashed rgba(0, 194, 255, 0.5);
+  border-radius: 10px;
+  background: rgba(0, 194, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cyan-electric);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+  z-index: 15;
+}
+
+.drop-zone.drag-over {
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+  transform: scale(1.03);
+}
+
+.drop-zone.locked {
+  border-style: solid;
+  border-color: #10b981;
+  background: rgba(16, 185, 129, 0.2);
+  color: #fff;
+}
+
+/* POSICIONES DE LAS ZONAS DE CAMPO */
+#zone-mostrador { top: 20px; left: 120px; width: 200px; height: 60px; }
+#zone-anaquel { top: 120px; left: 120px; width: 340px; height: 45px; }
+#zone-piso { bottom: 20px; left: 50%; transform: translateX(-50%); width: 220px; height: 45px; }
+#zone-fachada { top: 40px; left: 20px; width: 90px; height: 140px; }
+
+/* CAJA DE HERRAMIENTAS POP (SIDEBAR DERECHO) */
+.toolbox-panel {
+  background: #fff;
+  color: var(--navy-deep);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.toolbox-title {
+  font-size: 15px; font-weight: 800; color: var(--navy-deep);
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;
+}
+
+.pop-items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pop-draggable-card {
+  background: #f8fafc;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: grab;
+  transition: all 0.2s ease;
+}
+
+.pop-draggable-card:hover {
+  border-color: var(--royal-navy);
+  background: #fff;
+  box-shadow: 0 6px 16px rgba(0, 43, 122, 0.12);
+  transform: translateY(-2px);
+}
+
+.pop-draggable-card:active { cursor: grabbing; opacity: 0.7; }
+
+.pop-icon-wrap {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--navy-deep); color: var(--cyan-electric);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; flex-shrink: 0;
+}
+
+.pop-info { display: flex; flex-direction: column; }
+.pop-name { font-size: 13px; font-weight: 800; color: var(--navy-deep); }
+.pop-target-hint { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+/* MODAL DE RESULTADO / FEEDBACK */
+.feedback-overlay {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(5px); z-index: 1000; display: none;
+  align-items: center; justify-content: center; padding: 20px;
+}
+
+.feedback-card {
+  background: #fff; color: var(--navy-deep); border-radius: 20px;
+  max-width: 480px; width: 100%; padding: 28px; text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.4); border: 2px solid var(--border-color);
+}
+.feedback-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+.feedback-card p { font-size: 14px; color: #475569; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
+
+.btn-continue {
+  background: var(--royal-navy); color: #fff; border: none;
+  padding: 12px 28px; border-radius: 12px; font-weight: 800;
+  font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+}
+.btn-continue:hover { background: var(--navy-deep); transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<!-- HEADER DEL JUEGO -->
+<header class="game-header">
+  <div class="game-title-wrap">
+    <div class="game-logo"><i class="fa-solid fa-gamepad"></i></div>
+    <div class="game-titles">
+      <h1>Simulador Táctico 2D - Arrastrar & Soltar POP</h1>
+      <p>MARCO MARKETING • ENTRENAMIENTO DE GUÍA LOCUI</p>
+    </div>
+  </div>
+  <div class="game-score-badge">
+    <i class="fa-solid fa-trophy"></i>
+    <span id="scoreDisplay">Puntaje: 0 Pts</span>
+  </div>
+</header>
+
+<!-- LAYOUT PRINCIPAL -->
+<div class="game-main-layout">
+  
+  <!-- ESCENARIO VIRTUAL DE LA BOTICA -->
+  <div class="pharmacy-viewport">
+    
+    <!-- BOCADILLO DE DIÁLOGO DEL FARMACÉUTICO -->
+    <div class="speech-bubble" id="speechBubble">
+      <span style="font-size:10px; color:var(--magenta-electric); text-transform:uppercase; font-weight:800; display:block; margin-bottom:2px;">
+        <i class="fa-solid fa-user-doctor"></i> Farmacéutico:
+      </span>
+      <span id="speechText">"Hola Asesor, la botica está llena de mercadería. Demuéstrame dónde ubicarías los materiales POP para ganar visibilidad."</span>
+    </div>
+
+    <!-- PARED Y ESTANTERÍAS TRASERAS -->
+    <div class="pharmacy-wall">
+      <div class="wall-brand-banner">➕ BOTICA DE CAMPO - VISIBILIDAD LOCUI</div>
+
+      <!-- ZONA FACHADA / PARED -->
+      <div class="drop-zone" id="zone-fachada" data-accept="Afiche">
+        <i class="fa-solid fa-image" style="font-size:18px; margin-bottom:4px;"></i><br>Pared / Afiche
+      </div>
+
+      <div class="shelves-container">
+        <!-- ZONA ANAQUEL NIVELES C Y U -->
+        <div class="shelf-row">
+          <div class="shelf-products">
+            <div class="prod-box" style="background:#e1007a;"></div>
+            <div class="prod-box" style="background:#00c2ff;"></div>
+            <div class="prod-box" style="background:#10b981;"></div>
+            <div class="prod-box" style="background:#f59e0b;"></div>
+          </div>
+          <div class="drop-zone" id="zone-anaquel" data-accept="Stopper">
+            <i class="fa-solid fa-bullseye"></i> Anaquel Central (Nivel Ojos / Manos)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MOSTRADOR Y PISO -->
+    <div class="pharmacy-floor">
+      
+      <!-- PERSONAJE FARMACÉUTICO -->
+      <div class="avatar-pharmacist">
+        <div class="avatar-head" style="background:#fde047;"></div>
+        <div class="avatar-body" style="background:#ffffff; border:1px solid #cbd5e1;"></div>
+      </div>
+
+      <!-- PERSONAJE ASESOR -->
+      <div class="avatar-advisor">
+        <div class="avatar-head" style="background:#fca5a5;"></div>
+        <div class="avatar-body" style="background:#002b7a;"></div>
+      </div>
+
+      <!-- MOSTRADOR PRINCIPAL -->
+      <div class="counter-table">
+        <div class="drop-zone" id="zone-mostrador" data-accept="Glorificador">
+          <i class="fa-solid fa-box-open"></i> Mostrador Central (Glorificador)
+        </div>
+      </div>
+
+      <!-- ZONA DE PISO -->
+      <div class="drop-zone" id="zone-piso" data-accept="Sticker">
+        <i class="fa-solid fa-shoe-prints"></i> Suelo (Sticker de Piso)
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CAJA DE HERRAMIENTAS POP (ELEMENTOS PARA ARRASTRAR) -->
+  <div class="toolbox-panel">
+    <div class="toolbox-title">
+      <i class="fa-solid fa-toolbox" style="color:var(--magenta-electric);"></i> Herramientas POP (Arrastra a la zona)
+    </div>
+
+    <div class="pop-items-grid">
+      
+      <!-- ITEM 1: GLORIFICADOR DE MOSTRADOR -->
+      <div class="pop-draggable-card" draggable="true" id="item-glorificador" data-type="Glorificador">
+        <div class="pop-icon-wrap"><i class="fa-solid fa-box-open"></i></div>
+        <div class="pop-info">
+          <span class="pop-name">Glorificador POP</span>
+          <span class="pop-target-hint">Destino: Mostrador Principal</span>
+        </div>
+      </div>
+
+      <!-- ITEM 2: STOPPER DE ANAQUEL -->
+      <div class="pop-draggable-card" draggable="true" id="item-stopper" data-type="Stopper">
+        <div class="pop-icon-wrap" style="background:var(--magenta-electric);"><i class="fa-solid fa-tag"></i></div>
+        <div class="pop-info">
+          <span class="pop-name">Stopper de Visibilidad</span>
+          <span class="pop-target-hint">Destino: Anaquel Nivel Ojos</span>
+        </div>
+      </div>
+
+      <!-- ITEM 3: STICKER DE PISO -->
+      <div class="pop-draggable-card" draggable="true" id="item-sticker" data-type="Sticker">
+        <div class="pop-icon-wrap" style="background:#10b981;"><i class="fa-solid fa-shoe-prints"></i></div>
+        <div class="pop-info">
+          <span class="pop-name">Sticker de Piso</span>
+          <span class="pop-target-hint">Destino: Zona de Entrada / Suelo</span>
+        </div>
+      </div>
+
+      <!-- ITEM 4: AFICHE PUBLICITARIO -->
+      <div class="pop-draggable-card" draggable="true" id="item-afiche" data-type="Afiche">
+        <div class="pop-icon-wrap" style="background:#f59e0b;"><i class="fa-solid fa-image"></i></div>
+        <div class="pop-info">
+          <span class="pop-name">Afiche Publicitario</span>
+          <span class="pop-target-hint">Destino: Fachada / Pared</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL DE FEEDBACK Y PUNTAJE -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-card">
+    <div style="width:60px; height:60px; border-radius:50%; background:#dcfce7; color:#16a34a; font-size:28px; display:flex; align-items:center; justify-content:center; margin: 0 auto 14px auto;">
+      <i class="fa-solid fa-circle-check"></i>
+    </div>
+    <h3 id="feedbackTitle">¡Ubicación Estratégica Perfecta!</h3>
+    <p id="feedbackText">Has aplicado correctamente la Guía LOCUI para incrementar la visibilidad de la marca.</p>
+    <button class="btn-continue" onclick="cerrarFeedback()">Siguiente Desafío <i class="fa-solid fa-arrow-right"></i></button>
+  </div>
+</div>
+
+<script>
+let puntajeTotal = 0;
+let elementosColocados = 0;
+const totalElementos = 4;
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupDragAndDrop();
+});
+
+function setupDragAndDrop() {
+  const cards = document.querySelectorAll('.pop-draggable-card');
+  const dropZones = document.querySelectorAll('.drop-zone');
+
+  cards.forEach(card => {
+    card.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', card.dataset.type);
+      e.dataTransfer.setData('card-id', card.id);
+      card.style.opacity = '0.5';
+    });
+
+    card.addEventListener('dragend', () => {
+      card.style.opacity = '1';
+    });
+  });
+
+  dropZones.forEach(zone => {
+    zone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+
+    zone.addEventListener('dragleave', () => {
+      zone.classList.remove('drag-over');
+    });
+
+    zone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+
+      const popType = e.dataTransfer.getData('text/plain');
+      const cardId = e.dataTransfer.getData('card-id');
+      const acceptedType = zone.dataset.accept;
+
+      if (popType === acceptedType) {
+        const cardEl = document.getElementById(cardId);
+        if (cardEl) cardEl.style.display = 'none';
+
+        zone.classList.add('locked');
+        zone.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981; font-size:18px;"></i> ${acceptedType} COLOCADO (+100 Pts)`;
+
+        puntajeTotal += 100;
+        elementosColocados++;
+        actualizarPuntaje();
+
+        mostrarFeedback(
+          "¡Excelente Colocación!",
+          `Has posicionado el ${popType} en su zona estratégica recomendada por la Guía LOCUI. ¡Sumas 100 Pts!`
+        );
+
+      } else {
+        mostrarFeedback(
+          "Ubicación Inadecuada",
+          `El ${popType} no genera el máximo impacto visual en esta zona. Intenta colocarlo en su zona correspondiente.`
+        );
+      }
+    });
+  });
+}
+
+function actualizarPuntaje() {
+  document.getElementById('scoreDisplay').innerText = `Puntaje: ${puntajeTotal} Pts`;
+}
+
+function mostrarFeedback(titulo, texto) {
+  document.getElementById('feedbackTitle').innerText = titulo;
+  document.getElementById('feedbackText').innerText = texto;
+  document.getElementById('feedbackOverlay').style.display = 'flex';
+}
+
+function cerrarFeedback() {
+  document.getElementById('feedbackOverlay').style.display = 'none';
+  if (elementosColocados >= totalElementos) {
+    alert(`🎉 ¡Felicidades! Has completado el circuito de visibilidad LOCUI en el punto de venta con ${puntajeTotal} Pts.`);
+  }
+}
+</script>
+</body>
+</html>
