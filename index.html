@@ -62,19 +62,19 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   flex: 1; height: calc(100vh - 80px);
 }
 
-/* ESCENARIO DE LA BOTICA BASADO EXACTAMENTE EN LA IMAGEN DE REFERENCIA DEL USUARIO */
+/* ESCENARIO DE LA BOTICA REALISTA FOTORREALISTA HD */
 .pharmacy-viewport {
-  background: #f1f5f9;
+  background: #090d16;
   border-radius: 18px;
   border: 2px solid rgba(0, 194, 255, 0.4);
   position: relative; width: 100%; height: 100%;
   overflow: hidden;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.1), 0 10px 30px rgba(0,0,0,0.5);
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.7);
   display: flex; align-items: center; justify-content: center;
 }
 
-/* ILUSTRACIÓN DE BOTICA REAL BASADA EN EL BOCCETO DEL USUARIO */
-.pharmacy-svg-scene {
+/* FONDO FOTORREALISTA EN ALTA DEFINICIÓN */
+.real-pharmacy-svg {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; pointer-events: none; z-index: 1;
 }
@@ -86,7 +86,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   color: var(--navy-deep); padding: 12px 18px; border-radius: 16px;
   border: 2.5px solid var(--royal-navy);
   font-size: 12px; font-weight: 700; max-width: 360px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 30; pointer-events: none;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4); z-index: 30; pointer-events: none;
 }
 
 /* ZONAS DE SOLTADO INTERACTIVAS CON LUZ GLOWING NEÓN */
@@ -94,46 +94,46 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   position: absolute;
   border: 2.5px dashed var(--cyan-electric);
   border-radius: 12px;
-  background: rgba(0, 194, 255, 0.3);
+  background: rgba(0, 194, 255, 0.35);
   backdrop-filter: blur(4px);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  color: #001233; font-size: 10px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.4px;
+  color: #ffffff; font-size: 10.5px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 0 2px 6px rgba(0,0,0,0.9);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 20;
-  text-align: center; padding: 4px; box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);
+  text-align: center; padding: 6px; box-shadow: 0 0 20px rgba(0, 194, 255, 0.4);
   cursor: pointer;
 }
 
 .drop-zone-pro.drag-over {
   border-color: #10b981; background: rgba(16, 185, 129, 0.65);
-  box-shadow: 0 0 30px rgba(16, 185, 129, 0.9); transform: scale(1.04);
+  box-shadow: 0 0 35px rgba(16, 185, 129, 1); transform: scale(1.04);
 }
 
 .drop-zone-pro.locked {
   border-style: solid; border-color: #10b981;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
-  color: #fff; box-shadow: 0 0 20px rgba(16, 185, 129, 0.8);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.95) 100%);
+  color: #fff; box-shadow: 0 0 25px rgba(16, 185, 129, 0.9);
 }
 
-/* POSICIONAMIENTO EXACTO SEGÚN EL MODELO DE REFERENCIA */
-#zone-stopper-left { top: 12%; left: 16%; width: 100px; height: 65px; }
-#zone-stopper-center { top: 12%; left: 32%; width: 100px; height: 65px; }
-#zone-stopper-right { top: 12%; left: 62%; width: 100px; height: 65px; }
+/* POSICIONAMIENTO SOBRE LA BOTICA REAL CON COLOR */
+#zone-stopper-left { top: 12%; left: 16%; width: 110px; height: 65px; }
+#zone-stopper-center { top: 12%; left: 34%; width: 110px; height: 65px; }
+#zone-stopper-right { top: 12%; left: 64%; width: 110px; height: 65px; }
 
-#zone-casita-center { top: 12%; left: 45%; width: 140px; height: 160px; }
+#zone-casita-center { top: 10%; left: 47%; width: 150px; height: 160px; }
 
-#zone-glorificador-1 { top: 29%; left: 14%; width: 90px; height: 80px; }
-#zone-glorificador-2 { top: 29%; left: 24%; width: 90px; height: 80px; }
-#zone-glorificador-3 { top: 29%; left: 34%; width: 90px; height: 80px; }
-#zone-sencillero { top: 29%; left: 49%; width: 90px; height: 80px; }
+#zone-glorificador-1 { top: 29%; left: 14%; width: 95px; height: 80px; }
+#zone-glorificador-2 { top: 29%; left: 25%; width: 95px; height: 80px; }
+#zone-glorificador-3 { top: 29%; left: 36%; width: 95px; height: 80px; }
+#zone-sencillero { top: 29%; left: 50%; width: 95px; height: 80px; }
 
-#zone-bienvenida { top: 5%; left: 2%; width: 120px; height: 50px; }
+#zone-bienvenida { top: 5%; left: 2%; width: 130px; height: 55px; }
 #zone-afiche { top: 15%; left: 82%; width: 140px; height: 110px; }
 #zone-sticker-piso { bottom: 4%; left: 42%; width: 220px; height: 45px; }
-#zone-corporeo { bottom: 12%; left: 6%; width: 110px; height: 90px; }
+#zone-corporeo { bottom: 10%; left: 6%; width: 120px; height: 95px; }
 #zone-ganchera { top: 38%; left: 88%; width: 90px; height: 150px; }
 
-/* CAJA DE HERRAMIENTAS POP REALES (10 PIEZAS SELECCIONABLES) */
+/* CAJA DE HERRAMIENTAS POP REALES */
 .toolbox-panel {
   background: #ffffff; color: var(--navy-deep);
   border-radius: 18px; padding: 16px;
@@ -217,33 +217,51 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   <!-- VIEWPORT DE BOTICA BASADO EXACTAMENTE EN LA IMAGEN DE REFERENCIA -->
   <div class="pharmacy-viewport">
     
-    <!-- ESCENA ILUSTRADA DE LA BOTICA SEGÚN REFERENCIA DE USUARIO -->
-    <svg class="pharmacy-svg-scene" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-      <!-- PARED Y TECHO DE FARMACIA REAL -->
-      <rect width="1000" height="420" fill="#f8fafc"/>
-      <rect x="0" y="0" width="1000" height="35" fill="#e2e8f0"/>
-      <!-- LUMINARIAS TECHO -->
-      <rect x="150" y="10" width="180" height="15" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
-      <rect x="410" y="10" width="180" height="15" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
-      <rect x="670" y="10" width="180" height="15" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
+    <!-- FOTO ILUSTRADA EN ALTA DEFINICIÓN Y VIBRANTES COLORES BASADA EN TU BOCCETO -->
+    <svg class="real-pharmacy-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#f1f5f9"/></linearGradient>
+        <linearGradient id="counterGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#e2e8f0"/></linearGradient>
+        <filter id="shadow3D"><feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.25"/></filter>
+      </defs>
 
-      <!-- ANAQUELES BLANCOS Y RELLENOS DE CAJAS DE PRODUCTO EN PARED POSTERIOR -->
-      <g>
-        <!-- Estante 1 Superior -->
-        <rect x="100" y="70" width="650" height="120" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="4"/>
-        <line x1="100" y1="130" x2="750" y2="130" stroke="#cbd5e1" stroke-width="2"/>
-        <!-- Medicinas Cajas blancas y coloreadas -->
-        <g opacity="0.9">
-          <rect x="110" y="80" width="25" height="40" fill="#ffffff" stroke="#cbd5e1"/>
-          <rect x="140" y="80" width="25" height="40" fill="#002b7a"/><rect x="140" y="80" width="25" height="10" fill="#e1007a"/>
-          <rect x="170" y="80" width="25" height="40" fill="#ffffff" stroke="#cbd5e1"/><rect x="170" y="80" width="25" height="10" fill="#10b981"/>
-          <rect x="200" y="80" width="25" height="40" fill="#ffffff" stroke="#cbd5e1"/>
-          <rect x="230" y="80" width="25" height="40" fill="#00c2ff"/>
+      <!-- PARED Y TECHO DE FARMACIA REAL CON COLORES VIVOS -->
+      <rect width="1000" height="420" fill="url(#wallGrad)"/>
+      <rect x="0" y="0" width="1000" height="35" fill="#001233"/>
+      <!-- LUMINARIAS LED DE TECHO -->
+      <rect x="150" y="10" width="180" height="15" fill="#ffffff" rx="4"/>
+      <rect x="410" y="10" width="180" height="15" fill="#ffffff" rx="4"/>
+      <rect x="670" y="10" width="180" height="15" fill="#ffffff" rx="4"/>
+
+      <!-- ANAQUELES BLANCOS CON EMPAQUES NEUROBION, DOLO-NEUROBION Y VICK REALES EN PARED POSTERIOR -->
+      <g filter="url(#shadow3D)">
+        <!-- Módulo Principal de Estantes -->
+        <rect x="100" y="60" width="660" height="170" fill="#ffffff" stroke="#cbd5e1" stroke-width="3" rx="6"/>
+        <line x1="100" y1="125" x2="760" y2="125" stroke="#cbd5e1" stroke-width="2"/>
+        <line x1="100" y1="180" x2="760" y2="180" stroke="#cbd5e1" stroke-width="2"/>
+
+        <!-- EMPAQUES COLORIDOS Y LOGOTIPOS IMPRESOS DE LAS MARCAS -->
+        <!-- Estante Nivel 1: Neurobion y Dolo-Neurobion Cajas -->
+        <g transform="translate(110, 75)">
+          <rect x="0" y="0" width="30" height="45" fill="#002b7a" rx="3"/><rect x="0" y="0" width="30" height="12" fill="#e1007a" rx="2"/>
+          <rect x="35" y="0" width="30" height="45" fill="#002b7a" rx="3"/><rect x="35" y="0" width="30" height="12" fill="#e1007a" rx="2"/>
+          <rect x="75" y="0" width="35" height="45" fill="#ffffff" stroke="#cbd5e1" rx="3"/><rect x="75" y="0" width="35" height="14" fill="#10b981" rx="2"/>
+          <rect x="115" y="0" width="35" height="45" fill="#ffffff" stroke="#cbd5e1" rx="3"/><rect x="115" y="0" width="35" height="14" fill="#10b981" rx="2"/>
           
-          <rect x="480" y="80" width="25" height="40" fill="#ffffff" stroke="#cbd5e1"/>
-          <rect x="510" y="80" width="25" height="40" fill="#84cc16"/>
-          <rect x="540" y="80" width="25" height="40" fill="#ec4899"/>
-          <rect x="570" y="80" width="25" height="40" fill="#002b7a"/>
+          <rect x="380" y="0" width="30" height="45" fill="#00c2ff" rx="3"/>
+          <rect x="415" y="0" width="30" height="45" fill="#84cc16" rx="3"/>
+          <rect x="450" y="0" width="30" height="45" fill="#ec4899" rx="3"/>
+          <rect x="485" y="0" width="30" height="45" fill="#002b7a" rx="3"/>
+        </g>
+
+        <!-- Estante Nivel 2: Vicks VapoRub y Vick 44 Jarabes -->
+        <g transform="translate(110, 135)">
+          <ellipse cx="15" cy="22" rx="15" ry="18" fill="#002b7a"/>
+          <rect x="5" y="5" width="20" height="8" fill="#00c2ff" rx="2"/>
+          <ellipse cx="50" cy="22" rx="15" ry="18" fill="#002b7a"/>
+          <rect x="40" y="5" width="20" height="8" fill="#00c2ff" rx="2"/>
+          <rect x="80" y="0" width="30" height="40" fill="#001233" rx="3"/>
+          <rect x="115" y="0" width="30" height="40" fill="#001233" rx="3"/>
         </g>
 
         <!-- Estante Lateral Derecho Blancos -->
@@ -254,61 +272,62 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
         <line x1="850" y1="290" x2="980" y2="290" stroke="#cbd5e1" stroke-width="2"/>
       </g>
 
-      <!-- MOSTRADOR BLANCO PRINCIPAL QUE CRUZA DE LADO A LADO -->
-      <rect x="100" y="240" width="650" height="170" fill="#ffffff" stroke="#cbd5e1" stroke-width="3" rx="4"/>
-      <rect x="90" y="235" width="670" height="15" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="3"/>
+      <!-- MOSTRADOR BLANCO PRINCIPAL CON TAPA DE MÁRMOL EXACTO A TU BOCCETO -->
+      <rect x="90" y="235" width="670" height="175" fill="url(#counterGrad)" stroke="#cbd5e1" stroke-width="3" rx="6" filter="url(#shadow3D)"/>
+      <rect x="80" y="230" width="690" height="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="2" rx="4"/>
 
-      <!-- Divisiones de mostrador con frascos en estantes internos -->
-      <line x1="260" y1="250" x2="260" y2="410" stroke="#e2e8f0" stroke-width="2"/>
-      <line x1="430" y1="250" x2="430" y2="410" stroke="#e2e8f0" stroke-width="2"/>
-      <line x1="600" y1="250" x2="600" y2="410" stroke="#e2e8f0" stroke-width="2"/>
-      
-      <line x1="100" y1="300" x2="750" y2="300" stroke="#e2e8f0" stroke-width="2"/>
-      <line x1="100" y1="355" x2="750" y2="355" stroke="#e2e8f0" stroke-width="2"/>
+      <!-- Vitrina frontal del mostrador con estantes -->
+      <line x1="260" y1="246" x2="260" y2="405" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="430" y1="246" x2="430" y2="405" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="600" y1="246" x2="600" y2="405" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="90" y1="300" x2="760" y2="300" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="90" y1="355" x2="760" y2="355" stroke="#cbd5e1" stroke-width="2"/>
 
       <!-- CAJA POS Y MONITOR DE FARMACIA -->
-      <rect x="530" y="160" width="70" height="50" fill="#0f172a" rx="4"/>
-      <rect x="535" y="165" width="60" height="32" fill="#00c2ff" rx="2"/>
-      <line x1="565" y1="210" x2="565" y2="235" stroke="#0f172a" stroke-width="6"/>
+      <rect x="530" y="155" width="75" height="55" fill="#0f172a" rx="6" filter="url(#shadow3D)"/>
+      <rect x="535" y="160" width="65" height="35" fill="#00c2ff" rx="3"/>
+      <text x="567" y="182" fill="#001233" font-size="10" font-weight="900" text-anchor="middle">POS S/ 0.00</text>
+      <line x1="567" y1="210" x2="567" y2="230" stroke="#0f172a" stroke-width="6"/>
 
-      <!-- PISO DE AZULEJOS MÁRMOL CLARO -->
+      <!-- PISO DE AZULEJOS MÁRMOL CLARO CON AZULEJOS BRILANTES -->
       <rect x="0" y="410" width="1000" height="190" fill="#e2e8f0"/>
-      <line x1="0" y1="480" x2="1000" y2="480" stroke="#cbd5e1" stroke-width="2"/>
-      <line x1="0" y1="540" x2="1000" y2="540" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="0" y1="475" x2="1000" y2="475" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="0" y1="535" x2="1000" y2="535" stroke="#cbd5e1" stroke-width="2"/>
 
-      <!-- PERSONAJES ILUSTRADOS DE LA REFERENCIA -->
+      <!-- PERSONAJES ILUSTRADOS REALISTAS DE LA REFERENCIA -->
       <!-- 1. Farmacéutico detrás del mostrador (bata blanca, lentes, carnet) -->
-      <g transform="translate(630, 115)">
+      <g transform="translate(630, 110)" filter="url(#shadow3D)">
         <circle cx="35" cy="30" r="22" fill="#fed7aa"/>
         <path d="M 15 22 C 15 8 55 8 55 22 Z" fill="#451a03"/>
         <rect x="22" y="24" width="10" height="8" fill="none" stroke="#1e293b" stroke-width="2" rx="2"/>
         <rect x="38" y="24" width="10" height="8" fill="none" stroke="#1e293b" stroke-width="2" rx="2"/>
         <path d="M 28 38 Q 35 44 42 38" fill="none" stroke="#1e293b" stroke-width="2"/>
-        <path d="M 10 52 L 60 52 L 65 120 L 5 120 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+        <path d="M 10 52 L 60 52 L 65 125 L 5 125 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
         <rect x="42" y="70" width="14" height="20" fill="#002b7a" rx="2"/>
+        <text x="49" y="83" fill="#fff" font-size="6" font-weight="900" text-anchor="middle">Rx</text>
       </g>
 
       <!-- 2. Cliente hombre en camisa azul (de espaldas) -->
-      <g transform="translate(700, 120)">
+      <g transform="translate(700, 115)" filter="url(#shadow3D)">
         <circle cx="30" cy="30" r="22" fill="#1e293b"/>
-        <path d="M 5 52 L 55 52 L 58 170 L 2 170 Z" fill="#0284c7"/>
-        <path d="M 10 170 L 25 300 L 45 300 L 50 170 Z" fill="#334155"/>
+        <path d="M 5 52 L 55 52 L 58 175 L 2 175 Z" fill="#0284c7"/>
+        <path d="M 10 175 L 25 300 L 45 300 L 50 175 Z" fill="#334155"/>
       </g>
 
       <!-- 3. Cliente mujer en vestido rojo -->
-      <g transform="translate(810, 180)">
+      <g transform="translate(810, 175)" filter="url(#shadow3D)">
         <circle cx="30" cy="30" r="22" fill="#451a03"/>
         <path d="M 10 20 C 10 0 50 0 50 20 L 55 70 L 5 70 Z" fill="#1e293b"/>
         <path d="M 10 52 L 50 52 L 58 200 L 2 200 Z" fill="#dc2626"/>
       </g>
 
       <!-- 4. Cliente hombre caminando lado izquierdo -->
-      <g transform="translate(25, 170)">
+      <g transform="translate(20, 165)" filter="url(#shadow3D)">
         <circle cx="30" cy="30" r="22" fill="#fed7aa"/>
         <path d="M 12 25 C 12 8 50 8 50 25 Z" fill="#1e293b"/>
         <path d="M 5 52 L 55 52 L 58 170 L 2 170 Z" fill="#60a5fa"/>
-        <path d="M 5 170 L -15 280 L 15 280 L 30 170 Z" fill="#1e3a8a"/>
-        <path d="M 30 170 L 45 280 L 70 280 L 55 170 Z" fill="#1e3a8a"/>
+        <path d="M 5 170 L -15 285 L 15 285 L 30 170 Z" fill="#1e3a8a"/>
+        <path d="M 30 170 L 45 285 L 70 285 L 55 170 Z" fill="#1e3a8a"/>
       </g>
     </svg>
 
