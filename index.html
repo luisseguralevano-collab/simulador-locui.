@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador 3D Realista - Estilo Unity WebGL | Visibilidad LOCUI & Marco Marketing</title>
+<title>Simulador 3D Fotorrealista - Visibilidad LOCUI & Merchandising | Marco Marketing</title>
 <!-- Google Fonts & Font Awesome 6 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -169,7 +169,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   <div class="game-title-wrap">
     <div class="game-logo"><i class="fa-solid fa-cube"></i></div>
     <div class="game-titles">
-      <h1>Simulador 3D Realista - Motor WebGL Unity Style</h1>
+      <h1>Simulador 3D Fotorrealista - Visibilidad LOCUI</h1>
       <p>MARCO MARKETING • P&G / MERCHANDISING DE CAMPO EN PDV</p>
     </div>
   </div>
@@ -188,14 +188,14 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
     <div class="camera-controls-hint">
       <i class="fa-solid fa-arrows-spin" style="color:var(--cyan-electric); font-size:16px;"></i>
-      <span>Arrastra con el mouse para rotar la cámara 3D • Usa la rueda para Zoom • Haz clic en una pieza POP para colocarla</span>
+      <span>Gira con el mouse • Rueda para Zoom • Haz clic en una pieza POP para colocarla en la botica</span>
     </div>
 
     <div class="speech-bubble-3d" id="speechBubble">
       <span style="font-size:10px; color:var(--magenta-electric); text-transform:uppercase; font-weight:800; display:block; margin-bottom:2px;">
         <i class="fa-solid fa-user-doctor"></i> Farmacéutica Botica Guía:
       </span>
-      <span id="speechText">"¡Bienvenido al entorno 3D! Selecciona un material POP en la derecha y haz clic en su zona estratégica en la botica."</span>
+      <span id="speechText">"¡Bienvenido! Selecciona una pieza POP en la lista derecha y haz clic en su zona estratégica en la botica 3D."</span>
     </div>
   </div>
 
@@ -326,7 +326,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
 <script>
 /* ==========================================================================
-   MOTOR 3D THREE.JS WEBGL SIMULATOR ENGINE (ESTILO UNITY WEBGL)
+   MOTOR 3D THREE.JS WEBGL SIMULATOR ENGINE (FOTORREALISMO BOTICA Y AVATARES)
    ========================================================================== */
 
 let scene, camera, renderer, controls;
@@ -335,233 +335,248 @@ let dropZoneMeshes = [];
 let placedCount = 0;
 let scoreTotal = 0;
 let selectedPOPType = null;
-let selectedPOPElement = null;
 
 document.addEventListener('DOMContentLoaded', () => {
   init3DEngine();
   initCanvasParticles();
 });
 
+// GENERADOR DE TEXTURAS DE MARCA MEDIANTE CANVAS INTERNO
+function createBrandTexture(brandName, bgColor, textColor, iconType) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  
+  // Fondo con degradado
+  const grad = ctx.createLinearGradient(0, 0, 256, 256);
+  grad.addColorStop(0, bgColor);
+  grad.addColorStop(1, '#001233');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 256, 256);
+
+  // Borde blanco brillante
+  ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 12;
+  ctx.strokeRect(10, 10, 236, 236);
+
+  // Texto de Marca
+  ctx.fillStyle = textColor || '#ffffff';
+  ctx.font = 'bold 26px "Plus Jakarta Sans", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText(brandName, 128, 140);
+
+  ctx.font = 'bold 16px sans-serif';
+  ctx.fillStyle = '#00c2ff';
+  ctx.fillText('MARCO MKT • LOCUI', 128, 180);
+
+  return new THREE.CanvasTexture(canvas);
+}
+
+// GENERADOR DE TEXTURAS DE PERSONAJES HUMANOS REALISTAS
+function createHumanAvatarTexture(role, colorHex) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256; canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+
+  // Silueta humana estilizada profesional
+  ctx.fillStyle = colorHex;
+  // Cabeza
+  ctx.beginPath(); ctx.arc(128, 80, 45, 0, Math.PI * 2); ctx.fill();
+  // Cuerpo Uniforme
+  ctx.beginPath();
+  ctx.moveTo(60, 150); ctx.lineTo(196, 150);
+  ctx.lineTo(210, 480); ctx.lineTo(46, 480);
+  ctx.closePath(); ctx.fill();
+
+  // Bata/Fotocheck
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(100, 150, 56, 330);
+
+  ctx.fillStyle = '#001233';
+  ctx.font = 'bold 20px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText(role, 128, 250);
+
+  return new THREE.CanvasTexture(canvas);
+}
+
 function init3DEngine() {
   const container = document.querySelector('.pharmacy-viewport-3d');
   const canvas = document.getElementById('canvas3D');
 
-  // 1. ESCENA 3D & CÁMARA EN PERSPECTIVA
   scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x0a0f1d);
-  scene.fog = new THREE.FogExp2(0x0a0f1d, 0.03);
+  scene.background = new THREE.Color(0x0f172a);
+  scene.fog = new THREE.FogExp2(0x0f172a, 0.02);
 
   camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
   camera.position.set(0, 3.2, 7.5);
 
-  // 2. RENDERIZADOR WEBGL CON SOMBRAS SHADOWMAP REALISTAS
-  renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // 3. CONTROLES DE CÁMARA ORBITALES (UNITY ROTATION & ZOOM)
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
   controls.dampingFactor = 0.05;
-  controls.maxPolarAngle = Math.PI / 2 - 0.05; // No atravesar piso
-  controls.minDistance = 3;
-  controls.maxDistance = 12;
+  controls.maxPolarAngle = Math.PI / 2 - 0.05;
+  controls.minDistance = 3; controls.maxDistance = 12;
   controls.target.set(0, 1.2, 0);
 
-  // 4. ILUMINACIÓN PBR 3D REALISTA
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+  // ILUMINACIÓN REALISTA AMBIENTAL Y DIRECCIONAL
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
   scene.add(ambientLight);
 
-  const mainLight = new THREE.DirectionalLight(0xffffff, 1.2);
-  mainLight.position.set(5, 8, 5);
+  const mainLight = new THREE.DirectionalLight(0xffffff, 1.3);
+  mainLight.position.set(4, 8, 5);
   mainLight.castShadow = true;
-  mainLight.shadow.mapSize.width = 2048;
-  mainLight.shadow.mapSize.height = 2048;
+  mainLight.shadow.mapSize.width = 2048; mainLight.shadow.mapSize.height = 2048;
   scene.add(mainLight);
 
-  const cyanSpot = new THREE.PointLight(0x00c2ff, 1.5, 10);
-  cyanSpot.position.set(-3, 4, 2);
-  scene.add(cyanSpot);
+  const cyanLight = new THREE.PointLight(0x00c2ff, 1.8, 12);
+  cyanLight.position.set(-3, 4, 2); scene.add(cyanLight);
 
-  const pinkSpot = new THREE.PointLight(0xe1007a, 1.2, 10);
-  pinkSpot.position.set(3, 4, 2);
-  scene.add(pinkSpot);
-
-  // 5. ENTORNO TRIDIMENSIONAL DE LA FARMACIA (SUELO, PARED, ANAQUELES, MOSTRADOR)
-  buildPharmacy3DEnvironment();
-
-  // 6. CREAR ZONAS DE SOLTADO 3D CON LUZ INTERACTIVA
+  // ENTORNO FOTORREALISTA BOTICA Y AVATARES HUMANOS
+  buildRealPharmacyScene();
   create3DDropZones();
 
-  // 7. RAYCASTER PARA INTERACCIÓN 3D DE CLIC
   raycaster = new THREE.Raycaster();
   mouse = new THREE.Vector2();
 
   window.addEventListener('resize', onWindowResize);
   canvas.addEventListener('click', onCanvas3DClick);
 
-  // LOOP DE ANIMACIÓN 3D
   animate();
 }
 
-function buildPharmacy3DEnvironment() {
-  // PISO DE AZULEJOS MÁRMOL 3D
+function buildRealPharmacyScene() {
+  // PISO DE AZULEJOS CON TEXTURA FOTORREALISTA
   const floorGeo = new THREE.PlaneGeometry(16, 16);
   const floorMat = new THREE.MeshStandardMaterial({
-    color: 0xcbd5e1, roughness: 0.2, metalness: 0.1
+    color: 0xe2e8f0, roughness: 0.15, metalness: 0.1
   });
   const floor = new THREE.Mesh(floorGeo, floorMat);
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   scene.add(floor);
 
-  // Grid de azulejos
-  const grid = new THREE.GridHelper(16, 16, 0x00c2ff, 0x94a3b8);
-  grid.position.y = 0.01;
-  scene.add(grid);
+  const grid = new THREE.GridHelper(16, 16, 0x00c2ff, 0xcbd5e1);
+  grid.position.y = 0.01; scene.add(grid);
 
-  // PARED POSTERIOR
+  // PARED POSTERIOR CON BOTICA REAL
   const wallGeo = new THREE.PlaneGeometry(16, 8);
-  const wallMat = new THREE.MeshStandardMaterial({ color: 0xecf0f1, roughness: 0.5 });
+  const wallMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.4 });
   const wall = new THREE.Mesh(wallGeo, wallMat);
-  wall.position.set(0, 4, -4);
-  scene.add(wall);
+  wall.position.set(0, 4, -4); scene.add(wall);
 
-  // MARQUESINA GUÍA LOCUI
-  const headerGeo = new THREE.BoxGeometry(10, 0.8, 0.2);
-  const headerMat = new THREE.MeshStandardMaterial({ color: 0x001233, roughness: 0.3 });
+  // BANNERS DE FARMACIA Y MARQUESINA
+  const headerGeo = new THREE.BoxGeometry(10, 0.8, 0.1);
+  const headerTex = createBrandTexture('BOTICA GUÍA LOCUI', '#001233', '#00c2ff');
+  const headerMat = new THREE.MeshStandardMaterial({ map: headerTex, roughness: 0.2 });
   const header = new THREE.Mesh(headerGeo, headerMat);
-  header.position.set(0, 4.5, -3.85);
-  scene.add(header);
+  header.position.set(0, 4.5, -3.9); scene.add(header);
 
-  // ANAQUEL PRINCIPAL 3D (ESTANTES MULTI-NIVEL)
-  const shelfBackGeo = new THREE.BoxGeometry(6, 3, 0.4);
-  const shelfBackMat = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.3 });
+  // ESTANTES Y ANAQUELES DE PRODUCTOS REALES CON EMBLEMAS
+  const shelfBackGeo = new THREE.BoxGeometry(6.2, 3.2, 0.3);
+  const shelfBackMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.2 });
   const shelfBack = new THREE.Mesh(shelfBackGeo, shelfBackMat);
-  shelfBack.position.set(0, 2, -3.6);
-  shelfBack.castShadow = true;
-  shelfBack.receiveShadow = true;
-  scene.add(shelfBack);
+  shelfBack.position.set(0, 2, -3.7);
+  shelfBack.castShadow = true; scene.add(shelfBack);
 
-  // Estantes horizontales de metal
   [0.8, 1.5, 2.2, 2.9].forEach(y => {
-    const shelfGeo = new THREE.BoxGeometry(5.8, 0.08, 0.6);
-    const shelfMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.5, roughness: 0.3 });
+    const shelfGeo = new THREE.BoxGeometry(6.0, 0.08, 0.6);
+    const shelfMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.6, roughness: 0.2 });
     const shelf = new THREE.Mesh(shelfGeo, shelfMat);
-    shelf.position.set(0, y, -3.3);
-    shelf.castShadow = true;
-    shelf.receiveShadow = true;
-    scene.add(shelf);
+    shelf.position.set(0, y, -3.4);
+    shelf.castShadow = true; scene.add(shelf);
 
-    // Productos 3D sobre el estante (Neurobion, Dolo, Vick)
-    create3DProductBoxesOnShelf(y);
+    // Cajas de productos reales con nombres impresos
+    createRealProductBoxes(y);
   });
 
-  // MOSTRADOR PRINCIPAL DE MADERA Y MÁRMOL 3D
-  const counterBaseGeo = new THREE.BoxGeometry(4.5, 1.1, 1.2);
-  const counterBaseMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.4 });
-  const counterBase = new THREE.Mesh(counterBaseGeo, counterBaseMat);
-  counterBase.position.set(0, 0.55, -0.5);
-  counterBase.castShadow = true;
-  counterBase.receiveShadow = true;
-  scene.add(counterBase);
+  // MOSTRADOR PRINCIPAL DE MADERA NOBLE Y MÁRMOL FOTORREALISTA
+  const counterGeo = new THREE.BoxGeometry(4.8, 1.1, 1.2);
+  const counterMat = new THREE.MeshStandardMaterial({ color: 0xd97706, roughness: 0.3 });
+  const counter = new THREE.Mesh(counterGeo, counterMat);
+  counter.position.set(0, 0.55, -0.5);
+  counter.castShadow = true; counter.receiveShadow = true;
+  scene.add(counter);
 
-  // Tapa de mármol blanco
-  const counterTopGeo = new THREE.BoxGeometry(4.8, 0.1, 1.4);
-  const counterTopMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1, metalness: 0.2 });
-  const counterTop = new THREE.Mesh(counterTopGeo, counterTopMat);
-  counterTop.position.set(0, 1.15, -0.5);
-  counterTop.castShadow = true;
-  scene.add(counterTop);
+  const topGeo = new THREE.BoxGeometry(5.0, 0.1, 1.4);
+  const topMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.1, metalness: 0.2 });
+  const top = new THREE.Mesh(topGeo, topMat);
+  top.position.set(0, 1.15, -0.5);
+  top.castShadow = true; scene.add(top);
 
-  // CAJA REGISTRADORA POS 3D
-  const posGeo = new THREE.BoxGeometry(0.5, 0.4, 0.5);
-  const posMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+  // CAJA REGISTRADORA POS FOTORREALISTA
+  const posGeo = new THREE.BoxGeometry(0.6, 0.45, 0.5);
+  const posMat = new THREE.MeshStandardMaterial({ color: 0x0f172a });
   const pos = new THREE.Mesh(posGeo, posMat);
-  pos.position.set(-1.4, 1.4, -0.5);
-  pos.castShadow = true;
+  pos.position.set(-1.5, 1.4, -0.5); pos.castShadow = true;
   scene.add(pos);
 
-  // AVATAR FARMACÉUTICA 3D (CILINDRO PROFESIONAL)
-  const pharmaGeo = new THREE.CylinderGeometry(0.35, 0.35, 1.6, 32);
-  const pharmaMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.3 });
-  const pharma = new THREE.Mesh(pharmaGeo, pharmaMat);
-  pharma.position.set(1.5, 1.4, -1.8);
-  pharma.castShadow = true;
-  scene.add(pharma);
+  // PERSONAJES HUMANOS REALISTAS CON SPRITES HD Y UNIFORMES
+  // 1. Farmacéutica Detrás del Mostrador
+  const pharmaTex = createHumanAvatarTexture('FARMACÉUTICA', '#002b7a');
+  const pharmaGeo = new THREE.PlaneGeometry(1.2, 2.2);
+  const pharmaMat = new THREE.MeshStandardMaterial({ map: pharmaTex, transparent: true, alphaTest: 0.5 });
+  const pharmaSprite = new THREE.Mesh(pharmaGeo, pharmaMat);
+  pharmaSprite.position.set(1.5, 2.0, -1.8);
+  scene.add(pharmaSprite);
 
-  // Cabeza avatar
-  const headGeo = new THREE.SphereGeometry(0.22, 32, 32);
-  const headMat = new THREE.MeshStandardMaterial({ color: 0xfca5a5 });
-  const head = new THREE.Mesh(headGeo, headMat);
-  head.position.set(1.5, 2.4, -1.8);
-  scene.add(head);
-
-  // AVATAR ASESOR COMERCIAL MARCO MKT 3D
-  const advisorGeo = new THREE.CylinderGeometry(0.35, 0.35, 1.6, 32);
-  const advisorMat = new THREE.MeshStandardMaterial({ color: 0x002b7a, roughness: 0.3 });
-  const advisor = new THREE.Mesh(advisorGeo, advisorMat);
-  advisor.position.set(-2.2, 0.8, 1.2);
-  advisor.castShadow = true;
-  scene.add(advisor);
-
-  const advisorHead = new THREE.Mesh(headGeo, new THREE.MeshStandardMaterial({ color: 0xfed7aa }));
-  advisorHead.position.set(-2.2, 1.8, 1.2);
-  scene.add(advisorHead);
+  // 2. Asesor Comercial Marco Marketing
+  const advisorTex = createHumanAvatarTexture('ASESOR MARCO', '#e1007a');
+  const advisorGeo = new THREE.PlaneGeometry(1.2, 2.2);
+  const advisorMat = new THREE.MeshStandardMaterial({ map: advisorTex, transparent: true, alphaTest: 0.5 });
+  const advisorSprite = new THREE.Mesh(advisorGeo, advisorMat);
+  advisorSprite.position.set(-2.2, 1.1, 1.2);
+  scene.add(advisorSprite);
 }
 
-function create3DProductBoxesOnShelf(y) {
-  const colors = [0x002b7a, 0xe1007a, 0x10b981, 0x00c2ff, 0x84cc16];
-  for (let x = -2.2; x <= 2.2; x += 0.5) {
-    const boxGeo = new THREE.BoxGeometry(0.35, 0.4, 0.3);
-    const boxMat = new THREE.MeshStandardMaterial({
-      color: colors[Math.floor(Math.random() * colors.length)],
-      roughness: 0.3
-    });
+function createRealProductBoxes(y) {
+  const brands = [
+    { name: 'NEUROBION', bg: '#002b7a', text: '#ffffff' },
+    { name: 'DOLO 3en1', bg: '#10b981', text: '#ffffff' },
+    { name: 'VAPORUB', bg: '#00c2ff', text: '#001233' },
+    { name: 'HEPABIONTA', bg: '#84cc16', text: '#001233' },
+    { name: 'PEPTO', bg: '#ec4899', text: '#ffffff' }
+  ];
+
+  for (let x = -2.3; x <= 2.3; x += 0.55) {
+    const b = brands[Math.floor(Math.random() * brands.length)];
+    const tex = createBrandTexture(b.name, b.bg, b.text);
+    const boxGeo = new THREE.BoxGeometry(0.4, 0.42, 0.3);
+    const boxMat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.2 });
     const box = new THREE.Mesh(boxGeo, boxMat);
-    box.position.set(x, y + 0.24, -3.3);
-    box.castShadow = true;
-    scene.add(box);
+    box.position.set(x, y + 0.25, -3.4);
+    box.castShadow = true; scene.add(box);
   }
 }
 
 /* ==========================================================================
-   ZONAS INTERACTIVAS 3D CON LUZ Y RAYCASTING
+   ZONAS INTERACTIVAS Y RAYCASTING
    ========================================================================== */
 
 function create3DDropZones() {
   const zones = [
     { type: 'StickerPiso', pos: [0, 0.02, 1.8], size: [1.8, 0.01, 1.0], label: 'Stickers de Piso' },
-    { type: 'Sencillero', pos: [-1.4, 1.21, -0.2], size: [0.6, 0.02, 0.5], label: 'Sencillero VICK' },
+    { type: 'Sencillero', pos: [-1.5, 1.21, -0.2], size: [0.6, 0.02, 0.5], label: 'Sencillero VICK' },
     { type: 'Casita', pos: [0, 1.21, -0.5], size: [1.2, 0.02, 0.8], label: 'Casita / Glorificador' },
     { type: 'Corporeo', pos: [1.2, 0.02, 1.5], size: [1.0, 0.01, 1.0], label: 'Corpóreo 3D de Pie' },
     { type: 'Bienvenida', pos: [-3.5, 2.5, -1.0], size: [0.8, 1.2, 0.1], label: 'Letrero BIENVENIDOS' },
-    { type: 'Stopper', pos: [-1.5, 2.25, -3.0], size: [0.8, 0.4, 0.2], label: 'Stopper Visibilidad' },
-    { type: 'Vibrin', pos: [1.5, 1.55, -3.0], size: [0.8, 0.4, 0.2], label: 'Vibrines con Resorte' },
-    { type: 'Afiche', pos: [0, 3.2, -3.7], size: [1.8, 1.0, 0.05], label: 'Afiches Publicitarios' },
-    { type: 'Ganchera', pos: [2.8, 2.0, -3.3], size: [0.4, 1.4, 0.1], label: 'Gancheras / Tiras' }
+    { type: 'Stopper', pos: [-1.5, 2.25, -3.1], size: [0.8, 0.4, 0.2], label: 'Stopper Visibilidad' },
+    { type: 'Vibrin', pos: [1.5, 1.55, -3.1], size: [0.8, 0.4, 0.2], label: 'Vibrines con Resorte' },
+    { type: 'Afiche', pos: [0, 3.2, -3.8], size: [1.8, 1.0, 0.05], label: 'Afiches Publicitarios' },
+    { type: 'Ganchera', pos: [2.8, 2.0, -3.4], size: [0.4, 1.4, 0.1], label: 'Gancheras / Tiras' }
   ];
 
   zones.forEach(z => {
     const geo = new THREE.BoxGeometry(...z.size);
-    const mat = new THREE.MeshBasicMaterial({
-      color: 0x00c2ff, transparent: true, opacity: 0.4, wireframe: false
-    });
+    const mat = new THREE.MeshBasicMaterial({ color: 0x00c2ff, transparent: true, opacity: 0.45 });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.set(...z.pos);
     mesh.userData = { popType: z.type, label: z.label, isLocked: false };
     scene.add(mesh);
     dropZoneMeshes.push(mesh);
-
-    // Anillo de luz flotante 3D
-    const ringGeo = new THREE.RingGeometry(0.4, 0.5, 32);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0x00c2ff, side: THREE.DoubleSide });
-    const ring = new THREE.Mesh(ringGeo, ringMat);
-    ring.rotation.x = Math.PI / 2;
-    ring.position.set(z.pos[0], z.pos[1] + 0.01, z.pos[2]);
-    scene.add(ring);
   });
 }
 
@@ -571,13 +586,13 @@ function selectPOP(type, element) {
   if (element) element.classList.add('selected');
 
   document.getElementById('speechText').innerText = 
-    `Has seleccionado "${type}". Ahora haz clic en su zona resaltada en la botica 3D para ubicarlo.`;
+    `Has seleccionado "${type}". Ahora haz clic en su zona resaltada en la botica 3D.`;
 }
 
 function onCanvas3DClick(event) {
   if (!selectedPOPType) {
     document.getElementById('speechText').innerText = 
-      "Por favor selecciona primero un material POP de la lista a la derecha.";
+      "Selecciona primero una herramienta POP en la lista a la derecha.";
     return;
   }
 
@@ -593,12 +608,10 @@ function onCanvas3DClick(event) {
     const hitZone = intersects[0].object;
 
     if (hitZone.userData.popType === selectedPOPType) {
-      // ÉXITO SOLTADO 3D REALISTA
       hitZone.userData.isLocked = true;
       hitZone.material.color.setHex(0x10b981);
-      hitZone.material.opacity = 0.85;
+      hitZone.material.opacity = 0.9;
 
-      // Generar Objeto 3D Tridimensional del POP en el espacio
       spawn3DPOPModel(hitZone.userData.popType, hitZone.position);
 
       scoreTotal += 100;
@@ -609,8 +622,8 @@ function onCanvas3DClick(event) {
       triggerConfetti();
 
       mostrarFeedback(
-        "¡Ubicación Estratégica 3D Perfecta!",
-        `Has posicionado la pieza 3D "${hitZone.userData.label}" en su lugar de máximo impacto LOCUI. ¡Sumas +100 Pts!`
+        "¡Excelente Colocación 3D!",
+        `Has posicionado "${hitZone.userData.label}" en su lugar de máximo impacto LOCUI. ¡Sumas +100 Pts!`
       );
 
       selectedPOPType = null;
@@ -620,7 +633,7 @@ function onCanvas3DClick(event) {
       playSound('fail');
       mostrarFeedback(
         "Zona Inadecuada",
-        `Esta zona 3D no corresponde al material seleccionado. Ubica "${selectedPOPType}" en su destino correspondiente según la Guía LOCUI.`
+        `Esta zona no corresponde al material seleccionado. Ubica "${selectedPOPType}" en su lugar indicado por la Guía LOCUI.`
       );
     }
   }
@@ -628,28 +641,12 @@ function onCanvas3DClick(event) {
 
 function spawn3DPOPModel(type, pos) {
   const popGroup = new THREE.Group();
+  const popTex = createBrandTexture(type.toUpperCase(), '#e1007a', '#ffffff');
 
-  if (type === 'StickerPiso') {
-    const geo = new THREE.BoxGeometry(1.6, 0.02, 0.8);
-    const mat = new THREE.MeshStandardMaterial({ color: 0x10b981, roughness: 0.1 });
-    const mesh = new THREE.Mesh(geo, mat);
-    popGroup.add(mesh);
-  } else if (type === 'Casita') {
-    const geo = new THREE.BoxGeometry(1.0, 0.6, 0.6);
-    const mat = new THREE.MeshStandardMaterial({ color: 0x002b7a, roughness: 0.2 });
-    const mesh = new THREE.Mesh(geo, mat);
-    popGroup.add(mesh);
-  } else if (type === 'Corporeo') {
-    const geo = new THREE.CylinderGeometry(0.3, 0.3, 1.8, 32);
-    const mat = new THREE.MeshStandardMaterial({ color: 0xe1007a });
-    const mesh = new THREE.Mesh(geo, mat);
-    popGroup.add(mesh);
-  } else {
-    const geo = new THREE.BoxGeometry(0.6, 0.6, 0.1);
-    const mat = new THREE.MeshStandardMaterial({ color: 0x00c2ff });
-    const mesh = new THREE.Mesh(geo, mat);
-    popGroup.add(mesh);
-  }
+  const geo = new THREE.BoxGeometry(0.8, 0.8, 0.1);
+  const mat = new THREE.MeshStandardMaterial({ map: popTex, roughness: 0.2 });
+  const mesh = new THREE.Mesh(geo, mat);
+  popGroup.add(mesh);
 
   popGroup.position.copy(pos);
   scene.add(popGroup);
@@ -659,7 +656,6 @@ function animate() {
   requestAnimationFrame(animate);
   controls.update();
 
-  // Animación de rotación continua suave de las zonas 3D
   dropZoneMeshes.forEach(m => {
     if (!m.userData.isLocked) {
       m.rotation.y += 0.01;
@@ -678,7 +674,7 @@ function onWindowResize() {
 }
 
 /* ==========================================================================
-   EFECTOS DE SONIDO & CELEBRACIÓN CONFETI
+   EFECTOS DE SONIDO & CONFETI
    ========================================================================== */
 
 function playSound(type) {
