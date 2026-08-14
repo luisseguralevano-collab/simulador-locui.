@@ -76,7 +76,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 /* LAYOUT PRINCIPAL: 2 COLUMNAS (ESCENARIO BOTICA | PANEL LATERAL INDEPENDIENTE) */
 .game-main-layout {
   display: grid;
-  grid-template-columns: 1fr 420px;
+  grid-template-columns: 1fr 440px;
   gap: 12px;
   flex: 1; height: calc(100vh - 80px);
 }
@@ -120,11 +120,11 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   transform: translate(-50%, -50%) scale(1.1); background: linear-gradient(135deg, #00c2ff 0%, #e1007a 100%);
 }
 
-/* PANEL LATERAL DEDICADO INDEPENDIENTE (NEGOCIACIÓN & FEEDBACK SIN TAPAR EL ESCENARIO) */
+/* PANEL LATERAL DEDICADO INDEPENDIENTE (3 OPCIONES A, B, C Y FEEDBACK) */
 .side-negotiation-panel {
   background: #ffffff; color: var(--navy-deep);
   border-radius: 18px; padding: 18px;
-  display: flex; flex-direction: column; gap: 14px;
+  display: flex; flex-direction: column; gap: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 2px solid #cbd5e1;
   height: 100%; overflow-y: auto;
 }
@@ -141,17 +141,17 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 /* CASUÍSTICA Y PREGUNTA DE NEGOCIACIÓN */
 .casuistica-card {
   background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 14px; padding: 14px;
-  font-size: 13px; font-weight: 700; color: var(--navy-deep); line-height: 1.4;
+  font-size: 12.5px; font-weight: 700; color: var(--navy-deep); line-height: 1.4;
   border-left: 4px solid var(--magenta-electric);
 }
 
-/* GRIDA DE OPCIONES DE RESPUESTA */
+/* GRIDA DE 3 OPCIONES DE RESPUESTA (A, B, C) */
 .options-stack { display: flex; flex-direction: column; gap: 8px; }
 
 .btn-option-card {
   background: #ffffff; border: 2px solid var(--border-color);
-  color: var(--navy-deep); padding: 12px 14px; border-radius: 12px;
-  font-size: 12px; font-weight: 700; text-align: left; cursor: pointer;
+  color: var(--navy-deep); padding: 10px 12px; border-radius: 12px;
+  font-size: 11.5px; font-weight: 700; text-align: left; cursor: pointer;
   transition: all 0.2s ease; display: flex; align-items: flex-start; gap: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
@@ -166,10 +166,10 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   flex-shrink: 0; margin-top: 1px;
 }
 
-/* RECUADRO GRANDE DE FEEDBACK INDEPENDIENTE (SITUADO EN EL PANEL LATERAL SIN TAPAR EL ESCENARIO) */
+/* RECUADRO GRANDE DE FEEDBACK INDEPENDIENTE */
 .feedback-side-box {
-  background: #f0fdf4; border: 2.5px solid #10b981; border-radius: 16px; padding: 16px;
-  display: none; flex-direction: column; gap: 8px; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
+  background: #f0fdf4; border: 2.5px solid #10b981; border-radius: 16px; padding: 14px;
+  display: none; flex-direction: column; gap: 6px; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
   animation: fadeIn 0.3s ease;
 }
 
@@ -177,14 +177,19 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   background: #fef2f2; border-color: #ef4444; box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2);
 }
 
+.feedback-side-box.partial {
+  background: #fffbebf1; border-color: #f59e0b; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+}
+
 .feedback-header {
-  display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800;
+  display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 800;
   color: #15803d;
 }
 .feedback-side-box.fail .feedback-header { color: #b91c1c; }
+.feedback-side-box.partial .feedback-header { color: #b45309; }
 
 .feedback-body {
-  font-size: 12px; font-weight: 600; color: #334155; line-height: 1.4;
+  font-size: 11.5px; font-weight: 600; color: #334155; line-height: 1.4;
 }
 
 @keyframes fadeIn {
@@ -252,9 +257,9 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
       Haz clic en el <b>Punto de Atención PDV</b> al centro de la farmacia para iniciar la negociación con el encargado del punto de venta.
     </div>
 
-    <!-- OPCIONES DE RESPUESTA -->
+    <!-- OPCIONES DE RESPUESTA (A, B, C) -->
     <div class="options-stack" id="optionsContainer">
-      <!-- Opciones inyectadas por JS -->
+      <!-- 3 Opciones A, B, C inyectadas por JS -->
     </div>
 
     <!-- RECUADRO GRANDE DE FEEDBACK -->
@@ -275,7 +280,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 let currentScenarioIdx = 0;
 let puntajeTotal = 0;
 
-// MAPEO 1:1 EXACTO CON LOS NOMBRES REALES DE TU CAPTURA DE PANTALLA DE GITHUB
+// MAPEO 1:1 EXACTO CON LOS NOMBRES REALES DE TU REPOSITORIO GITHUB
 const imagenesExactasRepo = {
   1: "FARMACIA PHP - ESCENARIO 1.jpg",
   2: "FARMACIA PHP - ESCENARIO 2.jpg",
@@ -293,26 +298,56 @@ const imagenesExactasRepo = {
   14: "FARMACIA PHP - ESCENARIO 14.jpg",
   15: "FARMACIA PHP - ESCENARIO 15.jpg",
   16: "FARMACIA PHP - ESCENARIO 16.jpg",
-  17: "FARMACIA PHP - ESCENARIO 17jpg.jpg" // Nombre exacto visto en tu captura para el escenario 17
+  17: "FARMACIA PHP - ESCENARIO 17jpg.jpg"
 };
 
-const escenariosData = [];
+// BASE DE DATOS CON 3 OPCIONES COMPLETAS (A, B, C) PARA LOS 17 ESCENARIOS
+const escenariosData = [
+  {
+    id: 1,
+    tituloPDV: "Escenario 1: Botica Tradicional de Barrio",
+    categoria: "PDV Tradicional • Mostrador",
+    casuistica: "Farmacéutico: 'El mostrador es mi espacio más transitado. ¿Por qué debería permitir colocar la Casita de Salud VICK aquí en vez de otros productos?'",
+    opciones: [
+      { letra: "A", texto: "Incrementa la venta impulsiva de VICK VapoRub y Dolo-Neurobion en caja hasta un 35% por alta visibilidad comercial.", tipo: "correcta", puntos: 150, feedback: "¡Respuesta Sobresaliente! Argumentaste con impacto directo en las ganancias y volumen de venta del mostrador." },
+      { letra: "B", texto: "Mejora el orden del mostrador organizando los empaques pequeños de la botica.", tipo: "parcial", puntos: 50, feedback: "Respuesta aceptable, pero el dueño del PDV busca rentabilidad de espacio por encima del orden." },
+      { letra: "C", texto: "Porque es un material muy vistoso y decora el espacio del mostrador.", tipo: "incorrecta", puntos: 0, feedback: "Argumento débil. La decoración no demuestra el beneficio financiero para la farmacia." }
+    ]
+  },
+  {
+    id: 2,
+    tituloPDV: "Escenario 2: Botica de Cadena Moderna",
+    categoria: "Cadena Moderna • Anaquel Nivel Ojos",
+    casuistica: "Supervisor de Cadena: 'Tengo restricciones estrictas en los bordes de estante. ¿Qué beneficio aportan los Stoppers de Neurobion?'",
+    opciones: [
+      { letra: "A", texto: "Guían la mirada del comprador directamente a la categoría Nivel Ojos captando el 80% de decisiones de compra.", tipo: "correcta", puntos: 150, feedback: "¡Excelente! Los Stoppers destacan el empaque de Dolo-Neurobion aumentando el ticket promedio." },
+      { letra: "B", texto: "Ayudan a delimitar los productos de alivio del dolor frente a la competencia.", tipo: "parcial", puntos: 50, feedback: "Argumento parcialmente válido, pero debes reforzar el impacto en las ventas impulsivas." },
+      { letra: "C", texto: "Cumplen con el acuerdo de marca firmado por la central comercial.", tipo: "incorrecta", puntos: 0, feedback: "Insuficiente. El encargado del PDV necesita conocer el beneficio visual directo." }
+    ]
+  },
+  {
+    id: 3,
+    tituloPDV: "Escenario 3: Farmacia Gran Formato Pasillo",
+    categoria: "Gran Formato • Pasillo de Tráfico",
+    casuistica: "Gerente de Tienda: 'El pasillo central debe estar libre. ¿Por qué instalar el Sticker Vinílico de Piso aquí?'",
+    opciones: [
+      { letra: "A", texto: "Señaliza la ruta directa del comprador hacia el anaquel de Alivio del Dolor sin interferir con la circulación.", tipo: "correcta", puntos: 200, feedback: "¡Gran negociación! El sticker de piso convierte el flujo de pasillo en ventas efectivas." },
+      { letra: "B", texto: "Aprovecha el espacio del piso que normalmente no genera ingresos.", tipo: "parcial", puntos: 75, feedback: "Buen enfoque de espacio, pero faltó enfatizar la guía del comprador al anaquel." },
+      { letra: "C", texto: "Es un vinil antiderrapante resistente a las pisadas del público.", tipo: "incorrecta", puntos: 0, feedback: "El material es resistente, pero el argumento principal debe ser la conversión de ventas." }
+    ]
+  }
+];
 
-for(let i = 1; i <= 17; i++) {
+for(let i = 4; i <= 17; i++) {
   escenariosData.push({
     id: i,
-    tituloPDV: i === 1 ? "Escenario 1: Botica Tradicional de Barrio" : (i === 2 ? "Escenario 2: Botica de Cadena Moderna" : (i === 3 ? "Escenario 3: Farmacia Gran Formato Pasillo" : `Escenario ${i}: Botica Especializada PDV #${i}`)),
-    categoria: i === 1 ? "PDV Tradicional • Mostrador" : (i === 2 ? "Cadena Moderna • Anaquel Nivel Ojos" : `Categoría Comercial #${i} • Exhibición Estratégica`),
-    idNum: i,
-    archivoNombreExacto: imagenesExactasRepo[i],
-    casuistica: i === 1 
-      ? "Farmacéutico: 'El mostrador es mi espacio más transitado. ¿Por qué debería permitir colocar la Casita de Salud VICK aquí en vez de otros productos?'"
-      : (i === 2 
-          ? "Supervisor de Cadena: 'Tengo restricciones estrictas en los bordes de estante. ¿Qué beneficio aportan los Stoppers de Neurobion?'"
-          : `Encargado PDV #${i}: "¿Cuál es el beneficio de visibilidad LOCUI para colocar las piezas POP en este punto estratégicamente?"`),
+    tituloPDV: `Escenario ${i}: Botica Especializada PDV #${i}`,
+    categoria: `Categoría Comercial #${i} • Exhibición Estratégica`,
+    casuistica: `Encargado PDV #${i}: "¿Cuál es el beneficio de visibilidad LOCUI para colocar las piezas POP en este punto estratégicamente?"`,
     opciones: [
-      { letra: "A", texto: i === 1 ? "Incrementa la venta impulsiva de VICK VapoRub y Dolo-Neurobion en caja hasta un 35% por alta visibilidad." : `Maximiza la rotación del empaque y la intención de compra del cliente en el PDV #${i}.`, correcta: true, puntos: 150, feedback: "¡Respuesta estratégica correcta! Incrementas el valor del PDV y la rotación de marca." },
-      { letra: "B", texto: "Porque es un material muy vistoso y decora el espacio del mostrador.", correcta: false, puntos: 0, feedback: "Argumento débil. El dueño del PDV busca rentabilidad de espacio, no solo decoración." }
+      { letra: "A", texto: `Maximiza la rotación del empaque y la intención de compra del cliente en el PDV #${i}.`, tipo: "correcta", puntos: 150, feedback: "¡Respuesta estratégica correcta! Incrementas el valor del PDV y la rotación de marca." },
+      { letra: "B", texto: `Aumenta la presencia de marca VICK y Neurobion frente a competidores directos.`, tipo: "parcial", puntos: 50, feedback: "Aceptable para visibilidad, pero prioriza siempre la rentabilidad financiera." },
+      { letra: "C", texto: "Completa el plan de merchandising mensual de campo sin medir rotación.", tipo: "incorrecta", puntos: 0, feedback: "Recuerda argumentar siempre con base en la rotación y visibilidad LOCUI." }
     ]
   });
 }
@@ -333,13 +368,13 @@ function renderScenario(idx) {
   const bgImg = document.getElementById('pdvBgImage');
   bgImg.style.opacity = '0.3';
   
-  // Carga la foto usando encodeURI para manejar perfectamente los espacios en el nombre
-  const rutaExactaUrl = encodeURI(sc.archivoNombreExacto);
+  const nombreFoto = imagenesExactasRepo[sc.id] || `FARMACIA PHP - ESCENARIO ${sc.id}.jpg`;
+  const rutaExactaUrl = encodeURI(nombreFoto);
 
   setTimeout(() => {
     bgImg.src = rutaExactaUrl;
     bgImg.onerror = function() {
-      console.warn('Error cargando:', sc.archivoNombreExacto);
+      console.warn('Error cargando:', nombreFoto);
     };
     bgImg.style.opacity = '1';
   }, 150);
@@ -385,19 +420,27 @@ function seleccionarRespuesta(opt) {
 
   fbBox.style.display = 'flex';
 
-  if (opt.correcta) {
+  if (opt.tipo === "correcta") {
     puntajeTotal += opt.puntos;
     document.getElementById('scoreDisplay').innerText = `Puntaje: ${puntajeTotal} Pts`;
     playSound('success');
     triggerConfetti();
 
     fbBox.className = 'feedback-side-box';
-    fbHeader.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>¡Respuesta Comercial Excelente! (+${opt.puntos} Pts)</span>`;
+    fbHeader.innerHTML = `<i class="fa-solid fa-circle-check"></i> <span>¡Respuesta Sobresaliente! (+${opt.puntos} Pts)</span>`;
+    fbBody.innerText = opt.feedback;
+  } else if (opt.tipo === "parcial") {
+    puntajeTotal += opt.puntos;
+    document.getElementById('scoreDisplay').innerText = `Puntaje: ${puntajeTotal} Pts`;
+    playSound('click');
+
+    fbBox.className = 'feedback-side-box partial';
+    fbHeader.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> <span>Respuesta Parcial (+${opt.puntos} Pts)</span>`;
     fbBody.innerText = opt.feedback;
   } else {
     playSound('fail');
     fbBox.className = 'feedback-side-box fail';
-    fbHeader.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <span>Argumento Inadecuado</span>`;
+    fbHeader.innerHTML = `<i class="fa-solid fa-circle-xmark"></i> <span>Argumento Inadecuado (0 Pts)</span>`;
     fbBody.innerText = opt.feedback;
   }
 }
