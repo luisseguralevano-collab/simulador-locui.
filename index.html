@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador Táctico Real - Visibilidad LOCUI & Merchandising | Marco Marketing</title>
+<title>Simulador Realista 3D - Visibilidad LOCUI & Merchandising | Marco Marketing</title>
 <!-- Google Fonts & Font Awesome 6 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,14 +12,14 @@
 
 <style>
 :root {
-  --navy-deep: #001d54;
+  --navy-deep: #001233;
   --royal-navy: #002b7a;
   --magenta-electric: #e1007a;
   --cyan-electric: #00c2ff;
   --gold-accent: #f59e0b;
   --bg-dark: #070a12;
   --panel-bg: #ffffff;
-  --text-main: #001d54;
+  --text-main: #001233;
   --text-muted: #64748b;
   --border-color: #cbd5e1;
 }
@@ -27,50 +27,50 @@
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
 body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; padding: 12px; }
 
-/* HEADER HUD CORPORATIVO MARCO MARKETING */
+/* HEADER HUD CORPORATIVO REALISTA */
 .game-header {
-  background: linear-gradient(135deg, #001d54 0%, #002b7a 50%, #001d54 100%);
-  border-radius: 16px; padding: 12px 20px;
+  background: linear-gradient(135deg, #001233 0%, #002b7a 50%, #001233 100%);
+  border-radius: 16px; padding: 14px 24px;
   display: flex; justify-content: space-between; align-items: center;
-  border-bottom: 3px solid var(--magenta-electric);
-  box-shadow: 0 8px 25px rgba(0, 43, 122, 0.4);
+  border-bottom: 3px solid var(--cyan-electric);
+  box-shadow: 0 10px 30px rgba(0, 43, 122, 0.5);
   margin-bottom: 12px;
 }
 
-.game-title-wrap { display: flex; align-items: center; gap: 12px; }
+.game-title-wrap { display: flex; align-items: center; gap: 14px; }
 .game-logo {
-  width: 44px; height: 44px; background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
-  border-radius: 12px; display: flex; align-items: center; justify-content: center;
-  font-size: 20px; color: #fff; box-shadow: 0 4px 14px rgba(225, 0, 122, 0.4);
+  width: 48px; height: 48px; background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
+  border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #fff; box-shadow: 0 6px 18px rgba(225, 0, 122, 0.5);
 }
-.game-titles h1 { font-size: 18px; font-weight: 800; color: #ffffff; }
-.game-titles p { font-size: 11px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.5px; }
+.game-titles h1 { font-size: 19px; font-weight: 800; color: #ffffff; letter-spacing: -0.3px; }
+.game-titles p { font-size: 11px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.8px; }
 
 .game-score-badge {
-  background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-  border: 1.5px solid var(--cyan-electric); padding: 6px 20px; border-radius: 20px;
-  display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: #fff;
-  box-shadow: 0 0 15px rgba(0, 194, 255, 0.25);
+  background: rgba(255, 255, 255, 0.12); backdrop-filter: blur(12px);
+  border: 1.5px solid var(--cyan-electric); padding: 8px 24px; border-radius: 24px;
+  display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff;
+  box-shadow: 0 0 20px rgba(0, 194, 255, 0.35);
 }
-.game-score-badge i { color: var(--gold-accent); font-size: 18px; }
+.game-score-badge i { color: var(--gold-accent); font-size: 20px; }
 
-/* LAYOUT PRINCIPAL DEL SIMULADOR */
+/* LAYOUT PRINCIPAL DEL SIMULADOR 3D */
 .game-main-layout {
   display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 14px;
+  grid-template-columns: 1fr 400px;
+  gap: 16px;
   flex: 1;
 }
 
-/* ESCENARIO REALISTA DE LA BOTICA CON LOS MATERIALES COMERCIALES */
+/* ESCENARIO DE LA BOTICA REALISTA 3D */
 .pharmacy-viewport {
-  background: #111827;
-  border-radius: 18px;
-  border: 2px solid rgba(0, 194, 255, 0.3);
+  background: #0f172a;
+  border-radius: 20px;
+  border: 2px solid rgba(0, 194, 255, 0.4);
   position: relative;
-  min-height: 640px;
+  min-height: 660px;
   overflow: hidden;
-  box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 12px 30px rgba(0,0,0,0.5);
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 15px 35px rgba(0,0,0,0.6);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -78,7 +78,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
 #particlesCanvas { position: absolute; inset: 0; pointer-events: none; z-index: 100; }
 
-/* ESCENA GRÁFICA VECTORIAL Y DE TEXTURAS DE FARMACIA */
+/* ESCENA GRÁFICA REALISTA CON PERSPECTIVA Y SOMBRAS 3D */
 .pharmacy-scene-svg {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; pointer-events: none; z-index: 1;
@@ -86,12 +86,12 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
 /* BOCADILLO DE DIÁLOGOS DE CAMPO */
 .speech-bubble-pro {
-  position: absolute; top: 14px; right: 20px;
+  position: absolute; top: 16px; right: 20px;
   background: #ffffff; color: var(--navy-deep);
-  padding: 12px 18px; border-radius: 16px;
+  padding: 14px 20px; border-radius: 18px;
   border: 2.5px solid var(--royal-navy);
-  font-size: 12.5px; font-weight: 700; max-width: 350px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3); z-index: 30;
+  font-size: 13px; font-weight: 700; max-width: 380px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35); z-index: 30;
 }
 .speech-bubble-pro::before {
   content: ''; position: absolute; bottom: -12px; right: 40px;
@@ -99,100 +99,104 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   border-color: #ffffff transparent; display: block; width: 0;
 }
 
-/* ZONAS DE SOLTADO INTERACTIVAS CON RESPLANDOR GLOWING */
+/* ZONAS DE SOLTADO REALISTAS CON LUZ NEÓN GLOWING */
 .drop-zone-pro {
   position: absolute;
   border: 2.5px dashed var(--cyan-electric);
-  border-radius: 12px;
-  background: rgba(0, 194, 255, 0.2);
+  border-radius: 14px;
+  background: rgba(0, 194, 255, 0.22);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   color: #ffffff; font-size: 11px; font-weight: 800;
-  text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.9);
-  transition: all 0.25s ease; z-index: 20; backdrop-filter: blur(4px);
-  text-align: center; padding: 6px;
+  text-transform: uppercase; letter-spacing: 0.6px; text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); z-index: 20; backdrop-filter: blur(6px);
+  text-align: center; padding: 8px; box-shadow: 0 4px 15px rgba(0, 194, 255, 0.2);
 }
 
 .drop-zone-pro.drag-over {
-  border-color: #10b981; background: rgba(16, 185, 129, 0.5);
-  box-shadow: 0 0 35px rgba(16, 185, 129, 0.95); transform: scale(1.04);
+  border-color: #10b981; background: rgba(16, 185, 129, 0.55);
+  box-shadow: 0 0 40px rgba(16, 185, 129, 1); transform: scale(1.05);
 }
 
 .drop-zone-pro.locked {
   border-style: solid; border-color: #10b981;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.65) 0%, rgba(5, 150, 105, 0.9) 100%);
-  color: #fff; box-shadow: 0 0 25px rgba(16, 185, 129, 0.7);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.85) 0%, rgba(5, 150, 105, 0.95) 100%);
+  color: #fff; box-shadow: 0 0 30px rgba(16, 185, 129, 0.8);
 }
 
-/* POSICIONES PRECISAS EN LA BOTICA */
-#zone-entrada { top: 20px; left: 20px; width: 130px; height: 45px; }
-#zone-fachada { top: 80px; left: 20px; width: 120px; height: 160px; }
-#zone-anaquel { top: 150px; left: 54%; transform: translateX(-50%); width: 340px; height: 60px; }
-#zone-vibrin { top: 215px; left: 54%; transform: translateX(-50%); width: 340px; height: 45px; }
-#zone-mostrador { top: 290px; left: 45%; transform: translateX(-50%); width: 230px; height: 75px; }
-#zone-sencillero { top: 345px; left: 280px; width: 110px; height: 40px; }
-#zone-piso { bottom: 20px; left: 45%; transform: translateX(-50%); width: 220px; height: 50px; }
-#zone-sticker-piso { bottom: 80px; left: 45%; transform: translateX(-50%); width: 220px; height: 45px; }
-#zone-ganchera { top: 140px; left: 77%; width: 90px; height: 180px; }
+/* POSICIONES EN LA BOTICA */
+#zone-entrada { top: 20px; left: 20px; width: 140px; height: 50px; }
+#zone-fachada { top: 85px; left: 20px; width: 130px; height: 165px; }
+#zone-anaquel { top: 140px; left: 54%; transform: translateX(-50%); width: 350px; height: 60px; }
+#zone-vibrin { top: 210px; left: 54%; transform: translateX(-50%); width: 350px; height: 50px; }
+#zone-mostrador { top: 295px; left: 45%; transform: translateX(-50%); width: 240px; height: 75px; }
+#zone-sencillero { top: 355px; left: 280px; width: 120px; height: 45px; }
+#zone-piso { bottom: 20px; left: 45%; transform: translateX(-50%); width: 230px; height: 50px; }
+#zone-sticker-piso { bottom: 80px; left: 45%; transform: translateX(-50%); width: 230px; height: 45px; }
+#zone-ganchera { top: 140px; left: 77%; width: 100px; height: 180px; }
 
-/* CAJA DE HERRAMIENTAS POP REALES (10 CATEGORÍAS COMERCIALES COMPLETAS) */
+/* CAJA DE HERRAMIENTAS POP CON THUMBNAILS REALISTAS */
 .toolbox-panel {
   background: #ffffff; color: var(--navy-deep);
-  border-radius: 18px; padding: 18px;
-  display: flex; flex-direction: column; gap: 10px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 2px solid #e2e8f0;
-  max-height: 640px; overflow-y: auto;
+  border-radius: 20px; padding: 20px;
+  display: flex; flex-direction: column; gap: 12px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.35); border: 2px solid #e2e8f0;
+  max-height: 660px; overflow-y: auto;
 }
 
 .toolbox-title {
-  font-size: 14.5px; font-weight: 800; color: var(--navy-deep);
-  display: flex; align-items: center; gap: 8px;
-  border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;
+  font-size: 15px; font-weight: 800; color: var(--navy-deep);
+  display: flex; align-items: center; gap: 10px;
+  border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;
 }
 
 .pop-draggable-card {
   background: #f8fafc; border: 2px solid var(--border-color);
-  border-radius: 12px; padding: 10px; display: flex; align-items: center; gap: 12px;
+  border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 14px;
   cursor: grab; transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
 }
 
 .pop-draggable-card:hover {
-  border-color: var(--royal-navy); background: #fff;
-  box-shadow: 0 8px 20px rgba(0, 43, 122, 0.15); transform: translateY(-2px);
+  border-color: var(--royal-navy); background: #ffffff;
+  box-shadow: 0 8px 25px rgba(0, 43, 122, 0.18); transform: translateY(-2px);
 }
 
 .pop-draggable-card:active { cursor: grabbing; opacity: 0.6; }
 
-.pop-preview-render {
-  width: 42px; height: 42px; border-radius: 10px;
+/* RENDER 3D THUMBNAIL REALISTA PARA CADA ELEMENTO POP */
+.pop-preview-thumb {
+  width: 52px; height: 52px; border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 18px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-  font-weight: 800; color: #fff;
+  flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.18);
+  font-weight: 800; color: #fff; overflow: hidden; position: relative;
+  background: linear-gradient(135deg, #001233 0%, #002b7a 100%);
+  border: 1.5px solid rgba(255,255,255,0.3);
 }
 
 .pop-info { display: flex; flex-direction: column; }
-.pop-name { font-size: 12.5px; font-weight: 800; color: var(--navy-deep); line-height: 1.2; }
-.pop-hint { font-size: 10px; color: var(--text-muted); font-weight: 600; margin-top: 2px; }
+.pop-name { font-size: 13px; font-weight: 800; color: var(--navy-deep); line-height: 1.25; }
+.pop-hint { font-size: 10.5px; color: var(--text-muted); font-weight: 600; margin-top: 3px; }
 
 /* MODAL DE FEEDBACK CON CELEBRACIÓN */
 .feedback-overlay {
-  position: fixed; inset: 0; background: rgba(8, 12, 20, 0.9);
-  backdrop-filter: blur(8px); z-index: 1000; display: none;
+  position: fixed; inset: 0; background: rgba(8, 12, 20, 0.92);
+  backdrop-filter: blur(10px); z-index: 1000; display: none;
   align-items: center; justify-content: center; padding: 20px;
 }
 
 .feedback-card {
-  background: #fff; color: var(--navy-deep); border-radius: 24px;
-  max-width: 480px; width: 100%; padding: 28px; text-align: center;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.5); border: 2px solid var(--cyan-electric);
+  background: #fff; color: var(--navy-deep); border-radius: 28px;
+  max-width: 500px; width: 100%; padding: 32px; text-align: center;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.6); border: 2.5px solid var(--cyan-electric);
 }
 
 .btn-continue {
   background: linear-gradient(135deg, var(--royal-navy) 0%, var(--navy-deep) 100%);
-  color: #fff; border: none; padding: 12px 28px; border-radius: 12px;
-  font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s ease;
-  box-shadow: 0 6px 20px rgba(0, 43, 122, 0.3);
+  color: #fff; border: none; padding: 14px 32px; border-radius: 14px;
+  font-weight: 800; font-size: 15px; cursor: pointer; transition: all 0.2s ease;
+  box-shadow: 0 6px 22px rgba(0, 43, 122, 0.35);
 }
-.btn-continue:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 43, 122, 0.4); }
+.btn-continue:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(0, 43, 122, 0.45); }
 </style>
 </head>
 <body>
@@ -204,7 +208,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   <div class="game-title-wrap">
     <div class="game-logo"><i class="fa-solid fa-store"></i></div>
     <div class="game-titles">
-      <h1>Simulador Táctico Real - Materiales POP & LOCUI</h1>
+      <h1>Simulador Realista 3D - Visibilidad LOCUI & Merchandising</h1>
       <p>MARCO MARKETING • P&G / MERCHANDISING DE CAMPO EN PDV</p>
     </div>
   </div>
@@ -217,93 +221,158 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 <!-- LAYOUT PRINCIPAL -->
 <div class="game-main-layout">
   
-  <!-- ESCENARIO DE LA BOTICA EN ILUSTRACIÓN HD -->
+  <!-- ESCENARIO DE LA BOTICA EN ILUSTRACIÓN 3D REALISTA CON PRODUCTOS Y PERSONAJES -->
   <div class="pharmacy-viewport">
     
-    <!-- ESCENA ILUSTRADA HD DE LA FARMACIA CON MARCAS REALES -->
+    <!-- ESCENA 3D HD DE FARMACIA REAL CON PERSPECTIVA Y TEXTURAS -->
     <svg class="pharmacy-scene-svg" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
-      <!-- PARED Y PISO -->
-      <rect width="1000" height="600" fill="#f8fafc"/>
-      <rect x="0" y="0" width="1000" height="430" fill="#f1f5f9"/>
+      <defs>
+        <linearGradient id="wallGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e2e8f0"/>
+          <stop offset="100%" stop-color="#cbd5e1"/>
+        </linearGradient>
+        <linearGradient id="floorGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#cbd5e1"/>
+          <stop offset="100%" stop-color="#94a3b8"/>
+        </linearGradient>
+        <linearGradient id="counterWood" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#b45309"/>
+          <stop offset="50%" stop-color="#d97706"/>
+          <stop offset="100%" stop-color="#92400e"/>
+        </linearGradient>
+        <linearGradient id="counterMarble" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="50%" stop-color="#e2e8f0"/>
+          <stop offset="100%" stop-color="#ffffff"/>
+        </linearGradient>
+        <linearGradient id="glassReflect" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>
+          <stop offset="100%" stop-color="#bae6fd" stop-opacity="0.1"/>
+        </linearGradient>
+        <filter id="shadow3D" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="6" stdDeviation="6" flood-opacity="0.3"/>
+        </filter>
+      </defs>
+
+      <!-- PARED POSTERIOR DE FARMACIA CON LUZ DE TECHO -->
+      <rect width="1000" height="430" fill="url(#wallGrad)"/>
+      <rect x="0" y="0" width="1000" height="18" fill="#0f172a"/>
+      <!-- LUMINARIAS LED DE TECHO -->
+      <rect x="150" y="2" width="200" height="12" fill="#ffffff" rx="4"/>
+      <rect x="450" y="2" width="200" height="12" fill="#ffffff" rx="4"/>
+      <rect x="750" y="2" width="200" height="12" fill="#ffffff" rx="4"/>
       
-      <!-- PUERTA Y FACHADA DE ENTRADA -->
-      <rect x="20" y="60" width="120" height="370" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="4"/>
-      <rect x="35" y="80" width="90" height="180" fill="#bae6fd" opacity="0.6"/>
-      <rect x="30" y="270" width="100" height="30" fill="#002b7a" rx="4"/>
-      <text x="80" y="290" fill="#ffffff" font-size="12" font-weight="bold" text-anchor="middle">ABIERTO</text>
+      <!-- PUERTA Y FACHADA REALISTA DE VIDRIO DE ENTRADA -->
+      <rect x="15" y="50" width="130" height="380" fill="#334155" rx="4"/>
+      <rect x="25" y="65" width="110" height="200" fill="url(#glassReflect)" stroke="#94a3b8" stroke-width="2" rx="4"/>
+      <rect x="25" y="280" width="110" height="135" fill="#1e293b" rx="4"/>
+      <rect x="40" y="320" width="80" height="32" fill="#002b7a" rx="6"/>
+      <text x="80" y="341" fill="#ffffff" font-size="13" font-weight="800" text-anchor="middle" letter-spacing="1">ABIERTO</text>
 
-      <!-- PARED Y MARQUINA CORPORATIVA -->
-      <rect x="160" y="15" width="820" height="45" fill="#001d54" rx="8"/>
-      <circle cx="195" cy="37" r="14" fill="#10b981"/>
-      <text x="195" y="42" fill="#ffffff" font-size="18" font-weight="bold" text-anchor="middle">+</text>
-      <text x="320" y="44" fill="#00c2ff" font-size="19" font-weight="800" letter-spacing="2">BOTICA GUÍA LOCUI - MARCO MKT</text>
+      <!-- MARQUESINA CORPORATIVA PRINCIPAL -->
+      <rect x="160" y="15" width="820" height="48" fill="#001233" rx="10" filter="url(#shadow3D)"/>
+      <circle cx="195" cy="39" r="16" fill="#10b981"/>
+      <text x="195" y="45" fill="#ffffff" font-size="20" font-weight="900" text-anchor="middle">+</text>
+      <text x="320" y="46" fill="#00c2ff" font-size="20" font-weight="900" letter-spacing="2">BOTICA GUÍA LOCUI • MARCO MKT</text>
 
-      <!-- ANAQUEL DE PRODUCTOS REALES (NEUROBION, DOLO-NEUROBION, VICKS, HEPABIONTA, PEPTO-BISMOL) -->
-      <rect x="170" y="75" width="620" height="280" fill="#cbd5e1" rx="8"/>
+      <!-- ANAQUEL DE PRODUCTOS COMERCIALES CON PROFUNDIDAD 3D -->
+      <rect x="170" y="75" width="620" height="285" fill="#f1f5f9" rx="10" filter="url(#shadow3D)"/>
+      <rect x="170" y="75" width="620" height="285" fill="none" stroke="#cbd5e1" stroke-width="3" rx="10"/>
       
-      <!-- Nivel 1: Neurobion -->
-      <rect x="180" y="130" width="600" height="10" fill="#94a3b8" rx="2"/>
-      <rect x="190" y="90" width="45" height="40" fill="#e1007a" rx="2"/><text x="212" y="115" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">NEUROBION</text>
-      <rect x="240" y="90" width="45" height="40" fill="#e1007a" rx="2"/><text x="262" y="115" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">NEUROBION</text>
-
-      <!-- Nivel 2: Dolo-Neurobion -->
-      <rect x="180" y="200" width="600" height="10" fill="#94a3b8" rx="2"/>
-      <rect x="190" y="155" width="55" height="45" fill="#10b981" rx="2"/><text x="217" y="180" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">DOLO-NEURO</text>
-      <rect x="250" y="155" width="55" height="45" fill="#10b981" rx="2"/><text x="277" y="180" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">DOLO-NEURO</text>
-
-      <!-- Nivel 3: Vicks & VapoRub -->
-      <rect x="180" y="270" width="600" height="10" fill="#94a3b8" rx="2"/>
-      <rect x="190" y="225" width="40" height="45" fill="#002b7a" rx="2"/><text x="210" y="250" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">VICK 44</text>
-      <rect x="235" y="230" width="35" height="40" fill="#00c2ff" rx="2"/><text x="252" y="253" fill="#fff" font-size="7" font-weight="bold" text-anchor="middle">VAPORUB</text>
-
-      <!-- Nivel 4: Hepabionta & Pepto-Bismol -->
-      <rect x="180" y="340" width="600" height="10" fill="#94a3b8" rx="2"/>
-      <rect x="190" y="295" width="60" height="45" fill="#84cc16" rx="2"/><text x="220" y="320" fill="#1e293b" font-size="8" font-weight="bold" text-anchor="middle">HEPABIONTA</text>
-      <rect x="260" y="295" width="45" height="45" fill="#ec4899" rx="2"/><text x="282" y="320" fill="#fff" font-size="8" font-weight="bold" text-anchor="middle">PEPTO</text>
-
-      <!-- MOSTRADOR PRINCIPAL DE MADERA Y CRISTAL -->
-      <rect x="240" y="330" width="510" height="135" fill="#d97706" rx="12"/>
-      <rect x="250" y="340" width="490" height="65" fill="#bae6fd" opacity="0.7" rx="6"/>
-      <rect x="270" y="290" width="50" height="40" fill="#334155" rx="4"/>
-      <rect x="280" y="295" width="30" height="20" fill="#00c2ff" rx="2"/>
-      <rect x="330" y="300" width="40" height="30" fill="#1e293b" rx="3"/>
-
-      <!-- PISO DE LA BOTICA CON LÍNEAS DE AZULEJOS -->
-      <rect x="0" y="430" width="1000" height="170" fill="#e2e8f0"/>
-      <line x1="0" y1="490" x2="1000" y2="490" stroke="#cbd5e1" stroke-width="2"/>
-      <line x1="0" y1="550" x2="1000" y2="550" stroke="#cbd5e1" stroke-width="2"/>
-
-      <!-- PERSONAJE 1: FARMACÉUTICA DETRÁS DEL MOSTRADOR -->
-      <g transform="translate(630, 220)">
-        <circle cx="30" cy="30" r="22" fill="#fca5a5"/>
-        <path d="M 10 30 C 10 5 50 5 50 30 C 50 45 40 45 40 30 C 35 15 25 15 20 30 Z" fill="#78350f"/>
-        <circle cx="23" cy="28" r="3" fill="#1e293b"/><circle cx="37" cy="28" r="3" fill="#1e293b"/>
-        <path d="M 24 38 Q 30 44 36 38" fill="none" stroke="#1e293b" stroke-width="2"/>
-        <path d="M 5 52 L 55 52 L 60 120 L 0 120 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
-        <path d="M 20 52 L 30 75 L 40 52 Z" fill="#10b981"/>
-        <rect x="12" y="70" width="14" height="20" fill="#002b7a" rx="2"/>
+      <!-- NIVEL 1: NEUROBION CAJAS REALES -->
+      <rect x="180" y="135" width="600" height="12" fill="#64748b" rx="2"/>
+      <g filter="url(#shadow3D)">
+        <rect x="190" y="90" width="48" height="45" fill="#002b7a" rx="4"/>
+        <rect x="190" y="90" width="48" height="14" fill="#e1007a" rx="2"/>
+        <text x="214" y="101" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">NEUROBION</text>
+        <circle cx="214" cy="118" r="8" fill="#00c2ff"/>
+      </g>
+      <g filter="url(#shadow3D)">
+        <rect x="245" y="90" width="48" height="45" fill="#002b7a" rx="4"/>
+        <rect x="245" y="90" width="48" height="14" fill="#e1007a" rx="2"/>
+        <text x="269" y="101" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">NEUROBION</text>
+        <circle cx="269" cy="118" r="8" fill="#00c2ff"/>
       </g>
 
-      <!-- PERSONAJE 2: ASESOR COMERCIAL MARCO MARKETING -->
-      <g transform="translate(130, 250)">
-        <circle cx="30" cy="30" r="22" fill="#fed7aa"/>
-        <path d="M 10 25 C 10 8 50 8 50 25 Z" fill="#1e293b"/>
-        <circle cx="23" cy="28" r="3" fill="#1e293b"/><circle cx="37" cy="28" r="3" fill="#1e293b"/>
-        <path d="M 24 38 Q 30 44 36 38" fill="none" stroke="#1e293b" stroke-width="2"/>
-        <path d="M 5 52 L 55 52 L 58 140 L 2 140 Z" fill="#002b7a" stroke="#001d54" stroke-width="2"/>
-        <path d="M 22 52 L 30 80 L 38 52" fill="none" stroke="#00c2ff" stroke-width="3"/>
-        <rect x="23" y="80" width="14" height="22" fill="#ffffff" stroke="#cbd5e1" rx="2"/>
-        <rect x="48" y="70" width="28" height="40" fill="#0f172a" rx="4"/>
-        <rect x="51" y="73" width="22" height="34" fill="#00c2ff" rx="2"/>
+      <!-- NIVEL 2: DOLO-NEUROBION CAJAS REALES -->
+      <rect x="180" y="205" width="600" height="12" fill="#64748b" rx="2"/>
+      <g filter="url(#shadow3D)">
+        <rect x="190" y="158" width="56" height="47" fill="#ffffff" stroke="#cbd5e1" rx="4"/>
+        <rect x="190" y="158" width="56" height="15" fill="#10b981" rx="2"/>
+        <text x="218" y="169" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">DOLO-NEURO</text>
+        <circle cx="218" cy="186" r="9" fill="#ef4444"/>
+      </g>
+
+      <!-- NIVEL 3: VICKS VAPORUB FRASCOS AZULES Y VICK 44 -->
+      <rect x="180" y="275" width="600" height="12" fill="#64748b" rx="2"/>
+      <g filter="url(#shadow3D)">
+        <rect x="190" y="230" width="40" height="45" fill="#001233" rx="4"/>
+        <rect x="190" y="230" width="40" height="14" fill="#00c2ff" rx="2"/>
+        <text x="210" y="240" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">VICK 44</text>
+      </g>
+      <g filter="url(#shadow3D)">
+        <ellipse cx="255" cy="255" rx="18" ry="18" fill="#002b7a"/>
+        <rect x="242" y="235" width="26" height="10" fill="#00c2ff" rx="2"/>
+        <text x="255" y="258" fill="#fff" font-size="6" font-weight="900" text-anchor="middle">VAPORUB</text>
+      </g>
+
+      <!-- NIVEL 4: HEPABIONTA Y PEPTO-BISMOL -->
+      <rect x="180" y="345" width="600" height="12" fill="#64748b" rx="2"/>
+      <g filter="url(#shadow3D)">
+        <rect x="190" y="300" width="65" height="45" fill="#84cc16" rx="4"/>
+        <text x="222" y="325" fill="#1e293b" font-size="8" font-weight="900" text-anchor="middle">HEPABIONTA</text>
+      </g>
+      <g filter="url(#shadow3D)">
+        <rect x="265" y="300" width="38" height="45" fill="#ec4899" rx="4"/>
+        <text x="284" y="325" fill="#fff" font-size="8" font-weight="900" text-anchor="middle">PEPTO</text>
+      </g>
+
+      <!-- MOSTRADOR PRINCIPAL DE MADERA NOBLE Y MÁRMOL 3D -->
+      <rect x="230" y="330" width="530" height="135" fill="url(#counterWood)" rx="16" filter="url(#shadow3D)"/>
+      <rect x="220" y="325" width="550" height="20" fill="url(#counterMarble)" rx="6" filter="url(#shadow3D)"/>
+      <!-- CAJA REGISTRADORA POS MODERNA -->
+      <rect x="270" y="275" width="60" height="50" fill="#1e293b" rx="6" filter="url(#shadow3D)"/>
+      <rect x="275" y="280" width="50" height="30" fill="#00c2ff" rx="3"/>
+      <text x="300" y="300" fill="#001233" font-size="9" font-weight="900" text-anchor="middle">S/ 0.00</text>
+
+      <!-- PISO 3D CON PERSPECTIVA Y AZULEJOS -->
+      <rect x="0" y="430" width="1000" height="170" fill="url(#floorGrad)"/>
+      <line x1="0" y1="485" x2="1000" y2="485" stroke="#cbd5e1" stroke-width="2"/>
+      <line x1="0" y1="545" x2="1000" y2="545" stroke="#cbd5e1" stroke-width="2"/>
+
+      <!-- PERSONAJE 1: FARMACÉUTICA 3D CON BATA BLANCA -->
+      <g transform="translate(630, 200)" filter="url(#shadow3D)">
+        <circle cx="35" cy="35" r="24" fill="#fca5a5"/>
+        <path d="M 12 35 C 12 8 58 8 58 35 C 58 52 48 52 48 35 C 42 18 28 18 22 35 Z" fill="#451a03"/>
+        <circle cx="26" cy="32" r="3" fill="#1e293b"/><circle cx="44" cy="32" r="3" fill="#1e293b"/>
+        <path d="M 28 44 Q 35 50 42 44" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 5 60 L 65 60 L 72 140 L 0 140 Z" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+        <path d="M 22 60 L 35 88 L 48 60 Z" fill="#10b981"/>
+        <rect x="14" y="80" width="16" height="24" fill="#002b7a" rx="3"/>
+        <text x="22" y="96" fill="#fff" font-size="7" font-weight="800" text-anchor="middle">Rx</text>
+      </g>
+
+      <!-- PERSONAJE 2: ASESOR COMERCIAL MARCO MARKETING 3D -->
+      <g transform="translate(120, 230)" filter="url(#shadow3D)">
+        <circle cx="35" cy="35" r="24" fill="#fed7aa"/>
+        <path d="M 12 30 C 12 10 58 10 58 30 Z" fill="#1e293b"/>
+        <circle cx="26" cy="32" r="3" fill="#1e293b"/><circle cx="44" cy="32" r="3" fill="#1e293b"/>
+        <path d="M 28 44 Q 35 50 42 44" fill="none" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M 5 60 L 65 60 L 68 150 L 2 150 Z" fill="#002b7a" stroke="#001233" stroke-width="2"/>
+        <path d="M 24 60 L 35 90 L 46 60" fill="none" stroke="#00c2ff" stroke-width="3.5"/>
+        <rect x="25" y="90" width="20" height="26" fill="#ffffff" stroke="#cbd5e1" rx="3"/>
+        <text x="35" y="106" fill="#001233" font-size="7" font-weight="900" text-anchor="middle">MARCO</text>
+        <rect x="52" y="80" width="30" height="44" fill="#0f172a" rx="5"/>
+        <rect x="55" y="83" width="24" height="38" fill="#00c2ff" rx="3"/>
       </g>
     </svg>
 
-    <!-- BOCADILLO DE DIÁLOGOS -->
+    <!-- BOCADILLO DE DIÁLOGOS REALISTA -->
     <div class="speech-bubble-pro" id="speechBubble">
-      <span style="font-size:10px; color:var(--magenta-electric); text-transform:uppercase; font-weight:800; display:block; margin-bottom:2px;">
-        <i class="fa-solid fa-user-doctor"></i> Farmacéutica:
+      <span style="font-size:10px; color:var(--magenta-electric); text-transform:uppercase; font-weight:800; display:block; margin-bottom:3px;">
+        <i class="fa-solid fa-user-doctor"></i> Farmacéutica Botica Guía:
       </span>
-      <span id="speechText">"Hola Asesor Marco MKT. Ubica los Vibrines en el Anaquel, los Stickers de Piso y el Sencillero para ganar la auditoría LOCUI."</span>
+      <span id="speechText">"¡Hola Asesor Marco MKT! Arrastra los 10 materiales reales (Stickers de piso, Stoppers, Sencillero, Casita y Vibrines) a sus zonas de mayor visibilidad."</span>
     </div>
 
     <!-- ZONAS INTERACTIVAS SOBRE LA BOTICA -->
@@ -346,7 +415,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
   </div>
 
-  <!-- CAJA DE HERRAMIENTAS POP REALES (10 CATEGORÍAS COMERCIALES COMPLETAS) -->
+  <!-- CAJA DE HERRAMIENTAS POP REALES -->
   <div class="toolbox-panel">
     <div class="toolbox-title">
       <i class="fa-solid fa-toolbox" style="color:var(--magenta-electric);"></i> Herramientas POP Reales (Arrastra al PDV)
@@ -356,8 +425,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
       
       <!-- 1. VIBRINES / WOBBLERS CON RESORTE -->
       <div class="pop-draggable-card" draggable="true" id="item-vibrin" data-type="Vibrin">
-        <div class="pop-preview-render" style="background:#e1007a; color:#fff;">
-          <i class="fa-solid fa-wave-square"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #e1007a 0%, #002b7a 100%);">
+          <span style="font-size:10px; font-weight:900; color:#fff; text-align:center;">VICK<br>DROPS</span>
         </div>
         <div class="pop-info">
           <span class="pop-name">Vibrines / Wobblers con Resorte</span>
@@ -367,8 +436,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 2. STOPPERS DE VISIBILIDAD DE ANAQUEL -->
       <div class="pop-draggable-card" draggable="true" id="item-stopper" data-type="Stopper">
-        <div class="pop-preview-render" style="background:#8b5cf6;">
-          <i class="fa-solid fa-bullseye"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #8b5cf6 0%, #001233 100%);">
+          <span style="font-size:9px; font-weight:900; color:#fff; text-align:center;">STOPPER<br>NEURO</span>
         </div>
         <div class="pop-info">
           <span class="pop-name">Stoppers de Visibilidad</span>
@@ -378,8 +447,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 3. STICKERS VINÍLICOS DE PISO (NEUROBION PIES / VICK) -->
       <div class="pop-draggable-card" draggable="true" id="item-sticker-piso" data-type="StickerPiso">
-        <div class="pop-preview-render" style="background:#10b981; color:#fff;">
-          <i class="fa-solid fa-shoe-prints"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+          <i class="fa-solid fa-shoe-prints" style="font-size:22px; color:#fff;"></i>
         </div>
         <div class="pop-info">
           <span class="pop-name">Stickers Vinílicos de Piso</span>
@@ -389,8 +458,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 4. SENCILLERO / BANDEJA DE CAMBIO VICK DROPS -->
       <div class="pop-draggable-card" draggable="true" id="item-sencillero" data-type="Sencillero">
-        <div class="pop-preview-render" style="background:#00c2ff; color:#001d54;">
-          <i class="fa-solid fa-coins"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #00c2ff 0%, #002b7a 100%);">
+          <span style="font-size:9px; font-weight:900; color:#fff; text-align:center;">SENCILLERO<br>VICK</span>
         </div>
         <div class="pop-info">
           <span class="pop-name">Sencillero / Bandeja VICK Drops</span>
@@ -400,8 +469,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 5. LETRERO DE BIENVENIDOS VICK DROPS -->
       <div class="pop-draggable-card" draggable="true" id="item-bienvenida" data-type="Bienvenida">
-        <div class="pop-preview-render" style="background:#002b7a; border:1px solid #00c2ff;">
-          <i class="fa-solid fa-door-open"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #002b7a 0%, #001233 100%); border:1px solid #00c2ff;">
+          <span style="font-size:8px; font-weight:900; color:#00c2ff; text-anchor:middle;">BIENVENIDOS<br>VICK</span>
         </div>
         <div class="pop-info">
           <span class="pop-name">Letrero BIENVENIDOS VICK</span>
@@ -411,8 +480,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 6. CASITA DE SALUD VICK / DOLO-NEUROBION -->
       <div class="pop-draggable-card" draggable="true" id="item-casita" data-type="Casita">
-        <div class="pop-preview-render" style="background:#001d54;">
-          <i class="fa-solid fa-house-medical"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #001233 0%, #002b7a 100%);">
+          <i class="fa-solid fa-house-medical" style="font-size:22px; color:#00c2ff;"></i>
         </div>
         <div class="pop-info">
           <span class="pop-name">Casita de Salud VICK & Dolo</span>
@@ -422,8 +491,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 7. GLORIFICADORES DE MOSTRADOR VICK / NEUROBION -->
       <div class="pop-draggable-card" draggable="true" id="item-glorificador" data-type="Casita">
-        <div class="pop-preview-render" style="background:#00c2ff;">
-          <i class="fa-solid fa-box-open"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #00c2ff 0%, #e1007a 100%);">
+          <i class="fa-solid fa-box-open" style="font-size:22px; color:#fff;"></i>
         </div>
         <div class="pop-info">
           <span class="pop-name">Glorificadores VICK & Neurobion</span>
@@ -433,8 +502,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 8. AFICHES PUBLICITARIOS -->
       <div class="pop-draggable-card" draggable="true" id="item-afiche" data-type="Afiche">
-        <div class="pop-preview-render" style="background:#f59e0b;">
-          <i class="fa-solid fa-image"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);">
+          <span style="font-size:9px; font-weight:900; color:#fff; text-align:center;">AFICHE<br>DOLO</span>
         </div>
         <div class="pop-info">
           <span class="pop-name">Afiches (Neurobion & Vick)</span>
@@ -444,8 +513,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 9. CORPÓREOS DE PIE (MANO NEUROBION & TOTEM VICK) -->
       <div class="pop-draggable-card" draggable="true" id="item-corporeo" data-type="Corporeo">
-        <div class="pop-preview-render" style="background:#e1007a;">
-          <i class="fa-solid fa-hand-holding-medical"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #e1007a 0%, #001233 100%);">
+          <i class="fa-solid fa-hand-holding-medical" style="font-size:22px; color:#fff;"></i>
         </div>
         <div class="pop-info">
           <span class="pop-name">Corpóreos 3D de Pie</span>
@@ -455,8 +524,8 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
       <!-- 10. GANCHERAS / TIRAS DE EXHIBICIÓN -->
       <div class="pop-draggable-card" draggable="true" id="item-ganchera" data-type="Ganchera">
-        <div class="pop-preview-render" style="background:#10b981;">
-          <i class="fa-solid fa-list-ol"></i>
+        <div class="pop-preview-thumb" style="background: linear-gradient(135deg, #10b981 0%, #047857 100%);">
+          <i class="fa-solid fa-list-ol" style="font-size:22px; color:#fff;"></i>
         </div>
         <div class="pop-info">
           <span class="pop-name">Gancheras (Hepabionta / Vick)</span>
@@ -567,7 +636,7 @@ function setupDragAndDrop() {
 
         const nombreComercial = nombresEspanol[popType] || popType;
         zone.classList.add('locked');
-        zone.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981; font-size:20px; margin-bottom:4px;"></i> ${nombreComercial.toUpperCase()} COLOCADO (+100 Pts)`;
+        zone.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981; font-size:22px; margin-bottom:4px;"></i> ${nombreComercial.toUpperCase()} COLOCADO (+100 Pts)`;
 
         puntajeTotal += 100;
         elementosColocados++;
