@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador Táctico 2D - Visibilidad LOCUI & Negociación en PDV | Marco Marketing</title>
+<title>Simulador Táctico 3D/2D - Visibilidad LOCUI | Marco Marketing</title>
 <!-- Google Fonts & Font Awesome 6 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,47 +17,44 @@
   --magenta-electric: #e1007a;
   --cyan-electric: #00c2ff;
   --gold-accent: #f59e0b;
-  --bg-dark: #0f172a;
-  --bg-card: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border-color: #cbd5e1;
+  --bg-dark: #090d16;
+  --panel-bg: rgba(15, 23, 42, 0.95);
+  --border-glow: rgba(0, 194, 255, 0.4);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
-body { background: #0f172a; color: #fff; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; padding: 16px; }
+body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; padding: 14px; }
 
-/* HEADER DEL JUEGO */
+/* HEADER HUD RETRO-FUTURISTA */
 .game-header {
-  background: var(--navy-deep);
-  border-radius: 16px;
-  padding: 16px 24px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 3px solid var(--magenta-electric);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-  margin-bottom: 16px;
+  background: linear-gradient(135deg, #001d54 0%, #002b7a 60%, #090d16 100%);
+  border-radius: 18px; padding: 14px 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  border: 1px solid var(--border-glow);
+  box-shadow: 0 10px 30px rgba(0, 194, 255, 0.15), 0 0 15px rgba(225, 0, 122, 0.2);
+  margin-bottom: 14px;
 }
 
 .game-title-wrap { display: flex; align-items: center; gap: 14px; }
 .game-logo {
-  width: 42px; height: 42px; background: var(--magenta-electric); border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; font-size: 20px; color: #fff;
-  box-shadow: 0 4px 14px rgba(225, 0, 122, 0.4);
+  width: 46px; height: 46px; background: linear-gradient(135deg, #e1007a, #9333ea);
+  border-radius: 14px; display: flex; align-items: center; justify-content: center;
+  font-size: 22px; color: #fff; box-shadow: 0 4px 18px rgba(225, 0, 122, 0.5);
 }
-.game-titles h1 { font-size: 18px; font-weight: 800; color: #fff; }
-.game-titles p { font-size: 12px; color: var(--cyan-electric); font-weight: 700; letter-spacing: 1px; }
+.game-titles h1 { font-size: 19px; font-weight: 800; background: linear-gradient(90deg, #fff, #00c2ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.game-titles p { font-size: 11px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.5px; }
 
 .game-score-badge {
-  background: linear-gradient(135deg, #002b7a 0%, #001d54 100%);
-  border: 1.5px solid var(--cyan-electric);
-  padding: 8px 20px; border-radius: 20px;
-  display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 800; color: #fff;
+  background: rgba(0, 43, 122, 0.6); backdrop-filter: blur(10px);
+  border: 2px solid var(--cyan-electric); padding: 8px 22px; border-radius: 25px;
+  display: flex; align-items: center; gap: 10px; font-size: 15px; font-weight: 800; color: #fff;
+  box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);
 }
-.game-score-badge i { color: var(--gold-accent); font-size: 18px; }
+.game-score-badge i { color: var(--gold-accent); font-size: 20px; animation: pulse 2s infinite; }
 
-/* LAYOUT PRINCIPAL DEL JUEGO INTERACTIVO */
+@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+
+/* LAYOUT PRINCIPAL DEL SIMULADOR */
 .game-main-layout {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -65,259 +62,227 @@ body { background: #0f172a; color: #fff; display: flex; flex-direction: column; 
   flex: 1;
 }
 
-/* ESCENARIO DE LA BOTICA EN 2D CON ZONAS DE ARRASTRE */
+/* ESCENARIO DE LA BOTICA EN PERSPECTIVA 2.5D ILUMINADA */
 .pharmacy-viewport {
-  background: #1e293b;
-  border-radius: 16px;
-  border: 3px solid var(--navy-deep);
+  background: #0f172a;
+  border-radius: 20px;
+  border: 2px solid var(--border-glow);
   position: relative;
-  min-height: 480px;
+  min-height: 520px;
   overflow: hidden;
-  box-shadow: inset 0 0 30px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 15px 35px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/* PARED Y ESTANTES TRASEROS */
+/* CANVAS DE CONFETI / PARTÍCULAS */
+#particlesCanvas {
+  position: absolute; inset: 0; pointer-events: none; z-index: 100;
+}
+
+/* ILUMINACIÓN Y PARED TRASERA CON TEXTURA Y ANAQUELES */
 .pharmacy-wall {
-  height: 280px;
-  background: radial-gradient(circle at 50% 30%, #1e293b 0%, #0f172a 100%);
+  height: 310px;
+  background: 
+    linear-gradient(180deg, rgba(9, 13, 22, 0.8) 0%, rgba(15, 23, 42, 0.95) 100%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 40px, transparent 40px, transparent 80px);
   position: relative;
   padding: 20px;
 }
 
 .wall-brand-banner {
   position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
-  background: var(--navy-deep); border: 2px solid var(--cyan-electric);
-  padding: 4px 20px; border-radius: 20px; color: var(--cyan-electric);
-  font-size: 11px; font-weight: 800; letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #001d54, #002b7a, #001d54);
+  border: 1.5px solid var(--cyan-electric);
+  padding: 5px 24px; border-radius: 20px; color: var(--cyan-electric);
+  font-size: 11px; font-weight: 800; letter-spacing: 2px;
+  box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);
 }
 
-.shelves-container {
-  margin-top: 35px;
+/* ESTANTERÍA CON CRISTALES E ILUMINACIÓN LED */
+.shelves-master {
+  margin-top: 38px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 28px;
 }
 
-.shelf-row {
-  height: 12px;
-  background: #475569;
-  border-radius: 4px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+.shelf-glass-row {
+  height: 14px;
+  background: linear-gradient(90deg, rgba(0, 194, 255, 0.4) 0%, rgba(255,255,255,0.8) 50%, rgba(0, 194, 255, 0.4) 100%);
+  border-radius: 6px;
+  box-shadow: 0 4px 15px rgba(0, 194, 255, 0.3), inset 0 0 8px rgba(255,255,255,0.6);
   position: relative;
-  display: flex;
-  align-items: flex-end;
-  padding: 0 20px;
 }
 
-.shelf-products {
-  display: flex;
-  gap: 12px;
-  position: absolute;
-  bottom: 12px;
-  left: 20px;
+.shelf-products-grid {
+  display: flex; gap: 10px; position: absolute; bottom: 14px; left: 30px;
 }
 
-.prod-box {
-  width: 22px; height: 32px; border-radius: 3px;
-  border: 1px solid rgba(255,255,255,0.2);
+.med-box-render {
+  width: 24px; height: 36px; border-radius: 4px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.6);
+  display: flex; flex-direction: column; justify-content: space-between; padding: 3px;
 }
+.med-strip { height: 6px; background: rgba(255,255,255,0.8); border-radius: 2px; }
 
-/* MOSTRADOR DE CRISTAL Y PISO */
+/* MOSTRADOR DE CRISTAL ILUMINADO Y PISO CERÁMICO CON BRILLO */
 .pharmacy-floor {
-  height: 200px;
-  background: #334155;
+  height: 210px;
+  background: 
+    linear-gradient(180deg, #1e293b 0%, #0f172a 100%),
+    repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 20px, transparent 20px, transparent 40px);
   position: relative;
-  border-top: 2px solid #475569;
+  border-top: 3px solid var(--cyan-electric);
+  box-shadow: inset 0 10px 20px rgba(0, 194, 255, 0.1);
 }
 
-.counter-table {
-  position: absolute;
-  top: -60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 440px;
-  height: 100px;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.95) 100%);
-  border: 2px solid var(--cyan-electric);
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 0 15px rgba(0, 194, 255, 0.2);
+.counter-glass-desk {
+  position: absolute; top: -65px; left: 50%; transform: translateX(-50%);
+  width: 480px; height: 110px;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.98) 100%);
+  border: 2px solid var(--cyan-electric); border-radius: 16px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.6), 0 0 25px rgba(0, 194, 255, 0.25);
 }
 
-/* PERSONAJES EN ESCENA */
-.avatar-pharmacist {
-  position: absolute;
-  top: -110px;
-  right: 80px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* AVATARES DETALLADOS (FARMACÉUTICO Y ASESOR MARCO MKT) */
+.character-pharmacist {
+  position: absolute; top: -125px; right: 90px;
+  display: flex; flex-direction: column; align-items: center; z-index: 10;
 }
 
-.avatar-advisor {
-  position: absolute;
-  top: -100px;
-  left: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.character-advisor {
+  position: absolute; top: -115px; left: 70px;
+  display: flex; flex-direction: column; align-items: center; z-index: 10;
 }
 
-.avatar-head {
-  width: 42px; height: 42px; border-radius: 50%;
-  border: 2px solid #fff; position: relative;
+.avatar-head-render {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 3px solid #fff; position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
-.avatar-body { width: 48px; height: 60px; border-radius: 10px 10px 0 0; }
 
-.speech-bubble {
-  position: absolute;
-  top: 15px;
-  right: 30px;
-  background: #ffffff;
-  color: var(--navy-deep);
-  padding: 12px 18px;
-  border-radius: 14px;
-  border: 2px solid var(--royal-navy);
-  font-size: 13px;
-  font-weight: 700;
-  max-width: 320px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-  z-index: 20;
+.avatar-body-render {
+  width: 54px; height: 68px; border-radius: 12px 12px 0 0;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
 }
-.speech-bubble::before {
-  content: ''; position: absolute; bottom: -10px; right: 40px;
-  border-width: 10px 10px 0; border-style: solid;
+
+/* BOCADILLO DE DIÁLOGOS DINÁMICO */
+.speech-bubble-pro {
+  position: absolute; top: 16px; right: 24px;
+  background: #ffffff; color: var(--navy-deep);
+  padding: 14px 20px; border-radius: 16px;
+  border: 2.5px solid var(--royal-navy);
+  font-size: 13px; font-weight: 700; max-width: 340px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3); z-index: 30;
+}
+.speech-bubble-pro::before {
+  content: ''; position: absolute; bottom: -12px; right: 50px;
+  border-width: 12px 12px 0; border-style: solid;
   border-color: #ffffff transparent; display: block; width: 0;
 }
 
-/* ZONAS DE SOLTADO (DROP ZONES INTERACTIVAS) */
-.drop-zone {
+/* ZONAS INTERACTIVAS DE SOLTADO (DROP ZONES GLOWING) */
+.drop-zone-pro {
   position: absolute;
-  border: 2.5px dashed rgba(0, 194, 255, 0.5);
-  border-radius: 10px;
-  background: rgba(0, 194, 255, 0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--cyan-electric);
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: all 0.2s ease;
-  z-index: 15;
+  border: 2px dashed var(--cyan-electric);
+  border-radius: 12px;
+  background: rgba(0, 194, 255, 0.12);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--cyan-electric); font-size: 11px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: 0.5px; text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  transition: all 0.25s ease; z-index: 20; backdrop-filter: blur(4px);
 }
 
-.drop-zone.drag-over {
-  border-color: #10b981;
-  background: rgba(16, 185, 129, 0.25);
-  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
-  transform: scale(1.03);
+.drop-zone-pro.drag-over {
+  border-color: #10b981; background: rgba(16, 185, 129, 0.35);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.7); transform: scale(1.04);
 }
 
-.drop-zone.locked {
-  border-style: solid;
-  border-color: #10b981;
-  background: rgba(16, 185, 129, 0.2);
-  color: #fff;
+.drop-zone-pro.locked {
+  border-style: solid; border-color: #10b981;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.4) 0%, rgba(5, 150, 105, 0.6) 100%);
+  color: #fff; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
 }
 
-/* POSICIONES DE LAS ZONAS DE CAMPO */
-#zone-mostrador { top: 20px; left: 120px; width: 200px; height: 60px; }
-#zone-anaquel { top: 120px; left: 120px; width: 340px; height: 45px; }
-#zone-piso { bottom: 20px; left: 50%; transform: translateX(-50%); width: 220px; height: 45px; }
-#zone-fachada { top: 40px; left: 20px; width: 90px; height: 140px; }
+/* POSICIONES DE LAS ZONAS DE VISIBILIDAD LOCUI */
+#zone-mostrador { top: 22px; left: 130px; width: 220px; height: 65px; }
+#zone-anaquel { top: 130px; left: 120px; width: 360px; height: 50px; }
+#zone-piso { bottom: 22px; left: 50%; transform: translateX(-50%); width: 240px; height: 48px; }
+#zone-fachada { top: 40px; left: 24px; width: 100px; height: 150px; }
 
-/* CAJA DE HERRAMIENTAS POP (SIDEBAR DERECHO) */
+/* CAJA DE HERRAMIENTAS POP */
 .toolbox-panel {
-  background: #fff;
-  color: var(--navy-deep);
-  border-radius: 16px;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  background: #ffffff; color: var(--navy-deep);
+  border-radius: 20px; padding: 22px;
+  display: flex; flex-direction: column; gap: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 2px solid #e2e8f0;
 }
 
 .toolbox-title {
   font-size: 15px; font-weight: 800; color: var(--navy-deep);
   display: flex; align-items: center; gap: 8px;
-  border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;
-}
-
-.pop-items-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  border-bottom: 2px solid #f1f5f9; padding-bottom: 12px;
 }
 
 .pop-draggable-card {
-  background: #f8fafc;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: grab;
-  transition: all 0.2s ease;
+  background: #f8fafc; border: 2px solid var(--border-color);
+  border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 14px;
+  cursor: grab; transition: all 0.25s ease;
 }
 
 .pop-draggable-card:hover {
-  border-color: var(--royal-navy);
-  background: #fff;
-  box-shadow: 0 6px 16px rgba(0, 43, 122, 0.12);
-  transform: translateY(-2px);
+  border-color: var(--royal-navy); background: #fff;
+  box-shadow: 0 8px 20px rgba(0, 43, 122, 0.15); transform: translateY(-3px);
 }
 
-.pop-draggable-card:active { cursor: grabbing; opacity: 0.7; }
+.pop-draggable-card:active { cursor: grabbing; opacity: 0.6; }
 
-.pop-icon-wrap {
-  width: 38px; height: 38px; border-radius: 10px;
+.pop-icon-box {
+  width: 42px; height: 42px; border-radius: 12px;
   background: var(--navy-deep); color: var(--cyan-electric);
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
+  font-size: 18px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0, 29, 84, 0.2);
 }
 
 .pop-info { display: flex; flex-direction: column; }
-.pop-name { font-size: 13px; font-weight: 800; color: var(--navy-deep); }
-.pop-target-hint { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+.pop-name { font-size: 13.5px; font-weight: 800; color: var(--navy-deep); }
+.pop-hint { font-size: 11px; color: var(--text-muted); font-weight: 600; }
 
-/* MODAL DE RESULTADO / FEEDBACK */
+/* MODAL DE RESULTADO / FEEDBACK CON EFECTO CELEBRACIÓN */
 .feedback-overlay {
-  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(5px); z-index: 1000; display: none;
+  position: fixed; inset: 0; background: rgba(9, 13, 22, 0.88);
+  backdrop-filter: blur(8px); z-index: 1000; display: none;
   align-items: center; justify-content: center; padding: 20px;
 }
 
 .feedback-card {
-  background: #fff; color: var(--navy-deep); border-radius: 20px;
-  max-width: 480px; width: 100%; padding: 28px; text-align: center;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.4); border: 2px solid var(--border-color);
+  background: #fff; color: var(--navy-deep); border-radius: 24px;
+  max-width: 500px; width: 100%; padding: 32px; text-align: center;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5); border: 2px solid var(--cyan-electric);
 }
-.feedback-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
-.feedback-card p { font-size: 14px; color: #475569; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
 
 .btn-continue {
-  background: var(--royal-navy); color: #fff; border: none;
-  padding: 12px 28px; border-radius: 12px; font-weight: 800;
-  font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+  background: linear-gradient(135deg, var(--royal-navy) 0%, var(--navy-deep) 100%);
+  color: #fff; border: none; padding: 14px 32px; border-radius: 14px;
+  font-weight: 800; font-size: 14px; cursor: pointer; transition: all 0.2s ease;
+  box-shadow: 0 6px 20px rgba(0, 43, 122, 0.3);
 }
-.btn-continue:hover { background: var(--navy-deep); transform: translateY(-1px); }
+.btn-continue:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 43, 122, 0.4); }
 </style>
 </head>
 <body>
 
+<canvas id="particlesCanvas"></canvas>
+
 <!-- HEADER DEL JUEGO -->
 <header class="game-header">
   <div class="game-title-wrap">
-    <div class="game-logo"><i class="fa-solid fa-gamepad"></i></div>
+    <div class="game-logo"><i class="fa-solid fa-gem"></i></div>
     <div class="game-titles">
-      <h1>Simulador Táctico 2D - Arrastrar & Soltar POP</h1>
-      <p>MARCO MARKETING • ENTRENAMIENTO DE GUÍA LOCUI</p>
+      <h1>Simulador Táctico 3D/2D - Visibilidad LOCUI</h1>
+      <p>MARCO MARKETING • ENTRENAMIENTO EN PDV</p>
     </div>
   </div>
   <div class="game-score-badge">
@@ -326,116 +291,114 @@ body { background: #0f172a; color: #fff; display: flex; flex-direction: column; 
   </div>
 </header>
 
-<!-- LAYOUT PRINCIPAL -->
+<!-- LAYOUT PRINCIPAL DEL SIMULADOR -->
 <div class="game-main-layout">
   
-  <!-- ESCENARIO VIRTUAL DE LA BOTICA -->
+  <!-- ESCENARIO ILUMINADO DE LA BOTICA -->
   <div class="pharmacy-viewport">
     
-    <!-- BOCADILLO DE DIÁLOGO DEL FARMACÉUTICO -->
-    <div class="speech-bubble" id="speechBubble">
+    <!-- DIÁLOGO DEL FARMACÉUTICO -->
+    <div class="speech-bubble-pro" id="speechBubble">
       <span style="font-size:10px; color:var(--magenta-electric); text-transform:uppercase; font-weight:800; display:block; margin-bottom:2px;">
         <i class="fa-solid fa-user-doctor"></i> Farmacéutico:
       </span>
-      <span id="speechText">"Hola Asesor, la botica está llena de mercadería. Demuéstrame dónde ubicarías los materiales POP para ganar visibilidad."</span>
+      <span id="speechText">"Hola Asesor Marco MKT. Demuéstrame cómo ubicarías los materiales POP en mi botica para maximizar la visibilidad LOCUI."</span>
     </div>
 
-    <!-- PARED Y ESTANTERÍAS TRASERAS -->
+    <!-- PARED TRASERA E ILUMINACIÓN DE ANAQUELES -->
     <div class="pharmacy-wall">
-      <div class="wall-brand-banner">➕ BOTICA DE CAMPO - VISIBILIDAD LOCUI</div>
+      <div class="wall-brand-banner">➕ BOTICA DE CAMPO - GUÍA DE VISIBILIDAD LOCUI</div>
 
       <!-- ZONA FACHADA / PARED -->
-      <div class="drop-zone" id="zone-fachada" data-accept="Afiche">
-        <i class="fa-solid fa-image" style="font-size:18px; margin-bottom:4px;"></i><br>Pared / Afiche
+      <div class="drop-zone-pro" id="zone-fachada" data-accept="Afiche">
+        <i class="fa-solid fa-image" style="font-size:22px; margin-bottom:4px; color:var(--gold-accent);"></i>
+        Pared / Afiche
       </div>
 
-      <div class="shelves-container">
-        <!-- ZONA ANAQUEL NIVELES C Y U -->
-        <div class="shelf-row">
-          <div class="shelf-products">
-            <div class="prod-box" style="background:#e1007a;"></div>
-            <div class="prod-box" style="background:#00c2ff;"></div>
-            <div class="prod-box" style="background:#10b981;"></div>
-            <div class="prod-box" style="background:#f59e0b;"></div>
+      <div class="shelves-master">
+        <!-- ZONA ANAQUEL CENTRAL -->
+        <div class="shelf-glass-row">
+          <div class="shelf-products-grid">
+            <div class="med-box-render" style="background:#e1007a;"><div class="med-strip"></div></div>
+            <div class="med-box-render" style="background:#00c2ff;"><div class="med-strip"></div></div>
+            <div class="med-box-render" style="background:#10b981;"><div class="med-strip"></div></div>
+            <div class="med-box-render" style="background:#f59e0b;"><div class="med-strip"></div></div>
+            <div class="med-box-render" style="background:#8b5cf6;"><div class="med-strip"></div></div>
           </div>
-          <div class="drop-zone" id="zone-anaquel" data-accept="Stopper">
-            <i class="fa-solid fa-bullseye"></i> Anaquel Central (Nivel Ojos / Manos)
+          <div class="drop-zone-pro" id="zone-anaquel" data-accept="Stopper">
+            <i class="fa-solid fa-bullseye" style="font-size:16px;"></i> Anaquel Central (Nivel Ojos / Manos)
           </div>
         </div>
       </div>
     </div>
 
-    <!-- MOSTRADOR Y PISO -->
+    <!-- MOSTRADOR Y PISO CERÁMICO -->
     <div class="pharmacy-floor">
       
       <!-- PERSONAJE FARMACÉUTICO -->
-      <div class="avatar-pharmacist">
-        <div class="avatar-head" style="background:#fde047;"></div>
-        <div class="avatar-body" style="background:#ffffff; border:1px solid #cbd5e1;"></div>
+      <div class="character-pharmacist">
+        <div class="avatar-head-render" style="background:#fde047; border-color:#fff;"></div>
+        <div class="avatar-body-render" style="background:#ffffff; border:1px solid #cbd5e1;"></div>
       </div>
 
-      <!-- PERSONAJE ASESOR -->
-      <div class="avatar-advisor">
-        <div class="avatar-head" style="background:#fca5a5;"></div>
-        <div class="avatar-body" style="background:#002b7a;"></div>
+      <!-- PERSONAJE ASESOR MARCO MARKETING -->
+      <div class="character-advisor">
+        <div class="avatar-head-render" style="background:#fca5a5; border-color:#00c2ff;"></div>
+        <div class="avatar-body-render" style="background:#002b7a;"></div>
       </div>
 
       <!-- MOSTRADOR PRINCIPAL -->
-      <div class="counter-table">
-        <div class="drop-zone" id="zone-mostrador" data-accept="Glorificador">
-          <i class="fa-solid fa-box-open"></i> Mostrador Central (Glorificador)
+      <div class="counter-glass-desk">
+        <div class="drop-zone-pro" id="zone-mostrador" data-accept="Glorificador">
+          <i class="fa-solid fa-box-open" style="font-size:18px; margin-bottom:2px;"></i> Mostrador Central (Glorificador POP)
         </div>
       </div>
 
       <!-- ZONA DE PISO -->
-      <div class="drop-zone" id="zone-piso" data-accept="Sticker">
-        <i class="fa-solid fa-shoe-prints"></i> Suelo (Sticker de Piso)
+      <div class="drop-zone-pro" id="zone-piso" data-accept="Sticker">
+        <i class="fa-solid fa-shoe-prints" style="font-size:16px;"></i> Suelo (Sticker Vinílico de Piso)
       </div>
 
     </div>
   </div>
 
-  <!-- CAJA DE HERRAMIENTAS POP (ELEMENTOS PARA ARRASTRAR) -->
+  <!-- HERRAMIENTAS POP -->
   <div class="toolbox-panel">
     <div class="toolbox-title">
-      <i class="fa-solid fa-toolbox" style="color:var(--magenta-electric);"></i> Herramientas POP (Arrastra a la zona)
+      <i class="fa-solid fa-toolbox" style="color:var(--magenta-electric);"></i> Materiales POP (Arrastra a la zona)
     </div>
 
-    <div class="pop-items-grid">
+    <div class="pop-items-grid" style="display:flex; flex-direction:column; gap:12px;">
       
-      <!-- ITEM 1: GLORIFICADOR DE MOSTRADOR -->
       <div class="pop-draggable-card" draggable="true" id="item-glorificador" data-type="Glorificador">
-        <div class="pop-icon-wrap"><i class="fa-solid fa-box-open"></i></div>
+        <div class="pop-icon-box"><i class="fa-solid fa-box-open"></i></div>
         <div class="pop-info">
           <span class="pop-name">Glorificador POP</span>
-          <span class="pop-target-hint">Destino: Mostrador Principal</span>
+          <span class="pop-hint">Destino: Mostrador Principal</span>
         </div>
       </div>
 
-      <!-- ITEM 2: STOPPER DE ANAQUEL -->
       <div class="pop-draggable-card" draggable="true" id="item-stopper" data-type="Stopper">
-        <div class="pop-icon-wrap" style="background:var(--magenta-electric);"><i class="fa-solid fa-tag"></i></div>
+        <div class="pop-icon-box" style="background:var(--magenta-electric);"><i class="fa-solid fa-tag"></i></div>
         <div class="pop-info">
           <span class="pop-name">Stopper de Visibilidad</span>
-          <span class="pop-target-hint">Destino: Anaquel Nivel Ojos</span>
+          <span class="pop-hint">Destino: Anaquel Nivel Ojos</span>
         </div>
       </div>
 
-      <!-- ITEM 3: STICKER DE PISO -->
       <div class="pop-draggable-card" draggable="true" id="item-sticker" data-type="Sticker">
-        <div class="pop-icon-wrap" style="background:#10b981;"><i class="fa-solid fa-shoe-prints"></i></div>
+        <div class="pop-icon-box" style="background:#10b981;"><i class="fa-solid fa-shoe-prints"></i></div>
         <div class="pop-info">
-          <span class="pop-name">Sticker de Piso</span>
-          <span class="pop-target-hint">Destino: Zona de Entrada / Suelo</span>
+          <span class="pop-name">Sticker Vinílico de Piso</span>
+          <span class="pop-hint">Destino: Zona de Entrada / Suelo</span>
         </div>
       </div>
 
-      <!-- ITEM 4: AFICHE PUBLICITARIO -->
       <div class="pop-draggable-card" draggable="true" id="item-afiche" data-type="Afiche">
-        <div class="pop-icon-wrap" style="background:#f59e0b;"><i class="fa-solid fa-image"></i></div>
+        <div class="pop-icon-box" style="background:#f59e0b;"><i class="fa-solid fa-image"></i></div>
         <div class="pop-info">
           <span class="pop-name">Afiche Publicitario</span>
-          <span class="pop-target-hint">Destino: Fachada / Pared</span>
+          <span class="pop-hint">Destino: Fachada / Pared</span>
         </div>
       </div>
 
@@ -444,15 +407,15 @@ body { background: #0f172a; color: #fff; display: flex; flex-direction: column; 
 
 </div>
 
-<!-- MODAL DE FEEDBACK Y PUNTAJE -->
+<!-- MODAL DE FEEDBACK -->
 <div class="feedback-overlay" id="feedbackOverlay">
   <div class="feedback-card">
-    <div style="width:60px; height:60px; border-radius:50%; background:#dcfce7; color:#16a34a; font-size:28px; display:flex; align-items:center; justify-content:center; margin: 0 auto 14px auto;">
+    <div style="width:64px; height:64px; border-radius:50%; background:#dcfce7; color:#16a34a; font-size:32px; display:flex; align-items:center; justify-content:center; margin: 0 auto 16px auto;">
       <i class="fa-solid fa-circle-check"></i>
     </div>
     <h3 id="feedbackTitle">¡Ubicación Estratégica Perfecta!</h3>
-    <p id="feedbackText">Has aplicado correctamente la Guía LOCUI para incrementar la visibilidad de la marca.</p>
-    <button class="btn-continue" onclick="cerrarFeedback()">Siguiente Desafío <i class="fa-solid fa-arrow-right"></i></button>
+    <p id="feedbackText" style="margin-top:8px;">Has posicionado el material POP en la zona de mayor impacto según la Guía LOCUI.</p>
+    <button class="btn-continue" onclick="cerrarFeedback()" style="margin-top:16px;">Continuar <i class="fa-solid fa-arrow-right"></i></button>
   </div>
 </div>
 
@@ -463,17 +426,43 @@ const totalElementos = 4;
 
 document.addEventListener('DOMContentLoaded', () => {
   setupDragAndDrop();
+  initCanvasParticles();
 });
+
+// SINTETIZADOR DE SONIDOS CON WEB AUDIO API
+function playSound(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    if (type === 'success') {
+      osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start(); osc.stop(ctx.currentTime + 0.3);
+    } else {
+      osc.frequency.setValueAtTime(220, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+      osc.start(); osc.stop(ctx.currentTime + 0.25);
+    }
+  } catch(e) {}
+}
 
 function setupDragAndDrop() {
   const cards = document.querySelectorAll('.pop-draggable-card');
-  const dropZones = document.querySelectorAll('.drop-zone');
+  const dropZones = document.querySelectorAll('.drop-zone-pro');
 
   cards.forEach(card => {
     card.addEventListener('dragstart', (e) => {
       e.dataTransfer.setData('text/plain', card.dataset.type);
       e.dataTransfer.setData('card-id', card.id);
-      card.style.opacity = '0.5';
+      card.style.opacity = '0.4';
     });
 
     card.addEventListener('dragend', () => {
@@ -504,11 +493,13 @@ function setupDragAndDrop() {
         if (cardEl) cardEl.style.display = 'none';
 
         zone.classList.add('locked');
-        zone.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981; font-size:18px;"></i> ${acceptedType} COLOCADO (+100 Pts)`;
+        zone.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981; font-size:20px; margin-bottom:4px;"></i> ${acceptedType} COLOCADO (+100 Pts)`;
 
         puntajeTotal += 100;
         elementosColocados++;
         actualizarPuntaje();
+        playSound('success');
+        triggerConfetti();
 
         mostrarFeedback(
           "¡Excelente Colocación!",
@@ -516,6 +507,7 @@ function setupDragAndDrop() {
         );
 
       } else {
+        playSound('fail');
         mostrarFeedback(
           "Ubicación Inadecuada",
           `El ${popType} no genera el máximo impacto visual en esta zona. Intenta colocarlo en su zona correspondiente.`
@@ -538,8 +530,55 @@ function mostrarFeedback(titulo, texto) {
 function cerrarFeedback() {
   document.getElementById('feedbackOverlay').style.display = 'none';
   if (elementosColocados >= totalElementos) {
-    alert(`🎉 ¡Felicidades! Has completado el circuito de visibilidad LOCUI en el punto de venta con ${puntajeTotal} Pts.`);
+    alert(`🎉 ¡Felicidades! Has completado el circuito de visibilidad LOCUI en el punto de venta con un puntaje de ${puntajeTotal} Pts.`);
   }
+}
+
+// PARTÍCULAS / CONFETI DE VICTORIA EN CANVAS
+let particles = [];
+function initCanvasParticles() {
+  const canvas = document.getElementById('particlesCanvas');
+  if(!canvas) return;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+
+function triggerConfetti() {
+  const canvas = document.getElementById('particlesCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  for(let i=0; i<60; i++) {
+    particles.push({
+      x: canvas.width / 2,
+      y: canvas.height / 2,
+      vx: (Math.random() - 0.5) * 12,
+      vy: (Math.random() - 0.5) * 12 - 4,
+      color: ['#00c2ff', '#e1007a', '#10b981', '#f59e0b'][Math.floor(Math.random()*4)],
+      size: Math.random() * 8 + 4,
+      life: 1
+    });
+  }
+  requestAnimationFrame(drawParticles);
+}
+
+function drawParticles() {
+  const canvas = document.getElementById('particlesCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  particles.forEach((p, i) => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.life -= 0.02;
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
+    if(p.life <= 0) particles.splice(i, 1);
+  });
+
+  if(particles.length > 0) requestAnimationFrame(drawParticles);
 }
 </script>
 </body>
