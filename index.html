@@ -92,7 +92,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   display: flex; align-items: center; justify-content: center;
 }
 
-/* IMAGEN DRIVE / HD DEL PDV CARGADA DESDE TU REPOSITORIO GITHUB */
+/* IMAGEN DETECTADA AUTOMÁTICAMENTE DE TU REPOSITORIO GITHUB */
 .pdv-drive-bg {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center; pointer-events: none; z-index: 1;
@@ -120,7 +120,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   transform: translate(-50%, -50%) scale(1.1); background: linear-gradient(135deg, #00c2ff 0%, #e1007a 100%);
 }
 
-/* PANEL LATERAL DEDICADO INDEPENDIENTE (NEGOCIACIÓN & FEEDBACK SIN TAPAR EL ESCENARIO) */
+/* PANEL LATERAL DEDICADO INDEPENDIENTE */
 .side-negotiation-panel {
   background: #ffffff; color: var(--navy-deep);
   border-radius: 18px; padding: 18px;
@@ -166,7 +166,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
   flex-shrink: 0; margin-top: 1px;
 }
 
-/* RECUADRO GRANDE DE FEEDBACK INDEPENDIENTE (SITUADO EN EL PANEL LATERAL SIN TAPAR EL ESCENARIO) */
+/* RECUADRO GRANDE DE FEEDBACK INDEPENDIENTE */
 .feedback-side-box {
   background: #f0fdf4; border: 2.5px solid #10b981; border-radius: 16px; padding: 16px;
   display: none; flex-direction: column; gap: 8px; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
@@ -257,7 +257,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
       <!-- Opciones inyectadas por JS -->
     </div>
 
-    <!-- RECUADRO GRANDE DE FEEDBACK (EN EL PANEL LATERAL, SIN TAPAR EL ESCENARIO) -->
+    <!-- RECUADRO GRANDE DE FEEDBACK -->
     <div class="feedback-side-box" id="feedbackSideBox">
       <div class="feedback-header" id="feedbackSideHeader">
         <i class="fa-solid fa-circle-check"></i> <span>¡Excelente Respuesta Comercial!</span>
@@ -274,6 +274,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 <script>
 let currentScenarioIdx = 0;
 let puntajeTotal = 0;
+let repoUploadedImages = [];
 
 const escenariosData = [];
 
@@ -295,22 +296,50 @@ for(let i = 1; i <= 17; i++) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await fetchRepoImages();
   renderScenario(0);
   initCanvasParticles();
 });
 
+/**
+ * ESCANER AUTOMÁTICO DE ARCHIVOS EN TU REPOSITORIO GITHUB
+ * Lee en tiempo real todos los nombres de imágenes subidos a tu repositorio luisseguralevano-collab/simulador-locui
+ */
+async function fetchRepoImages() {
+  try {
+    const response = await fetch('https://api.github.com/repos/luisseguralevano-collab/simulador-locui/contents/');
+    if (response.ok) {
+      const files = await response.json();
+      const validExts = ['.jpg', '.png', '.jpeg', '.webp', '.gif'];
+      repoUploadedImages = files
+        .filter(f => f.type === 'file' && validExts.some(ext => f.name.toLowerCase().endsWith(ext)) && !f.name.includes('favicon'))
+        .map(f => f.name);
+      console.log('📸 Imágenes detectadas en tu repositorio GitHub:', repoUploadedImages);
+    }
+  } catch (err) {
+    console.warn('Escáner GitHub API en modo fallback:', err);
+  }
+}
+
 function loadScenarioImage(imgEl, idNum) {
-  // PROBADOR INTELIGENTE MULTI-FORMATO Y MULTI-NOMBRE
+  if (repoUploadedImages.length > 0) {
+    const matchedImg = repoUploadedImages.find(name => name.includes(String(idNum))) 
+                    || repoUploadedImages[(idNum - 1) % repoUploadedImages.length];
+    
+    if (matchedImg) {
+      imgEl.src = matchedImg;
+      return;
+    }
+  }
+
   const posiblesRutas = [
     `pdv${idNum}.jpg`, `pdv${idNum}.png`, `pdv${idNum}.jpeg`,
-    `PDV${idNum}.JPG`, `PDV${idNum}.PNG`, `PDV${idNum}.JPEG`,
-    `${idNum}.jpg`, `${idNum}.png`, `${idNum}.jpeg`,
-    `foto${idNum}.jpg`, `foto${idNum}.png`
+    `PDV${idNum}.JPG`, `PDV${idNum}.PNG`,
+    `${idNum}.jpg`, `${idNum}.png`, `${idNum}.jpeg`
   ];
 
   let intentoIdx = 0;
-
   function probarSiguiente() {
     if (intentoIdx < posiblesRutas.length) {
       const rutaActual = posiblesRutas[intentoIdx];
@@ -320,7 +349,6 @@ function loadScenarioImage(imgEl, idNum) {
       imgEl.src = `https://images.unsplash.com/photo-1576602976047-174e57a47881?auto=format&fit=crop&w=1200&q=80`;
     }
   }
-
   imgEl.onerror = probarSiguiente;
   probarSiguiente();
 }
