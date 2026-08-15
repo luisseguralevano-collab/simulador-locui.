@@ -32,26 +32,27 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
 /* MODAL / MÁSCARA DE BIENVENIDA ANTES DE INGRESAR AL JUEGO */
 .welcome-overlay {
-  position: fixed; inset: 0; background: linear-gradient(135deg, rgba(0, 18, 51, 0.96) 0%, rgba(0, 43, 122, 0.96) 100%);
+  position: fixed; inset: 0; background: linear-gradient(135deg, rgba(0, 18, 51, 0.97) 0%, rgba(0, 43, 122, 0.97) 100%);
   backdrop-filter: blur(16px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px;
   animation: fadeIn 0.4s ease;
 }
 
 .welcome-modal-card {
   background: #ffffff; color: var(--navy-deep); border-radius: 28px;
-  max-width: 580px; width: 100%; padding: 36px 30px; text-align: center;
+  max-width: 600px; width: 100%; padding: 36px 30px; text-align: center;
   box-shadow: 0 30px 80px rgba(0,0,0,0.8); border: 3px solid var(--cyan-electric);
   display: flex; flex-direction: column; align-items: center; gap: 16px;
   position: relative; overflow: hidden;
 }
 
-.welcome-logo-badge {
-  background: linear-gradient(135deg, #e1007a 0%, #002b7a 100%);
-  color: #fff; padding: 12px 24px; border-radius: 20px; font-size: 18px; font-weight: 900;
-  display: flex; align-items: center; gap: 10px; box-shadow: 0 8px 25px rgba(225, 0, 122, 0.4);
+/* LOGO OFICIAL GRANDE EN MÁSCARA DE INICIO */
+.welcome-logo-img {
+  max-height: 85px; width: auto; object-fit: contain;
+  filter: drop-shadow(0 6px 15px rgba(0, 43, 122, 0.25));
+  margin-bottom: 4px;
 }
 
-.welcome-title { font-size: 22px; font-weight: 900; color: var(--navy-deep); line-height: 1.25; }
+.welcome-title { font-size: 23px; font-weight: 900; color: var(--navy-deep); line-height: 1.25; }
 .welcome-subtitle { font-size: 13.5px; color: var(--text-muted); font-weight: 700; margin-top: -6px; }
 
 .rules-box-container {
@@ -64,16 +65,24 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 }
 .rule-item i { color: var(--magenta-electric); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
 
+.created-by-badge {
+  background: linear-gradient(135deg, #002b7a 0%, #001233 100%);
+  color: #ffffff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800;
+  display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--cyan-electric);
+  box-shadow: 0 4px 12px rgba(0, 194, 255, 0.3);
+}
+.created-by-badge i { color: var(--gold-accent); }
+
 .btn-start-game {
   background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
   color: #ffffff; border: none; padding: 16px 42px; border-radius: 30px;
   font-size: 16px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;
   cursor: pointer; transition: all 0.25s ease; box-shadow: 0 10px 30px rgba(0, 194, 255, 0.5);
-  display: flex; align-items: center; gap: 12px; margin-top: 6px;
+  display: flex; align-items: center; gap: 12px; margin-top: 4px;
 }
 .btn-start-game:hover { transform: scale(1.05); box-shadow: 0 14px 40px rgba(225, 0, 122, 0.7); }
 
-/* HEADER HUD CORPORATIVO CON LOGO MARCO MARKETING */
+/* HEADER HUD CORPORATIVO CON LOGO OFICIAL MKT */
 .game-header {
   background: linear-gradient(135deg, #001233 0%, #002b7a 50%, #001233 100%);
   border-radius: 14px; padding: 10px 20px;
@@ -84,16 +93,14 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 }
 
 .game-title-wrap { display: flex; align-items: center; gap: 14px; }
-.marco-mkt-logo-badge {
-  background: #ffffff; border-radius: 10px; padding: 6px 12px;
-  display: flex; align-items: center; gap: 8px; border: 2px solid var(--cyan-electric);
+.header-mkt-logo-img {
+  height: 42px; width: auto; object-fit: contain; background: #ffffff;
+  padding: 4px 10px; border-radius: 10px; border: 2px solid var(--cyan-electric);
   box-shadow: 0 4px 14px rgba(0, 194, 255, 0.4);
 }
-.marco-mkt-logo-badge span { font-size: 15px; font-weight: 900; color: #002b7a; letter-spacing: -0.5px; }
-.marco-mkt-logo-badge span i { color: #e1007a; }
 
 .game-titles h1 { font-size: 17px; font-weight: 800; color: #ffffff; }
-.game-titles p { font-size: 10px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.5px; }
+.game-titles p { font-size: 10px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.2px; }
 
 /* SELECTOR NAVEGADOR DE 17 ESCENARIOS */
 .scenario-nav-wrap {
@@ -249,13 +256,13 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 </head>
 <body>
 
-<!-- MÁSCARA DE BIENVENIDA E INSTRUCCIONES DEL JUEGO -->
+<!-- MÁSCARA DE BIENVENIDA E INSTRUCCIONES DEL JUEGO CON LOGO Y TRAINING PERÚ -->
 <div class="welcome-overlay" id="welcomeOverlay">
   <div class="welcome-modal-card">
-    <div class="welcome-logo-badge">
-      <i class="fa-solid fa-store"></i> MARCO MARKETING • VISIBILIDAD LOCUI
-    </div>
     
+    <!-- LOGO GRANDE DE MARCO MARKETING MOSTRADO DIRECTAMENTE DESDE "LOGO MKT.png" -->
+    <img src="LOGO%20MKT.png" alt="Marco Marketing Logo" class="welcome-logo-img" onerror="this.style.display='none'">
+
     <h2 class="welcome-title">Simulador de Negociación Comercial PDV</h2>
     <p class="welcome-subtitle">Capacitación interactiva en 17 Puntos de Venta reales de Boticas y Farmacias.</p>
 
@@ -278,6 +285,11 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
       </div>
     </div>
 
+    <!-- CRÉDITO CREADO POR TRAINING PERÚ -->
+    <div class="created-by-badge">
+      <i class="fa-solid fa-award"></i> Creado por Training Perú
+    </div>
+
     <button class="btn-start-game" onclick="comenzarSimulacion()">
       <i class="fa-solid fa-play"></i> Comenzar Simulación <i class="fa-solid fa-arrow-right"></i>
     </button>
@@ -286,18 +298,16 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
 <canvas id="particlesCanvas" style="position:fixed; inset:0; pointer-events:none; z-index:100;"></canvas>
 
-<!-- HEADER HUD CORPORATIVO CON LOGO DE MARCO MARKETING -->
+<!-- HEADER HUD CORPORATIVO CON LOGO DE MARCO MARKETING Y TRAINING PERÚ -->
 <header class="game-header">
   <div class="game-title-wrap">
     
-    <!-- LOGO CORPORATIVO MARCO MARKETING -->
-    <div class="marco-mkt-logo-badge">
-      <span>MARCO<i class="fa-solid fa-chart-line"></i>MKT</span>
-    </div>
+    <!-- LOGO CORPORATIVO MARCO MARKETING DESDE TU ARCHIVO GITHUB -->
+    <img src="LOGO%20MKT.png" alt="Marco Marketing Logo" class="header-mkt-logo-img" onerror="this.src='https://via.placeholder.com/120x40?text=MARCO+MKT'">
 
     <div class="game-titles">
       <h1>Simulador de Negociación Comercial PDV - Visibilidad LOCUI</h1>
-      <p>MARCO MARKETING • P&G / MERCHANDISING DE CAMPO EN PDV</p>
+      <p>MARCO MARKETING • P&G / MERCHANDISING DE CAMPO EN PDV • CREADO POR TRAINING PERÚ</p>
     </div>
   </div>
 
