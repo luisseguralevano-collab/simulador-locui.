@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Simulador de Negociación Comercial PDV | 17 Escenarios LOCUI & Marco Marketing</title>
 <!-- Google Fonts & Font Awesome 6 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,46 +28,64 @@
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
-body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: column; min-height: 100vh; overflow: hidden; padding: 10px; }
+html, body {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-dark);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: clamp(6px, 1.2vw, 12px);
+}
 
 /* MODAL / MÁSCARA DE BIENVENIDA ANTES DE INGRESAR AL JUEGO */
 .welcome-overlay {
   position: fixed; inset: 0; background: linear-gradient(135deg, rgba(0, 18, 51, 0.97) 0%, rgba(0, 43, 122, 0.97) 100%);
-  backdrop-filter: blur(16px); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(16px); z-index: 2000; display: flex; align-items: center; justify-content: center;
+  padding: clamp(10px, 2.5vw, 20px);
   animation: fadeIn 0.4s ease;
+  overflow-y: auto;
 }
 
 .welcome-modal-card {
-  background: #ffffff; color: var(--navy-deep); border-radius: 28px;
-  max-width: 600px; width: 100%; padding: 36px 30px; text-align: center;
+  background: #ffffff; color: var(--navy-deep); border-radius: clamp(16px, 3vw, 28px);
+  max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto;
+  padding: clamp(18px, 3.5vw, 32px); text-align: center;
   box-shadow: 0 30px 80px rgba(0,0,0,0.8); border: 3px solid var(--cyan-electric);
-  display: flex; flex-direction: column; align-items: center; gap: 16px;
-  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 2vw, 16px);
+  position: relative; margin: auto;
 }
 
 /* LOGO OFICIAL GRANDE EN MÁSCARA DE INICIO */
 .welcome-logo-img {
-  max-height: 85px; width: auto; object-fit: contain;
+  max-height: clamp(45px, 8vh, 85px); width: auto; object-fit: contain;
   filter: drop-shadow(0 6px 15px rgba(0, 43, 122, 0.25));
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
-.welcome-title { font-size: 23px; font-weight: 900; color: var(--navy-deep); line-height: 1.25; }
-.welcome-subtitle { font-size: 13.5px; color: var(--text-muted); font-weight: 700; margin-top: -6px; }
+.welcome-title { font-size: clamp(17px, 3.2vw, 23px); font-weight: 900; color: var(--navy-deep); line-height: 1.25; }
+.welcome-subtitle { font-size: clamp(11px, 2vw, 13.5px); color: var(--text-muted); font-weight: 700; margin-top: -4px; }
 
 .rules-box-container {
-  background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 18px; padding: 18px;
-  text-align: left; width: 100%; display: flex; flex-direction: column; gap: 10px;
+  background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px;
+  padding: clamp(10px, 2.2vw, 18px);
+  text-align: left; width: 100%; display: flex; flex-direction: column; gap: clamp(6px, 1.5vw, 10px);
 }
 
 .rule-item {
-  display: flex; align-items: flex-start; gap: 12px; font-size: 13px; font-weight: 700; color: #334155; line-height: 1.35;
+  display: flex; align-items: flex-start; gap: 10px; font-size: clamp(11px, 1.8vw, 13px); font-weight: 700; color: #334155; line-height: 1.35;
 }
-.rule-item i { color: var(--magenta-electric); font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+.rule-item i { color: var(--magenta-electric); font-size: clamp(13px, 2vw, 16px); margin-top: 2px; flex-shrink: 0; }
 
 .created-by-badge {
   background: linear-gradient(135deg, #002b7a 0%, #001233 100%);
-  color: #ffffff; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 800;
+  color: #ffffff; padding: 6px 16px; border-radius: 20px; font-size: clamp(10px, 1.6vw, 12px); font-weight: 800;
   display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--cyan-electric);
   box-shadow: 0 4px 12px rgba(0, 194, 255, 0.3);
 }
@@ -75,79 +93,82 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 
 .btn-start-game {
   background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
-  color: #ffffff; border: none; padding: 16px 42px; border-radius: 30px;
-  font-size: 16px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;
+  color: #ffffff; border: none; padding: clamp(10px, 2.2vw, 16px) clamp(22px, 4.5vw, 42px); border-radius: 30px;
+  font-size: clamp(13px, 2.2vw, 16px); font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;
   cursor: pointer; transition: all 0.25s ease; box-shadow: 0 10px 30px rgba(0, 194, 255, 0.5);
-  display: flex; align-items: center; gap: 12px; margin-top: 4px;
+  display: flex; align-items: center; gap: 10px; margin-top: 4px; flex-shrink: 0;
 }
-.btn-start-game:hover { transform: scale(1.05); box-shadow: 0 14px 40px rgba(225, 0, 122, 0.7); }
+.btn-start-game:hover { transform: scale(1.04); box-shadow: 0 14px 40px rgba(225, 0, 122, 0.7); }
 
 /* HEADER HUD CORPORATIVO CON LOGO OFICIAL MKT */
 .game-header {
   background: linear-gradient(135deg, #001233 0%, #002b7a 50%, #001233 100%);
-  border-radius: 14px; padding: 10px 20px;
-  display: flex; justify-content: space-between; align-items: center;
+  border-radius: 14px; padding: clamp(8px, 1.2vw, 12px) clamp(10px, 1.8vw, 20px);
+  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
   border-bottom: 3px solid var(--cyan-electric);
   box-shadow: 0 8px 25px rgba(0, 194, 255, 0.3);
-  margin-bottom: 10px; z-index: 10;
+  margin-bottom: clamp(6px, 1vw, 10px); z-index: 10; flex-shrink: 0;
 }
 
-.game-title-wrap { display: flex; align-items: center; gap: 14px; }
+.game-title-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .header-mkt-logo-img {
-  height: 42px; width: auto; object-fit: contain; background: #ffffff;
-  padding: 4px 10px; border-radius: 10px; border: 2px solid var(--cyan-electric);
+  height: clamp(28px, 3.5vw, 42px); width: auto; object-fit: contain; background: #ffffff;
+  padding: 3px 8px; border-radius: 8px; border: 2px solid var(--cyan-electric);
   box-shadow: 0 4px 14px rgba(0, 194, 255, 0.4);
 }
 
-.game-titles h1 { font-size: 17px; font-weight: 800; color: #ffffff; }
-.game-titles p { font-size: 10px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.2px; }
+.game-titles h1 { font-size: clamp(12.5px, 1.8vw, 17px); font-weight: 800; color: #ffffff; line-height: 1.2; }
+.game-titles p { font-size: clamp(8px, 1.2vw, 10px); color: var(--cyan-electric); font-weight: 800; letter-spacing: 1px; }
 
 /* SELECTOR NAVEGADOR DE 17 ESCENARIOS */
 .scenario-nav-wrap {
-  display: flex; align-items: center; gap: 8px;
-  background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 14px;
-  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15); flex-wrap: wrap; justify-content: center;
 }
 
 .btn-nav-scen {
   background: rgba(0, 194, 255, 0.2); color: #fff; border: 1px solid var(--cyan-electric);
-  padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 12px; cursor: pointer;
-  transition: all 0.2s ease;
+  padding: clamp(4px, 0.8vw, 6px) clamp(8px, 1.2vw, 12px); border-radius: 8px; font-weight: 800; font-size: clamp(10px, 1.4vw, 12px); cursor: pointer;
+  transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 4px;
 }
 .btn-nav-scen:hover { background: var(--cyan-electric); color: #001233; }
 
 .scen-counter-label {
-  font-size: 12px; font-weight: 800; color: var(--gold-accent); min-width: 140px; text-anchor: middle; text-align: center;
+  font-size: clamp(10px, 1.5vw, 12px); font-weight: 800; color: var(--gold-accent); min-width: 105px; text-align: center;
 }
 
 .game-score-badge {
   background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-  border: 1.5px solid var(--cyan-electric); padding: 6px 18px; border-radius: 20px;
-  display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 800; color: #fff;
-  box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);
+  border: 1.5px solid var(--cyan-electric); padding: 5px 14px; border-radius: 20px;
+  display: flex; align-items: center; gap: 6px; font-size: clamp(11.5px, 1.7vw, 14px); font-weight: 800; color: #fff;
+  box-shadow: 0 0 15px rgba(0, 194, 255, 0.3); flex-shrink: 0;
 }
-.game-score-badge i { color: var(--gold-accent); font-size: 18px; }
+.game-score-badge i { color: var(--gold-accent); font-size: clamp(14px, 1.8vw, 18px); }
 
-/* LAYOUT PRINCIPAL: 2 COLUMNAS (ESCENARIO BOTICA | PANEL LATERAL INDEPENDIENTE) */
+/* LAYOUT PRINCIPAL: 2 COLUMNAS ADAPTABLES CON AUTO-FIT */
 .game-main-layout {
   display: grid;
-  grid-template-columns: 1fr 460px;
-  gap: 12px;
-  flex: 1; height: calc(100vh - 80px);
+  grid-template-columns: 1fr minmax(280px, 420px);
+  gap: clamp(8px, 1.2vw, 12px);
+  flex: 1;
+  min-height: 0;
+  height: calc(100vh - 82px);
+  height: calc(100dvh - 82px);
 }
 
-/* VIEWPORT DE LA BOTICA (ESCENARIO HD QUE NUNCA SE TAPA) */
+/* VIEWPORT DE LA BOTICA */
 .pharmacy-viewport {
   background: #090d16;
-  border-radius: 18px;
+  border-radius: 16px;
   border: 2px solid rgba(0, 194, 255, 0.4);
   position: relative; width: 100%; height: 100%;
   overflow: hidden;
   box-shadow: inset 0 0 40px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.7);
   display: flex; align-items: center; justify-content: center;
+  min-height: 200px;
 }
 
-/* IMAGEN DRIVE / HD DEL PDV CARGADA DESDE TU REPOSITORIO GITHUB */
 .pdv-drive-bg {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover; object-position: center; pointer-events: none; z-index: 1;
@@ -158,99 +179,136 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
 .attention-trigger-btn {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
-  color: #fff; border: 3px solid #ffffff; padding: 14px 28px; border-radius: 30px;
-  font-size: 14.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.8px;
+  color: #fff; border: 2.5px solid #ffffff; padding: clamp(9px, 1.8vw, 14px) clamp(16px, 2.8vw, 28px); border-radius: 30px;
+  font-size: clamp(11px, 1.8vw, 14.5px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
   box-shadow: 0 0 30px rgba(225, 0, 122, 0.9), 0 0 60px rgba(0, 194, 255, 0.6);
   cursor: pointer; z-index: 25; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex; align-items: center; gap: 10px; animation: pulseGlow 1.8s infinite;
+  display: flex; align-items: center; gap: 8px; animation: pulseGlow 1.8s infinite; text-align: center;
+  max-width: 92%;
 }
 
 @keyframes pulseGlow {
   0% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 25px rgba(225, 0, 122, 0.8); }
-  50% { transform: translate(-50%, -50%) scale(1.06); box-shadow: 0 0 45px rgba(0, 194, 255, 1); }
+  50% { transform: translate(-50%, -50%) scale(1.05); box-shadow: 0 0 40px rgba(0, 194, 255, 1); }
   100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 25px rgba(225, 0, 122, 0.8); }
 }
 
 .attention-trigger-btn:hover {
-  transform: translate(-50%, -50%) scale(1.1); background: linear-gradient(135deg, #00c2ff 0%, #e1007a 100%);
+  transform: translate(-50%, -50%) scale(1.08); background: linear-gradient(135deg, #00c2ff 0%, #e1007a 100%);
 }
 
-/* PANEL LATERAL DEDICADO INDEPENDIENTE CON MÁXIMA LEGIBILIDAD */
+/* PANEL LATERAL DEDICADO INDEPENDIENTE CON AUTOSCROLL */
 .side-negotiation-panel {
   background: #ffffff; color: var(--navy-deep);
-  border-radius: 18px; padding: 18px;
-  display: flex; flex-direction: column; gap: 14px;
+  border-radius: 16px; padding: clamp(10px, 1.8vw, 18px);
+  display: flex; flex-direction: column; gap: clamp(8px, 1.2vw, 14px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 2px solid #cbd5e1;
   height: 100%; overflow-y: auto;
 }
 
 .panel-header-badge {
   background: linear-gradient(135deg, var(--navy-deep) 0%, var(--royal-navy) 100%);
-  color: #fff; padding: 12px 16px; border-radius: 14px;
+  color: #fff; padding: 10px 14px; border-radius: 12px;
   display: flex; align-items: center; justify-content: space-between;
-  border-left: 5px solid var(--cyan-electric);
+  border-left: 4px solid var(--cyan-electric); flex-shrink: 0;
 }
-.panel-header-badge span { font-size: 11.5px; font-weight: 900; color: var(--cyan-electric); text-transform: uppercase; }
-.panel-header-badge h3 { font-size: 15px; font-weight: 900; color: #fff; margin-top: 2px; }
+.panel-header-badge span { font-size: clamp(9px, 1.4vw, 11.5px); font-weight: 900; color: var(--cyan-electric); text-transform: uppercase; }
+.panel-header-badge h3 { font-size: clamp(12.5px, 1.8vw, 15px); font-weight: 900; color: #fff; margin-top: 2px; }
 
-/* CASUÍSTICA EN RECUADRO AMARILLO INTENSO DE ALTO IMPACTO VISUAL */
+/* CASUÍSTICA EN RECUADRO AMARILLO INTENSO */
 .casuistica-card-vibrant {
-  background: #fef08a; border: 3px solid #eab308; border-radius: 16px; padding: 16px 18px;
-  font-size: 14.5px; font-weight: 800; color: #713f12; line-height: 1.45;
-  box-shadow: 0 6px 20px rgba(234, 179, 8, 0.25); position: relative;
+  background: #fef08a; border: 2.5px solid #eab308; border-radius: 14px; padding: clamp(10px, 1.8vw, 16px) clamp(12px, 2vw, 18px);
+  font-size: clamp(11.5px, 1.7vw, 14.5px); font-weight: 800; color: #713f12; line-height: 1.4;
+  box-shadow: 0 4px 15px rgba(234, 179, 8, 0.2); position: relative; flex-shrink: 0;
 }
 .casuistica-card-vibrant b { color: #854d0e; font-weight: 900; }
 
-/* GRIDA DE 3 OPCIONES DE RESPUESTA CON LETRA MÁS GRANDE Y LEGIBLE */
-.options-stack { display: flex; flex-direction: column; gap: 10px; }
+/* GRIDA DE 3 OPCIONES DE RESPUESTA A, B, C */
+.options-stack { display: flex; flex-direction: column; gap: clamp(6px, 1vw, 10px); }
 
 .btn-option-card {
-  background: #ffffff; border: 2.5px solid var(--border-color);
-  color: var(--navy-deep); padding: 13px 16px; border-radius: 14px;
-  font-size: 13px; font-weight: 700; text-align: left; cursor: pointer;
-  transition: all 0.2s ease; display: flex; align-items: flex-start; gap: 12px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.05); line-height: 1.35;
+  background: #ffffff; border: 2px solid var(--border-color);
+  color: var(--navy-deep); padding: clamp(9px, 1.5vw, 13px) clamp(10px, 1.8vw, 16px); border-radius: 12px;
+  font-size: clamp(11.5px, 1.6vw, 13px); font-weight: 700; text-align: left; cursor: pointer;
+  transition: all 0.2s ease; display: flex; align-items: flex-start; gap: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04); line-height: 1.35;
 }
 .btn-option-card:hover {
-  border-color: var(--royal-navy); background: #f0f9ff; transform: translateX(4px);
-  box-shadow: 0 6px 16px rgba(0, 43, 122, 0.18);
+  border-color: var(--royal-navy); background: #f0f9ff; transform: translateX(3px);
+  box-shadow: 0 5px 14px rgba(0, 43, 122, 0.15);
 }
 
 .option-letter {
-  width: 28px; height: 28px; border-radius: 50%; background: var(--royal-navy);
-  color: #fff; font-size: 13px; font-weight: 900; display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px; box-shadow: 0 2px 6px rgba(0, 43, 122, 0.3);
+  width: clamp(22px, 3vw, 28px); height: clamp(22px, 3vw, 28px); border-radius: 50%; background: var(--royal-navy);
+  color: #fff; font-size: clamp(11px, 1.5vw, 13px); font-weight: 900; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px; box-shadow: 0 2px 5px rgba(0, 43, 122, 0.3);
 }
 
 /* RECUADRO GRANDE DE FEEDBACK INDEPENDIENTE */
 .feedback-side-box {
-  background: #f0fdf4; border: 2.5px solid #10b981; border-radius: 16px; padding: 16px;
-  display: none; flex-direction: column; gap: 6px; box-shadow: 0 8px 25px rgba(16, 185, 129, 0.2);
-  animation: fadeIn 0.3s ease;
+  background: #f0fdf4; border: 2px solid #10b981; border-radius: 14px; padding: clamp(10px, 1.8vw, 16px);
+  display: none; flex-direction: column; gap: 4px; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
+  animation: fadeIn 0.3s ease; flex-shrink: 0;
 }
 
 .feedback-side-box.fail {
-  background: #fef2f2; border-color: #ef4444; box-shadow: 0 8px 25px rgba(239, 68, 68, 0.2);
+  background: #fef2f2; border-color: #ef4444; box-shadow: 0 6px 20px rgba(239, 68, 68, 0.2);
 }
 
 .feedback-side-box.partial {
-  background: #fffbebf1; border-color: #f59e0b; box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+  background: #fffbebf1; border-color: #f59e0b; box-shadow: 0 6px 20px rgba(245, 158, 11, 0.2);
 }
 
 .feedback-header {
-  display: flex; align-items: center; gap: 8px; font-size: 14.5px; font-weight: 900;
+  display: flex; align-items: center; gap: 6px; font-size: clamp(12px, 1.8vw, 14.5px); font-weight: 900;
   color: #15803d;
 }
 .feedback-side-box.fail .feedback-header { color: #b91c1c; }
 .feedback-side-box.partial .feedback-header { color: #b45309; }
 
 .feedback-body {
-  font-size: 12.5px; font-weight: 700; color: #334155; line-height: 1.45;
+  font-size: clamp(10.5px, 1.5vw, 12.5px); font-weight: 700; color: #334155; line-height: 1.4;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* REGLAS RESPONSIVAS PARA INCRUSTACIONES IFRAME Y PANTALLAS PEQUEÑAS */
+@media (max-width: 880px), (max-height: 600px) {
+  body { overflow-y: auto; height: auto; }
+  .game-main-layout {
+    grid-template-columns: 1fr;
+    height: auto;
+    overflow-y: visible;
+  }
+  .pharmacy-viewport {
+    height: clamp(230px, 45vh, 420px);
+  }
+  .side-negotiation-panel {
+    height: auto;
+    max-height: none;
+    overflow-y: visible;
+  }
+}
+
+@media (max-width: 580px) {
+  .game-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  .game-title-wrap {
+    justify-content: center;
+  }
+  .scenario-nav-wrap {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .game-score-badge {
+    align-self: center;
+  }
 }
 </style>
 </head>
@@ -348,7 +406,7 @@ body { background: var(--bg-dark); color: #fff; display: flex; flex-direction: c
         <span id="panelCategoryTag">PDV TRADICIONAL / CADENA</span>
         <h3 id="panelPdvTitle">Escenario #1: InkaFarma Central</h3>
       </div>
-      <i class="fa-solid fa-comments-dollar" style="font-size:24px; color:var(--cyan-electric);"></i>
+      <i class="fa-solid fa-comments-dollar" style="font-size:20px; color:var(--cyan-electric);"></i>
     </div>
 
     <!-- CASUÍSTICA EN RECUADRO AMARILLO INTENSO DE ALTO IMPACTO VISUAL -->
@@ -454,6 +512,7 @@ for(let i = 4; i <= 17; i++) {
 document.addEventListener('DOMContentLoaded', () => {
   renderScenario(0);
   initCanvasParticles();
+  window.addEventListener('resize', initCanvasParticles);
 });
 
 function comenzarSimulacion() {
