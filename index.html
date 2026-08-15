@@ -29,63 +29,82 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; user-select: none; }
 html, body {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   background: var(--bg-dark);
   color: #fff;
-  overflow-x: hidden;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-body {
+/* CONTENEDOR EXTERIOR AUTODETECTOR DE IFRAME */
+.app-scaler-outer {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-dark);
+}
+
+/* MARCO INTERIOR VECTORIAL DE TAMAÑO BASE REGULAR (1100x680px) */
+.app-scaler-inner {
+  width: 1100px;
+  height: 680px;
+  min-width: 1100px;
+  min-height: 680px;
+  position: absolute;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: 100dvh;
-  padding: clamp(6px, 1.2vw, 12px);
+  transform-origin: center center;
+  transition: transform 0.05s ease-out;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-/* MODAL / MÁSCARA DE BIENVENIDA ANTES DE INGRESAR AL JUEGO */
+/* MÁSCARA DE BIENVENIDA AUTO-ESCALADA */
 .welcome-overlay {
-  position: fixed; inset: 0; background: linear-gradient(135deg, rgba(0, 18, 51, 0.97) 0%, rgba(0, 43, 122, 0.97) 100%);
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0, 18, 51, 0.97) 0%, rgba(0, 43, 122, 0.97) 100%);
   backdrop-filter: blur(16px); z-index: 2000; display: flex; align-items: center; justify-content: center;
-  padding: clamp(10px, 2.5vw, 20px);
-  animation: fadeIn 0.4s ease;
-  overflow-y: auto;
+  padding: 20px; animation: fadeIn 0.4s ease; border-radius: 18px;
 }
 
 .welcome-modal-card {
-  background: #ffffff; color: var(--navy-deep); border-radius: clamp(16px, 3vw, 28px);
-  max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto;
-  padding: clamp(18px, 3.5vw, 32px); text-align: center;
+  background: #ffffff; color: var(--navy-deep); border-radius: 24px;
+  max-width: 580px; width: 100%; padding: 28px 30px; text-align: center;
   box-shadow: 0 30px 80px rgba(0,0,0,0.8); border: 3px solid var(--cyan-electric);
-  display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 2vw, 16px);
-  position: relative; margin: auto;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  position: relative; overflow: hidden;
 }
 
-/* LOGO OFICIAL GRANDE EN MÁSCARA DE INICIO */
 .welcome-logo-img {
-  max-height: clamp(45px, 8vh, 85px); width: auto; object-fit: contain;
+  max-height: 75px; width: auto; object-fit: contain;
   filter: drop-shadow(0 6px 15px rgba(0, 43, 122, 0.25));
-  margin-bottom: 2px;
 }
 
-.welcome-title { font-size: clamp(17px, 3.2vw, 23px); font-weight: 900; color: var(--navy-deep); line-height: 1.25; }
-.welcome-subtitle { font-size: clamp(11px, 2vw, 13.5px); color: var(--text-muted); font-weight: 700; margin-top: -4px; }
+.welcome-title { font-size: 22px; font-weight: 900; color: var(--navy-deep); line-height: 1.25; }
+.welcome-subtitle { font-size: 13px; color: var(--text-muted); font-weight: 700; margin-top: -4px; }
 
 .rules-box-container {
-  background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px;
-  padding: clamp(10px, 2.2vw, 18px);
-  text-align: left; width: 100%; display: flex; flex-direction: column; gap: clamp(6px, 1.5vw, 10px);
+  background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 16px; padding: 14px;
+  text-align: left; width: 100%; display: flex; flex-direction: column; gap: 8px;
 }
 
 .rule-item {
-  display: flex; align-items: flex-start; gap: 10px; font-size: clamp(11px, 1.8vw, 13px); font-weight: 700; color: #334155; line-height: 1.35;
+  display: flex; align-items: flex-start; gap: 10px; font-size: 12.5px; font-weight: 700; color: #334155; line-height: 1.35;
 }
-.rule-item i { color: var(--magenta-electric); font-size: clamp(13px, 2vw, 16px); margin-top: 2px; flex-shrink: 0; }
+.rule-item i { color: var(--magenta-electric); font-size: 15px; margin-top: 2px; flex-shrink: 0; }
 
 .created-by-badge {
   background: linear-gradient(135deg, #002b7a 0%, #001233 100%);
-  color: #ffffff; padding: 6px 16px; border-radius: 20px; font-size: clamp(10px, 1.6vw, 12px); font-weight: 800;
+  color: #ffffff; padding: 6px 16px; border-radius: 20px; font-size: 11.5px; font-weight: 800;
   display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--cyan-electric);
   box-shadow: 0 4px 12px rgba(0, 194, 255, 0.3);
 }
@@ -93,71 +112,69 @@ body {
 
 .btn-start-game {
   background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
-  color: #ffffff; border: none; padding: clamp(10px, 2.2vw, 16px) clamp(22px, 4.5vw, 42px); border-radius: 30px;
-  font-size: clamp(13px, 2.2vw, 16px); font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;
+  color: #ffffff; border: none; padding: 14px 38px; border-radius: 30px;
+  font-size: 15px; font-weight: 900; letter-spacing: 0.5px; text-transform: uppercase;
   cursor: pointer; transition: all 0.25s ease; box-shadow: 0 10px 30px rgba(0, 194, 255, 0.5);
-  display: flex; align-items: center; gap: 10px; margin-top: 4px; flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px; margin-top: 2px;
 }
-.btn-start-game:hover { transform: scale(1.04); box-shadow: 0 14px 40px rgba(225, 0, 122, 0.7); }
+.btn-start-game:hover { transform: scale(1.05); box-shadow: 0 14px 40px rgba(225, 0, 122, 0.7); }
 
-/* HEADER HUD CORPORATIVO CON LOGO OFICIAL MKT */
+/* HEADER HUD CORPORATIVO */
 .game-header {
   background: linear-gradient(135deg, #001233 0%, #002b7a 50%, #001233 100%);
-  border-radius: 14px; padding: clamp(8px, 1.2vw, 12px) clamp(10px, 1.8vw, 20px);
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  border-radius: 14px; padding: 8px 18px; height: 60px;
+  display: flex; justify-content: space-between; align-items: center;
   border-bottom: 3px solid var(--cyan-electric);
   box-shadow: 0 8px 25px rgba(0, 194, 255, 0.3);
-  margin-bottom: clamp(6px, 1vw, 10px); z-index: 10; flex-shrink: 0;
+  margin-bottom: 10px; z-index: 10; flex-shrink: 0;
 }
 
-.game-title-wrap { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.game-title-wrap { display: flex; align-items: center; gap: 12px; }
 .header-mkt-logo-img {
-  height: clamp(28px, 3.5vw, 42px); width: auto; object-fit: contain; background: #ffffff;
+  height: 38px; width: auto; object-fit: contain; background: #ffffff;
   padding: 3px 8px; border-radius: 8px; border: 2px solid var(--cyan-electric);
   box-shadow: 0 4px 14px rgba(0, 194, 255, 0.4);
 }
 
-.game-titles h1 { font-size: clamp(12.5px, 1.8vw, 17px); font-weight: 800; color: #ffffff; line-height: 1.2; }
-.game-titles p { font-size: clamp(8px, 1.2vw, 10px); color: var(--cyan-electric); font-weight: 800; letter-spacing: 1px; }
+.game-titles h1 { font-size: 16px; font-weight: 800; color: #ffffff; }
+.game-titles p { font-size: 9.5px; color: var(--cyan-electric); font-weight: 800; letter-spacing: 1.1px; }
 
 /* SELECTOR NAVEGADOR DE 17 ESCENARIOS */
 .scenario-nav-wrap {
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.08); padding: 4px 10px; border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.15); flex-wrap: wrap; justify-content: center;
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08); padding: 4px 12px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
 .btn-nav-scen {
   background: rgba(0, 194, 255, 0.2); color: #fff; border: 1px solid var(--cyan-electric);
-  padding: clamp(4px, 0.8vw, 6px) clamp(8px, 1.2vw, 12px); border-radius: 8px; font-weight: 800; font-size: clamp(10px, 1.4vw, 12px); cursor: pointer;
-  transition: all 0.2s ease; display: inline-flex; align-items: center; gap: 4px;
+  padding: 5px 12px; border-radius: 8px; font-weight: 800; font-size: 11.5px; cursor: pointer;
+  transition: all 0.2s ease;
 }
 .btn-nav-scen:hover { background: var(--cyan-electric); color: #001233; }
 
 .scen-counter-label {
-  font-size: clamp(10px, 1.5vw, 12px); font-weight: 800; color: var(--gold-accent); min-width: 105px; text-align: center;
+  font-size: 11.5px; font-weight: 800; color: var(--gold-accent); min-width: 125px; text-align: center;
 }
 
 .game-score-badge {
   background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px);
-  border: 1.5px solid var(--cyan-electric); padding: 5px 14px; border-radius: 20px;
-  display: flex; align-items: center; gap: 6px; font-size: clamp(11.5px, 1.7vw, 14px); font-weight: 800; color: #fff;
-  box-shadow: 0 0 15px rgba(0, 194, 255, 0.3); flex-shrink: 0;
+  border: 1.5px solid var(--cyan-electric); padding: 6px 16px; border-radius: 20px;
+  display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 800; color: #fff;
+  box-shadow: 0 0 15px rgba(0, 194, 255, 0.3);
 }
-.game-score-badge i { color: var(--gold-accent); font-size: clamp(14px, 1.8vw, 18px); }
+.game-score-badge i { color: var(--gold-accent); font-size: 16px; }
 
-/* LAYOUT PRINCIPAL: 2 COLUMNAS ADAPTABLES CON AUTO-FIT */
+/* LAYOUT PRINCIPAL 2 COLUMNAS PERFECTAS DE 1100x590px */
 .game-main-layout {
   display: grid;
-  grid-template-columns: 1fr minmax(280px, 420px);
-  gap: clamp(8px, 1.2vw, 12px);
+  grid-template-columns: 1fr 430px;
+  gap: 12px;
+  height: 590px;
   flex: 1;
-  min-height: 0;
-  height: calc(100vh - 82px);
-  height: calc(100dvh - 82px);
 }
 
-/* VIEWPORT DE LA BOTICA */
+/* VIEWPORT DE LA BOTICA (HD QUE NUNCA SE SEPARA NI SE TAPA) */
 .pharmacy-viewport {
   background: #090d16;
   border-radius: 16px;
@@ -166,7 +183,6 @@ body {
   overflow: hidden;
   box-shadow: inset 0 0 40px rgba(0,0,0,0.9), 0 10px 30px rgba(0,0,0,0.7);
   display: flex; align-items: center; justify-content: center;
-  min-height: 200px;
 }
 
 .pdv-drive-bg {
@@ -175,16 +191,15 @@ body {
   transition: opacity 0.4s ease;
 }
 
-/* PUNTO DE ATENCIÓN DE INTERACCIÓN CENTRAL (BOTÓN INTERACTIVO) */
+/* BOTÓN INTERACTIVO CENTRAL */
 .attention-trigger-btn {
   position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
   background: linear-gradient(135deg, #e1007a 0%, #00c2ff 100%);
-  color: #fff; border: 2.5px solid #ffffff; padding: clamp(9px, 1.8vw, 14px) clamp(16px, 2.8vw, 28px); border-radius: 30px;
-  font-size: clamp(11px, 1.8vw, 14.5px); font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+  color: #fff; border: 2.5px solid #ffffff; padding: 12px 24px; border-radius: 30px;
+  font-size: 13.5px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.6px;
   box-shadow: 0 0 30px rgba(225, 0, 122, 0.9), 0 0 60px rgba(0, 194, 255, 0.6);
   cursor: pointer; z-index: 25; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex; align-items: center; gap: 8px; animation: pulseGlow 1.8s infinite; text-align: center;
-  max-width: 92%;
+  display: flex; align-items: center; gap: 8px; animation: pulseGlow 1.8s infinite;
 }
 
 @keyframes pulseGlow {
@@ -197,11 +212,11 @@ body {
   transform: translate(-50%, -50%) scale(1.08); background: linear-gradient(135deg, #00c2ff 0%, #e1007a 100%);
 }
 
-/* PANEL LATERAL DEDICADO INDEPENDIENTE CON AUTOSCROLL */
+/* PANEL LATERAL DE NEGOCIACIÓN CON LEGIBILIDAD TOTAL */
 .side-negotiation-panel {
   background: #ffffff; color: var(--navy-deep);
-  border-radius: 16px; padding: clamp(10px, 1.8vw, 18px);
-  display: flex; flex-direction: column; gap: clamp(8px, 1.2vw, 14px);
+  border-radius: 16px; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.4); border: 2px solid #cbd5e1;
   height: 100%; overflow-y: auto;
 }
@@ -212,24 +227,24 @@ body {
   display: flex; align-items: center; justify-content: space-between;
   border-left: 4px solid var(--cyan-electric); flex-shrink: 0;
 }
-.panel-header-badge span { font-size: clamp(9px, 1.4vw, 11.5px); font-weight: 900; color: var(--cyan-electric); text-transform: uppercase; }
-.panel-header-badge h3 { font-size: clamp(12.5px, 1.8vw, 15px); font-weight: 900; color: #fff; margin-top: 2px; }
+.panel-header-badge span { font-size: 10.5px; font-weight: 900; color: var(--cyan-electric); text-transform: uppercase; }
+.panel-header-badge h3 { font-size: 14.5px; font-weight: 900; color: #fff; margin-top: 2px; }
 
 /* CASUÍSTICA EN RECUADRO AMARILLO INTENSO */
 .casuistica-card-vibrant {
-  background: #fef08a; border: 2.5px solid #eab308; border-radius: 14px; padding: clamp(10px, 1.8vw, 16px) clamp(12px, 2vw, 18px);
-  font-size: clamp(11.5px, 1.7vw, 14.5px); font-weight: 800; color: #713f12; line-height: 1.4;
+  background: #fef08a; border: 2.5px solid #eab308; border-radius: 14px; padding: 14px 16px;
+  font-size: 13.5px; font-weight: 800; color: #713f12; line-height: 1.4;
   box-shadow: 0 4px 15px rgba(234, 179, 8, 0.2); position: relative; flex-shrink: 0;
 }
 .casuistica-card-vibrant b { color: #854d0e; font-weight: 900; }
 
-/* GRIDA DE 3 OPCIONES DE RESPUESTA A, B, C */
-.options-stack { display: flex; flex-direction: column; gap: clamp(6px, 1vw, 10px); }
+/* OPCIONES DE RESPUESTA A, B, C */
+.options-stack { display: flex; flex-direction: column; gap: 9px; }
 
 .btn-option-card {
   background: #ffffff; border: 2px solid var(--border-color);
-  color: var(--navy-deep); padding: clamp(9px, 1.5vw, 13px) clamp(10px, 1.8vw, 16px); border-radius: 12px;
-  font-size: clamp(11.5px, 1.6vw, 13px); font-weight: 700; text-align: left; cursor: pointer;
+  color: var(--navy-deep); padding: 11px 14px; border-radius: 12px;
+  font-size: 12.5px; font-weight: 700; text-align: left; cursor: pointer;
   transition: all 0.2s ease; display: flex; align-items: flex-start; gap: 10px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.04); line-height: 1.35;
 }
@@ -239,14 +254,14 @@ body {
 }
 
 .option-letter {
-  width: clamp(22px, 3vw, 28px); height: clamp(22px, 3vw, 28px); border-radius: 50%; background: var(--royal-navy);
-  color: #fff; font-size: clamp(11px, 1.5vw, 13px); font-weight: 900; display: flex; align-items: center; justify-content: center;
+  width: 26px; height: 26px; border-radius: 50%; background: var(--royal-navy);
+  color: #fff; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; margin-top: 1px; box-shadow: 0 2px 5px rgba(0, 43, 122, 0.3);
 }
 
-/* RECUADRO GRANDE DE FEEDBACK INDEPENDIENTE */
+/* RECUADRO DE FEEDBACK */
 .feedback-side-box {
-  background: #f0fdf4; border: 2px solid #10b981; border-radius: 14px; padding: clamp(10px, 1.8vw, 16px);
+  background: #f0fdf4; border: 2.5px solid #10b981; border-radius: 14px; padding: 14px;
   display: none; flex-direction: column; gap: 4px; box-shadow: 0 6px 20px rgba(16, 185, 129, 0.2);
   animation: fadeIn 0.3s ease; flex-shrink: 0;
 }
@@ -260,180 +275,167 @@ body {
 }
 
 .feedback-header {
-  display: flex; align-items: center; gap: 6px; font-size: clamp(12px, 1.8vw, 14.5px); font-weight: 900;
+  display: flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 900;
   color: #15803d;
 }
 .feedback-side-box.fail .feedback-header { color: #b91c1c; }
 .feedback-side-box.partial .feedback-header { color: #b45309; }
 
 .feedback-body {
-  font-size: clamp(10.5px, 1.5vw, 12.5px); font-weight: 700; color: #334155; line-height: 1.4;
+  font-size: 12px; font-weight: 700; color: #334155; line-height: 1.4;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* REGLAS RESPONSIVAS PARA INCRUSTACIONES IFRAME Y PANTALLAS PEQUEÑAS */
-@media (max-width: 880px), (max-height: 600px) {
-  body { overflow-y: auto; height: auto; }
-  .game-main-layout {
-    grid-template-columns: 1fr;
-    height: auto;
-    overflow-y: visible;
-  }
-  .pharmacy-viewport {
-    height: clamp(230px, 45vh, 420px);
-  }
-  .side-negotiation-panel {
-    height: auto;
-    max-height: none;
-    overflow-y: visible;
-  }
-}
-
-@media (max-width: 580px) {
-  .game-header {
-    flex-direction: column;
-    align-items: stretch;
-    text-align: center;
-  }
-  .game-title-wrap {
-    justify-content: center;
-  }
-  .scenario-nav-wrap {
-    width: 100%;
-    justify-content: space-between;
-  }
-  .game-score-badge {
-    align-self: center;
-  }
-}
 </style>
 </head>
 <body>
 
-<!-- MÁSCARA DE BIENVENIDA E INSTRUCCIONES DEL JUEGO CON LOGO Y TRAINING PERÚ -->
-<div class="welcome-overlay" id="welcomeOverlay">
-  <div class="welcome-modal-card">
-    
-    <!-- LOGO GRANDE DE MARCO MARKETING MOSTRADO DIRECTAMENTE DESDE "LOGO MKT.png" -->
-    <img src="LOGO%20MKT.png" alt="Marco Marketing Logo" class="welcome-logo-img" onerror="this.style.display='none'">
+<!-- MOTOR DE ESCALADO AUTOMÁTICO VECTORIAL -->
+<div class="app-scaler-outer" id="scalerOuter">
+  <div class="app-scaler-inner" id="scalerInner">
 
-    <h2 class="welcome-title">Simulador de Negociación Comercial PDV</h2>
-    <p class="welcome-subtitle">Capacitación interactiva en 17 Puntos de Venta reales de Boticas y Farmacias.</p>
+    <!-- MÁSCARA DE BIENVENIDA E INSTRUCCIONES DEL JUEGO CON LOGO Y TRAINING PERÚ -->
+    <div class="welcome-overlay" id="welcomeOverlay">
+      <div class="welcome-modal-card">
+        
+        <!-- LOGO GRANDE DE MARCO MARKETING -->
+        <img src="LOGO%20MKT.png" alt="Marco Marketing Logo" class="welcome-logo-img" onerror="this.style.display='none'">
 
-    <div class="rules-box-container">
-      <div class="rule-item">
-        <i class="fa-solid fa-location-dot"></i>
-        <span><b>Navega los 17 Escenarios:</b> Explora diferentes formatos de farmacia con sus fotos reales.</span>
+        <h2 class="welcome-title">Simulador de Negociación Comercial PDV</h2>
+        <p class="welcome-subtitle">Capacitación interactiva en 17 Puntos de Venta reales de Boticas y Farmacias.</p>
+
+        <div class="rules-box-container">
+          <div class="rule-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span><b>Navega los 17 Escenarios:</b> Explora diferentes formatos de farmacia con sus fotos reales.</span>
+          </div>
+          <div class="rule-item">
+            <i class="fa-solid fa-hand-pointer"></i>
+            <span><b>Inicia la Negociación:</b> Haz clic en el botón central <i>"Punto de Atención PDV"</i> para activar la casuística comercial.</span>
+          </div>
+          <div class="rule-item">
+            <i class="fa-solid fa-comments"></i>
+            <span><b>Elige la Mejor Respuesta (A, B, C):</b> Selecciona el argumento de venta con mayor rentabilidad e impacto visual LOCUI.</span>
+          </div>
+          <div class="rule-item">
+            <i class="fa-solid fa-trophy"></i>
+            <span><b>Acumula Puntaje:</b> Suma hasta +200 Pts por respuesta sobresaliente y revisa el feedback sin tapar la farmacia.</span>
+          </div>
+        </div>
+
+        <!-- CRÉDITO CREADO POR TRAINING PERÚ -->
+        <div class="created-by-badge">
+          <i class="fa-solid fa-award"></i> Creado por Training Perú
+        </div>
+
+        <button class="btn-start-game" onclick="comenzarSimulacion()">
+          <i class="fa-solid fa-play"></i> Comenzar Simulación <i class="fa-solid fa-arrow-right"></i>
+        </button>
       </div>
-      <div class="rule-item">
-        <i class="fa-solid fa-hand-pointer"></i>
-        <span><b>Inicia la Negociación:</b> Haz clic en el botón central <i>"Punto de Atención PDV"</i> para activar la casuística comercial.</span>
+    </div>
+
+    <canvas id="particlesCanvas" style="position:fixed; inset:0; pointer-events:none; z-index:100;"></canvas>
+
+    <!-- HEADER HUD CORPORATIVO -->
+    <header class="game-header">
+      <div class="game-title-wrap">
+        <img src="LOGO%20MKT.png" alt="Marco Marketing Logo" class="header-mkt-logo-img" onerror="this.src='https://via.placeholder.com/120x40?text=MARCO+MKT'">
+
+        <div class="game-titles">
+          <h1>Simulador de Negociación Comercial PDV - Visibilidad LOCUI</h1>
+          <p>MARCO MARKETING • P&G / MERCHANDISING DE CAMPO EN PDV • CREADO POR TRAINING PERÚ</p>
+        </div>
       </div>
-      <div class="rule-item">
-        <i class="fa-solid fa-comments"></i>
-        <span><b>Elige la Mejor Respuesta (A, B, C):</b> Selecciona el argumento de venta con mayor rentabilidad e impacto visual LOCUI.</span>
+
+      <!-- NAVEGADOR DE 17 ESCENARIOS -->
+      <div class="scenario-nav-wrap">
+        <button class="btn-nav-scen" onclick="prevScenario()"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
+        <span class="scen-counter-label" id="scenCounterLabel">Escenario 1 de 17</span>
+        <button class="btn-nav-scen" onclick="nextScenario()">Siguiente <i class="fa-solid fa-chevron-right"></i></button>
       </div>
-      <div class="rule-item">
+
+      <div class="game-score-badge">
         <i class="fa-solid fa-trophy"></i>
-        <span><b>Acumula Puntaje:</b> Suma hasta +200 Pts por respuesta sobresaliente y revisa el feedback sin tapar la farmacia.</span>
+        <span id="scoreDisplay">Puntaje: 0 Pts</span>
       </div>
-    </div>
+    </header>
 
-    <!-- CRÉDITO CREADO POR TRAINING PERÚ -->
-    <div class="created-by-badge">
-      <i class="fa-solid fa-award"></i> Creado por Training Perú
-    </div>
+    <!-- LAYOUT PRINCIPAL -->
+    <div class="game-main-layout">
+      
+      <!-- VIEWPORT ESCENARIO BOTICA -->
+      <div class="pharmacy-viewport" id="viewportContainer">
+        <img id="pdvBgImage" class="pdv-drive-bg" src="" alt="PDV Escenario Real">
 
-    <button class="btn-start-game" onclick="comenzarSimulacion()">
-      <i class="fa-solid fa-play"></i> Comenzar Simulación <i class="fa-solid fa-arrow-right"></i>
-    </button>
-  </div>
-</div>
-
-<canvas id="particlesCanvas" style="position:fixed; inset:0; pointer-events:none; z-index:100;"></canvas>
-
-<!-- HEADER HUD CORPORATIVO CON LOGO DE MARCO MARKETING Y TRAINING PERÚ -->
-<header class="game-header">
-  <div class="game-title-wrap">
-    
-    <!-- LOGO CORPORATIVO MARCO MARKETING DESDE TU ARCHIVO GITHUB -->
-    <img src="LOGO%20MKT.png" alt="Marco Marketing Logo" class="header-mkt-logo-img" onerror="this.src='https://via.placeholder.com/120x40?text=MARCO+MKT'">
-
-    <div class="game-titles">
-      <h1>Simulador de Negociación Comercial PDV - Visibilidad LOCUI</h1>
-      <p>MARCO MARKETING • P&G / MERCHANDISING DE CAMPO EN PDV • CREADO POR TRAINING PERÚ</p>
-    </div>
-  </div>
-
-  <!-- NAVEGADOR DE 17 ESCENARIOS -->
-  <div class="scenario-nav-wrap">
-    <button class="btn-nav-scen" onclick="prevScenario()"><i class="fa-solid fa-chevron-left"></i> Anterior</button>
-    <span class="scen-counter-label" id="scenCounterLabel">Escenario 1 de 17</span>
-    <button class="btn-nav-scen" onclick="nextScenario()">Siguiente <i class="fa-solid fa-chevron-right"></i></button>
-  </div>
-
-  <div class="game-score-badge">
-    <i class="fa-solid fa-trophy"></i>
-    <span id="scoreDisplay">Puntaje: 0 Pts</span>
-  </div>
-</header>
-
-<!-- LAYOUT PRINCIPAL -->
-<div class="game-main-layout">
-  
-  <!-- VIEWPORT ESCENARIO BOTICA (NUNCA SE TAPA) -->
-  <div class="pharmacy-viewport" id="viewportContainer">
-    
-    <!-- IMAGEN DINÁMICA VINCULADA EXACTAMENTE A TUS ARCHIVOS "FARMACIA PHP - ESCENARIO X.jpg" -->
-    <img id="pdvBgImage" class="pdv-drive-bg" src="" alt="PDV Escenario Real">
-
-    <!-- BOTÓN ATENCIÓN EN EL CENTRO DE LA BOTICA -->
-    <button class="attention-trigger-btn" onclick="activarCasuisticaPDV()">
-      <i class="fa-solid fa-hand-pointer"></i> Punto de Atención PDV (Iniciar Negociación)
-    </button>
-
-  </div>
-
-  <!-- PANEL LATERAL INDEPENDIENTE (NEGOCIACIÓN & RECUADRO AMARILLO GRANDE DE CASUÍSTICA) -->
-  <div class="side-negotiation-panel">
-    
-    <div class="panel-header-badge">
-      <div>
-        <span id="panelCategoryTag">PDV TRADICIONAL / CADENA</span>
-        <h3 id="panelPdvTitle">Escenario #1: InkaFarma Central</h3>
+        <!-- BOTÓN ATENCIÓN EN EL CENTRO DE LA BOTICA -->
+        <button class="attention-trigger-btn" onclick="activarCasuisticaPDV()">
+          <i class="fa-solid fa-hand-pointer"></i> Punto de Atención PDV (Iniciar Negociación)
+        </button>
       </div>
-      <i class="fa-solid fa-comments-dollar" style="font-size:20px; color:var(--cyan-electric);"></i>
-    </div>
 
-    <!-- CASUÍSTICA EN RECUADRO AMARILLO INTENSO DE ALTO IMPACTO VISUAL -->
-    <div class="casuistica-card-vibrant" id="casuisticaText">
-      Haz clic en el <b>Punto de Atención PDV</b> al centro de la farmacia para iniciar la negociación con el encargado del punto de venta.
-    </div>
+      <!-- PANEL LATERAL INDEPENDIENTE -->
+      <div class="side-negotiation-panel">
+        
+        <div class="panel-header-badge">
+          <div>
+            <span id="panelCategoryTag">PDV TRADICIONAL / CADENA</span>
+            <h3 id="panelPdvTitle">Escenario #1: InkaFarma Central</h3>
+          </div>
+          <i class="fa-solid fa-comments-dollar" style="font-size:20px; color:var(--cyan-electric);"></i>
+        </div>
 
-    <!-- OPCIONES DE RESPUESTA (A, B, C) -->
-    <div class="options-stack" id="optionsContainer">
-      <!-- 3 Opciones A, B, C inyectadas por JS -->
-    </div>
+        <!-- CASUÍSTICA EN RECUADRO AMARILLO -->
+        <div class="casuistica-card-vibrant" id="casuisticaText">
+          Haz clic en el <b>Punto de Atención PDV</b> al centro de la farmacia para iniciar la negociación con el encargado del punto de venta.
+        </div>
 
-    <!-- RECUADRO GRANDE DE FEEDBACK -->
-    <div class="feedback-side-box" id="feedbackSideBox">
-      <div class="feedback-header" id="feedbackSideHeader">
-        <i class="fa-solid fa-circle-check"></i> <span>¡Excelente Respuesta Comercial!</span>
+        <!-- OPCIONES DE RESPUESTA (A, B, C) -->
+        <div class="options-stack" id="optionsContainer">
+          <!-- Opciones inyectadas dinámicamente -->
+        </div>
+
+        <!-- RECUADRO DE FEEDBACK -->
+        <div class="feedback-side-box" id="feedbackSideBox">
+          <div class="feedback-header" id="feedbackSideHeader">
+            <i class="fa-solid fa-circle-check"></i> <span>¡Excelente Respuesta Comercial!</span>
+          </div>
+          <div class="feedback-body" id="feedbackSideBody">
+            Has ofrecido la solución de visibilidad con mayor rentabilidad para el punto de venta.
+          </div>
+        </div>
+
       </div>
-      <div class="feedback-body" id="feedbackSideBody">
-        Has ofrecido la solución de visibilidad con mayor rentabilidad para el punto de venta.
-      </div>
+
     </div>
 
   </div>
-
 </div>
 
 <script>
+// --- MOTOR DE AUTO-ESCALADO VECTORIAL (OPCIÓN A) ---
+function autoScaleGame() {
+  const outer = document.getElementById('scalerOuter');
+  const inner = document.getElementById('scalerInner');
+  if (!outer || !inner) return;
+
+  const baseWidth = 1100;
+  const baseHeight = 680;
+
+  const availW = outer.clientWidth || window.innerWidth;
+  const availH = outer.clientHeight || window.innerHeight;
+
+  // Calcula la escala óptima preservando el 100% de la interfaz sin deformar ni cortar
+  const scale = Math.min(availW / baseWidth, availH / baseHeight);
+  
+  inner.style.transform = `scale(${scale})`;
+}
+
+window.addEventListener('resize', autoScaleGame);
+window.addEventListener('orientationchange', autoScaleGame);
+
 let currentScenarioIdx = 0;
 let puntajeTotal = 0;
 
@@ -510,9 +512,10 @@ for(let i = 4; i <= 17; i++) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  autoScaleGame();
   renderScenario(0);
   initCanvasParticles();
-  window.addEventListener('resize', initCanvasParticles);
+  setTimeout(autoScaleGame, 100);
 });
 
 function comenzarSimulacion() {
